@@ -1,0 +1,9 @@
+# Ignore user-built files
+build/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+
+# Ignore gedit backup files
+*~
