@@ -238,6 +238,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    Reporter.println("Program started!");
+
     glfwSetErrorCallback(ErrorCallback);
 
     // hint GLFW that we would like an OpenGL 3 context (at least)
