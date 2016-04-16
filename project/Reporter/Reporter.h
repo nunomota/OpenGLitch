@@ -2,6 +2,9 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
+/** This class is used to print any message
+  * with a specific flag (warning, error, etc).
+  */
 class Reporter {
     private:
         const std::string flags[3]{"Info", "Warning", "Error"};
