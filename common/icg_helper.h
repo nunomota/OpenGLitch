@@ -25,6 +25,9 @@
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 
+// our own reporter class for printing information
+#include "../project/Reporter/Reporter.h"
+
 // these namespaces assumed by default
 using namespace std;
 
