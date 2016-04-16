@@ -54,6 +54,7 @@ class Object3D {
                 glBindVertexArray(vertex_array_id_);
 
                 // setup MVP
+                glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
 
@@ -68,6 +69,11 @@ class Object3D {
         }
 
         void CleanUp() {
-            return 0;
+            glBindVertexArray(0);
+            glUseProgram(0);
+            glDeleteBuffers(1, &vertex_buffer_object_position_);
+            glDeleteBuffers(1, &vertex_buffer_object_index_);
+            glDeleteProgram(program_id_);
+            glDeleteVertexArrays(1, &vertex_array_id_);
         }
 };
