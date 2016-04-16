@@ -19,7 +19,7 @@ void main() {
     //float height = 0.05 * (sin((position.x + time) * M_PI * 2.0f) * sin((position.y + time) * M_PI * 2.0f));
 
     //Find displacement of vertex
-    float height = texture(tex_height, uv).x;
+    float height = texture(tex_height, uv);
 
     vec3 pos_3d = vec3(position.x, height, -position.y);
 
