@@ -9,6 +9,7 @@
 #include "framebuffer.h"
 
 #include "cube/cube.h"
+#include "modcube/modcube.h"
 #include "grid/grid.h"
 
 #include "trackball.h"
@@ -17,6 +18,7 @@
 
 Cube cube;
 Grid grid;
+ModCube modCube;
 
 int window_width = 800;
 int window_height = 600;
