@@ -33,4 +33,4 @@ class Transform {
         glm::vec3 getScale() {
             return scale_;
         }
-}
+};

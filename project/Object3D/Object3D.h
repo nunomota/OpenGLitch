@@ -56,4 +56,4 @@ class Object3D {
         void CleanUp() {
             return 0;
         }
-}
+};
