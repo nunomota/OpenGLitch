@@ -14,6 +14,8 @@ copy_files_once(${TEXTURES})
 file(GLOB SHADERS
   cube/cube_vshader.glsl
   cube/cube_fshader.glsl
+  modcube/modcube_vshader.glsl
+  modcube/modcube_fshader.glsl
   grid/grid_vshader.glsl
   grid/grid_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
