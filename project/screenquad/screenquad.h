@@ -14,7 +14,6 @@ class ScreenQuad {
         GLuint program_id_;             // GLSL shader program ID
         GLuint vertex_buffer_object_;   // memory buffer
         GLuint texture_1_id_;           // texture ID 1
-        GLuint texture_2_id_;           // texture ID 2
 
         float std_dev = 2;
 
@@ -24,7 +23,7 @@ class ScreenQuad {
         int screenquad_height_;
 
     public:
-        void Init(int width, int height, GLuint texture, GLuint texture2) {
+        void Init(int width, int height, GLuint texture) {
 
             // set screenquad size
             this->screenquad_width_ = width;
@@ -90,11 +89,6 @@ class ScreenQuad {
             glUniform1i(glGetUniformLocation(program_id_, "tex_PASS1"),
                         0 /*GL_TEXTURE0*/);
 
-            // load/Assign texture2
-            this->texture_2_id_ = texture2;
-            glBindTexture(GL_TEXTURE_2D, texture_2_id_);
-            glUniform1i(glGetUniformLocation(program_id_, "tex_PASS2"),
-                        1 /*GL_TEXTURE1*/);
 
             // to avoid the current object being polluted
             glBindVertexArray(0);
@@ -108,7 +102,6 @@ class ScreenQuad {
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
             glDeleteTextures(1, &texture_1_id_);
-            glDeleteTextures(1, &texture_2_id_);
         }
 
         void UpdateSize(int screenquad_width, int screenquad_height) {
@@ -125,12 +118,11 @@ class ScreenQuad {
             std::cout << "new std_dev : " << std_dev << std::endl;
         }
         
-        void Draw(PASS::ENUM pass_nb) {
+        void Draw() {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
 
             glUniform1f(glGetUniformLocation(program_id_, "std"), std_dev);
-            glUniform1i(glGetUniformLocation(program_id_, "pass_nb"), pass_nb);
             glUniform1f(glGetUniformLocation(program_id_, "tex_width"),
                         screenquad_width_);
             glUniform1f(glGetUniformLocation(program_id_, "tex_height"),
@@ -140,9 +132,6 @@ class ScreenQuad {
 
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, texture_1_id_);
-
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, texture_2_id_);
 
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

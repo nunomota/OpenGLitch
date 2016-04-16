@@ -7,6 +7,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include "framebuffer.h"
+#include "screenquad/screenquad.h"
 
 #include "cube/cube.h"
 #include "grid/grid.h"
@@ -25,6 +26,7 @@ float z_axis = 0.0f;
 using namespace glm;
 
 FrameBuffer framebuffer;
+ScreenQuad screenquad;
 
 mat4 projection_matrix;
 mat4 view_matrix;
@@ -127,6 +129,10 @@ void Init() {
 
     trackball_matrix = IDENTITY_MATRIX;
 
+    GLuint fb_tex = framebuffer.Init(window_width,window_height);
+    
+    screenquad.Init(window_width,window_height,fb_tex);
+    
     // scaling matrix to scale the cube down to a reasonable size.
     cube_scale = mat4(0.25f, 0.0f,  0.0f,  0.0f,
                       0.0f,  0.25f, 0.0f,  0.0f,
@@ -147,6 +153,12 @@ void Display() {
 
     mat4 cube_model_matrix = cube_transf * cube_scale;
 
+    // render to FB
+    framebuffer.Bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    screenquad.Draw();
+    framebuffer.Unbind();
+    
     cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
 
     // draw a quad on the ground.
