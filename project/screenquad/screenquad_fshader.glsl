@@ -7,15 +7,10 @@ uniform float tex_height;
 
 out vec3 color;
 
-float permutation(float pos){return p[pos];}
 
-float fade(float t){return t * t * t * (t * (t * 6 - 15) + 10);}
 
-vec2 grad(int index){
-   index = index % 8;
-   return gradients[index];}
 
-uniform int p[512] = int[](151,160,137,91,90,15,
+   int p[512] = int[](151,160,137,91,90,15,
    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
@@ -41,7 +36,10 @@ uniform int p[512] = int[](151,160,137,91,90,15,
    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180);
 
-   uniform vec2 gradients[8] = {vec2(0.0,1.0),
+   
+
+
+   vec2 gradients[8] = vec2[](vec2(0.0,1.0),
                         vec2(1.0,1.0),
                         vec2(1.0,0.0),
                         vec2(1.0,-1.0),
@@ -49,7 +47,16 @@ uniform int p[512] = int[](151,160,137,91,90,15,
                         vec2(-1.0,-1.0),
                         vec2(-1.0,0.0),
                         vec2(-1.0,1.0)
-                        };
+                        );
+
+
+int permutation(int pos){return p[pos];}
+
+float fade(float t){return t * t * t * (t * (t * 6 - 15) + 10);}
+
+vec2 grad(int index){
+   index = index % 8;
+   return gradients[index];}
 
 void main() {
 
@@ -57,7 +64,7 @@ void main() {
 
    vec2 grads[4];
    vec2 difference_vectors[4];
-   vec2 dot_products[4];
+   float dot_products[4];
 
    // 1.1 check which tile the coordinate is inside
    float norm_x = normalize(uv.x);
@@ -72,15 +79,15 @@ void main() {
    float index_x = norm_x * 255;
    float index_y = norm_y * 255;
 
-   vec2 corners[4] = {vec2(0.0,0.0),
+   vec2 corners[4] = vec2[](vec2(0.0,0.0),
                   vec2(0.0,1.0),
                   vec2(1.0,1.0),
-                  vec2(1.0,0.0)};
-   }
+                  vec2(1.0,0.0));
+
 
    int random_int = 0;
 
-   vec2 bl_corner = vec2(floor(norm_x/tile_width),floor(norm_y/tile_height);
+   vec2 bl_corner = vec2(float(floor(norm_x/tile_width)),float(floor(norm_y/tile_height)));
    
 
    vec2 current_corner;
@@ -88,8 +95,8 @@ void main() {
    for(int i = 0; i<4; i++){
       current_corner = bl_corner + corners[i];
 
-      random_int = permutation(current_corner.x);
-      random_int = permutation(current_corner.y + random_int);
+      random_int = permutation(int(current_corner.x));
+      random_int = permutation(int(current_corner.y) + random_int);
 
       grads[i] = grad(random_int);
    
@@ -108,6 +115,6 @@ void main() {
 
    float noise = mix(st,uv,fy);
 
-   color = noise;
+   color = vec3(noise,0,0);
 }
 

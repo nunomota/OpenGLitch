@@ -115,8 +115,7 @@ void Init() {
     // sets background color
     glClearColor(0.937, 0.937, 0.937 /*gray*/, 1.0 /*solid*/);
     
-    cube.Init();
-    grid.Init();
+
 
     // enable depth test.
     glEnable(GL_DEPTH_TEST);
@@ -133,6 +132,16 @@ void Init() {
     
     screenquad.Init(window_width,window_height,fb_tex);
     
+        // render to FB
+    framebuffer.Bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    screenquad.Draw();
+    framebuffer.Unbind();
+
+    cube.Init();
+    grid.Init(fb_tex);
+
+
     // scaling matrix to scale the cube down to a reasonable size.
     cube_scale = mat4(0.25f, 0.0f,  0.0f,  0.0f,
                       0.0f,  0.25f, 0.0f,  0.0f,
@@ -153,16 +162,17 @@ void Display() {
 
     mat4 cube_model_matrix = cube_transf * cube_scale;
 
-    // render to FB
-    framebuffer.Bind();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    screenquad.Draw();
-    framebuffer.Unbind();
+
     
     cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
 
+
+
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
+
+
+
 }
 
 // transforms glfw screen coordinates into normalized OpenGL coordinates.

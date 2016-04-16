@@ -22,7 +22,7 @@ class Grid {
         }
 
     public:
-        void Init() {
+        void Init(GLuint texture) {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("grid_vshader.glsl",
                                                   "grid_fshader.glsl");
@@ -32,6 +32,7 @@ class Grid {
 
             glUseProgram(program_id_);
 
+            this->texture_id_ = texture;
             // vertex one vertex array
             glGenVertexArrays(1, &vertex_array_id_);
             glBindVertexArray(vertex_array_id_);
