@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-class Cube {
+class ModCube {
 
     private:
         GLuint vertex_array_id_;                // vertex array object
