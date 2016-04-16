@@ -4,25 +4,26 @@
 
 class Reporter {
     private:
-        const string flags[3] = string[]("Info", "Warning", "Error");
-        const char flag_delimiters[2] = char[]('[', ']');
+        const std::string flags[3]{"Info", "Warning", "Error"};
+        const char flag_delimiters[2]{'[', ']'};
 
-        static void output(string message, string flag) {
-            string final_message = sprintf("%c %s %c  %s", flag_delimiters[0], flag, flag_delimiters[1], message);
-            cout << final_message << endl;
+        void output(std::string message, std::string flag) {
+            std::ostringstream final_message;
+            final_message << flag_delimiters[0] << flag << flag_delimiters[1] << " " << message;
+            std::cout << final_message.str() << std::endl;
         }
 
     public:
-        static void println(string message, string flag) {
+        void println(std::string message, std::string flag) {
             output(message, flag);
         }
 
-        static void println(string message, int flag_index) {
+        void println(std::string message, int flag_index) {
             int index = (flag_index >= 0 && flag_index < 3) ? flag_index : 0;
             output(message, flags[index]);
         }
 
-        static void println(string message) {
+        void println(std::string message) {
             output(message, flags[0]);
         }
-}
+};
