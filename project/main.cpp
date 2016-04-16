@@ -132,7 +132,7 @@ void Init() {
     
     screenquad.Init(window_width,window_height,fb_tex);
     
-        // render to FB
+    // render to FB
     framebuffer.Bind();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     screenquad.Draw();
@@ -140,7 +140,6 @@ void Init() {
 
     cube.Init();
     grid.Init(fb_tex);
-
 
     // scaling matrix to scale the cube down to a reasonable size.
     cube_scale = mat4(0.25f, 0.0f,  0.0f,  0.0f,

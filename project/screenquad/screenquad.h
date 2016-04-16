@@ -86,6 +86,9 @@ class ScreenQuad {
             // load/Assign texture
             this->texture_1_id_ = texture;
             glBindTexture(GL_TEXTURE_2D, texture_1_id_);
+            float * data = new float[screenquad_width_*screenquad_height_];
+            glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,screenquad_width_,screenquad_height_,0,GL_RED,GL_FLOAT,data);
+
             glUniform1i(glGetUniformLocation(program_id_, "tex_PASS1"),
                         0 /*GL_TEXTURE0*/);
 
