@@ -2,8 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "Reporter/Reporter.h"
-
 Reporter reporter;
 
 /** The Object3D class is a generic class from
