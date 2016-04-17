@@ -4,7 +4,7 @@
 
 #include "../Object3D/Object3D.h"
 
-class Cube: Object3D {
+class Cube: public Object3D {
     private:
         // Position buffer
         const GLfloat position[24] = {-1.0f, -1.0f,  1.0f, // left, bottom, front
