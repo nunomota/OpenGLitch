@@ -34,8 +34,7 @@ class World {
 
         static void Draw() {
             for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                // TODO get projection view matrix from cameraand send as parameters
-                it->Draw();
+                it->Draw(camera.getViewMatrix(), camera.getProjectionMatrix());
             }
         }
 
