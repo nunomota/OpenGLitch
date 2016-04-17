@@ -7,8 +7,8 @@
 
 class World {
     private:
-        std::vector<Object3D> objects;
-        Camera camera;
+        static std::vector<Object3D> objects;
+        static Camera main_camera;
 
     public:
         static void addObject(Object3D new_object) {
@@ -17,6 +17,14 @@ class World {
 
         static void removeObject(Object3D target_object) {
             // TODO remove target_object from LL
+        }
+
+        static void setCamera(Camera camera) {
+            if (camera != NULL) main_camera = camera;
+        }
+
+        static Camera getCamera() {
+            return main_camera;
         }
 
         static void Init() {
