@@ -13,12 +13,6 @@ class Object3D {
     private:
         Reporter reporter_;
 
-        void InitTransform() {
-            transform.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-            transform.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-            transform.setScale(glm::vec3(1.0f, 1.0f, 1.0f));
-        }
-
     protected:
         GLuint vertex_array_id_;                // vertex array object
         GLuint vertex_buffer_object_position_;  // memory buffer for positions
@@ -38,7 +32,7 @@ class Object3D {
 
         // constructor
         Object3D () {
-            InitTransform();
+            
         }
 
         // method called to rotate an Object3D along the specified axys
@@ -63,9 +57,6 @@ class Object3D {
         void Init() {
             // call to the sub-class' method to get the shaders' name
             LoadShaders();
-
-            // call to setup initial transform for new object
-            InitTransform();
 
             if(!program_id_) {
                 exit(EXIT_FAILURE);
