@@ -29,14 +29,14 @@ class Camera: public Object3D {
             float left = -right;
 
             projection_ = IDENTITY_MATRIX;
-            projection[0][0] = (2.0f * near_) / (right-left);
-            projection[1][1] = (2.0f * near_) / (top-bottom);
-            projection[2][2] = -1.0f * ((far_ + near_) / (far_ - near_));
-            projection[3][3] = 0.0f;
-            projection[2][0] = (right + left) / (right - left);
-            projection[2][1] = (top + bottom) / (top - bottom);
-            projection[3][2] = (-2.0f * far_ * near_) / (far_ - near_);
-            projection[2][3] = -1.0f;
+            projection_[0][0] = (2.0f * near_) / (right-left);
+            projection_[1][1] = (2.0f * near_) / (top-bottom);
+            projection_[2][2] = -1.0f * ((far_ + near_) / (far_ - near_));
+            projection_[3][3] = 0.0f;
+            projection_[2][0] = (right + left) / (right - left);
+            projection_[2][1] = (top + bottom) / (top - bottom);
+            projection_[3][2] = (-2.0f * far_ * near_) / (far_ - near_);
+            projection_[2][3] = -1.0f;
         }
 
     public:
