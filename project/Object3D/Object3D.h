@@ -118,7 +118,7 @@ class Object3D {
                 glBindVertexArray(0);
                 glUseProgram(0);
             } else {
-                reporter_.println("Cannot draw uninitialized Object3D", 2);
+                reporter_.println("Cannot draw uninitialized Object3D!", "Warning");
             }
         }
 
