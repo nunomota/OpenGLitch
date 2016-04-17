@@ -50,19 +50,31 @@ class Camera: public Object3D {
         }
 
         void setFov(float new_fov) {
-            if (new_fov > 0) fovy_ = new_fov;
+            if (new_fov > 0) {
+                fovy_ = new_fov;
+                recalculateProjectionMatrix();
+            }
         }
 
         void setAspect(float new_aspect) {
-            if (new_aspect > 0) aspect_ = new_aspect;
+            if (new_aspect > 0) {
+                aspect_ = new_aspect;
+                recalculateProjectionMatrix();
+            }
         }
 
         void setNear(float new_near_plane) {
-            if (new_near_plane < far_) near_ = new_near_plane;
+            if (new_near_plane < far_) {
+                near_ = new_near_plane;
+                recalculateProjectionMatrix();
+            }
         }
 
         void setFar(float new_far_plane) {
-            if (new_far_plane > near_) far_ = new_far_plane;
+            if (new_far_plane > near_) {
+                far_ = new_far_plane;
+                recalculateProjectionMatrix();
+            }
         }
 
         glm::mat4 getViewMatrix() {
