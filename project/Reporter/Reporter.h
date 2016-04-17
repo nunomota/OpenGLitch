@@ -75,6 +75,10 @@ class Reporter {
             output(glm_to_string(matrix), default_flag_);
         }
 
+        void print_special(std::string message) {
+            std::cout << message << std::endl;
+        }
+
         void new_line() {
             std::cout << std::endl;
         };
