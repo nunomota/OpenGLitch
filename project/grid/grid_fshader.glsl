@@ -31,7 +31,6 @@ void main() {
     vec3 normal = cross(camUV_norm, norm_sum);
 
     //Now we do the difuse shading
-
     vec3 l = normalize(CAMERA_POSITION);
 
     float temp;
