@@ -13,6 +13,7 @@ class Transform {
         glm::vec3 rotation_ = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 scale_ = glm::vec3(1.0f, 1.0f, 1.0f);
 
+        Transform parent_ = NULL;
         glm::mat4 model_ = IDENTITY_MATRIX;
 
         void recalculateModelMatrix() {
@@ -26,6 +27,11 @@ class Transform {
 
             // apply translation
             model_ = glm::translate(model_, position_);
+
+            // apply parent's calculation
+            if (parent_ != NULL) {
+                model_ = model_ * parent_.getModelMatrix();
+            }
         }
 
     public:
@@ -44,6 +50,10 @@ class Transform {
             recalculateModelMatrix();
         }
 
+        void setParent(Transform parent_transform) {
+            if (parent_transform != NULL) parent_ = parent_transform;
+        }
+
         glm::vec3 getPosition() {
             return position_;
         }
@@ -58,5 +68,9 @@ class Transform {
 
         glm::mat4 getModelMatrix() {
             return model_;
+        }
+
+        Transform getParent() {
+            return parent_;
         }
 };
