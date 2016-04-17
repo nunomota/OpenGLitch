@@ -120,7 +120,7 @@ void Init() {
     cube2.Init();
     cube3.Init();
 
-    camera.translate(glm::vec3(0.0f, 0.0f, 2.0f));
+    main_camera.translate(glm::vec3(0.0f, 0.0f, 2.0f));
 
     grid.Init();
 
