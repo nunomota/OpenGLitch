@@ -29,7 +29,7 @@ class Object3D {
 
         // constructor
         Object3D () {
-            
+            // TODO add this object to World
         }
 
         // method called to rotate an Object3D along the specified axys
