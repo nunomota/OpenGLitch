@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "Object3D/Object3D.h"
+#include "../Object3D/Object3D.h"
 
 class Cube: Object3D {
     private:
