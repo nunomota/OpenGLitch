@@ -2,13 +2,16 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-Reporter reporter;
+#include "../Reporter/Reporter.h"
+#include "../Transform/Transform.h"
 
 /** The Object3D class is a generic class from
   * which every 3D object instatiated on a scene
   * inherit from.
   */
 class Object3D {
+    private:
+        Reporter reporter_;
 
     protected:
         GLuint vertex_array_id_;                // vertex array object
@@ -18,7 +21,6 @@ class Object3D {
         GLuint num_indices_;                    // number of vertices to render
 
         bool is_initialized_ = false;
-        glm::mat4 model_;
 
         virtual void Init();
 
@@ -62,7 +64,7 @@ class Object3D {
                 glBindVertexArray(0);
                 glUseProgram(0);
             } else {
-                Reporter.println("Cannot draw uninitialized Object3D", 2);
+                reporter_.println("Cannot draw uninitialized Object3D", 2);
             }
         }
 
