@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "framebuffer.h"
 
-#include "Cube/cube.h"
+#include "Cube/Cube.h"
 #include "modcube/modcube.h"
 #include "grid/grid.h"
 
