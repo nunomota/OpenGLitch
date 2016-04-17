@@ -52,7 +52,6 @@ vec2 grad(int index){
    return gradients[index];}
 
 void main() {
-
    float N = 4; // number of tiles in each dimension
 
    vec2 grads[4];
@@ -60,50 +59,55 @@ void main() {
    float dot_products[4];
 
    // 1.1 check which tile the coordinate is inside
-   vec2 uv_norms = normalize(uv);
+   vec2 uv_norms = uv;
 
-   float norm_x = uv_norms.x * tex_width;
-   float norm_y = uv_norms.y * tex_height;
+   float norm_x = uv_norms.x;
+   float norm_y = uv_norms.y;
 
-   float tile_width = tex_width/N;
-   float tile_height = tex_height/N;
+   float tile_width = 1.0/N;
+   float tile_height = 1.0/N;
 
    // 1.2 for all corners, calculate the gradients
-   //float index_x = norm_x * 255;
-   //float index_y = norm_y * 255;
-
    vec2 corners[4] = vec2[](vec2(0.0,0.0),
-                  vec2(0.0,1.0),
-                  vec2(1.0,1.0),
-                  vec2(1.0,0.0));
+                  vec2(1.0/N,0.0),
+                  vec2(0.0,1.0/N),
+                  vec2(1.0/N,1.0/N));
 
    int random_int = 0;
 
-   vec2 bl_corner = vec2(float(floor(uv.x/tile_width)),float(floor(uv.y/tile_height)));
+   // x and y component for bottom left corner   
+   float bl_x = float(floor(norm_x/tile_width) * tile_width);
+   float bl_y = float(floor(norm_y/tile_height) * tile_height);
+
+   // check if point is on boundary
+   if(norm_x == 1.0){
+      bl_x = 1.0-tile_width;
+   }
+   if(norm_y == 1.0){
+      bl_y = 1.0-tile_height;
+   }
+   vec2 bl_corner = vec2(bl_x,bl_y);
 
    vec2 current_corner;
    // for every corner, calculate gradient vector
    for(int i = 0; i<4; i++){
       current_corner = bl_corner + corners[i];
-
-      random_int = permutation(int(current_corner.x));
-      random_int = permutation(int(current_corner.y) + random_int);
+      random_int = permutation(int(current_corner.x * 255));
+      random_int = permutation(int(current_corner.y * 255) + random_int);
 
       grads[i] = grad(random_int);
-   
-      // 1.3 calulate distance vector from corners to point. 
-      difference_vectors[i] = vec2(norm_x,norm_y) - current_corner;           
+      // 1.3 calculate distance vector from corners to point. 
+      difference_vectors[i] = vec2(norm_x,norm_y) - current_corner;
 
       dot_products[i] = dot(normalize(difference_vectors[i]),normalize(grads[i]));
    }
 
-   // 1.4 do the mixing and fading stuff
+   // 1.4 do the mixing and fading (interpolation)
    float fx = fade(norm_x);
    float fy = fade(norm_y);
 
    float st = mix(dot_products[0],dot_products[1],fx);
    float uv = mix(dot_products[2],dot_products[3],fx);
-
    float noise = mix(st,uv,fy);
 
    color = vec3(noise,noise,noise);

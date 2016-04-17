@@ -163,7 +163,7 @@ void Display() {
 
 
     
-    cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
+    //cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
 
 
 
