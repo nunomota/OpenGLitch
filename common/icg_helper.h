@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
+#include <iomanip>
 
 // GL Error checking
 #include "check_error_gl.h"
