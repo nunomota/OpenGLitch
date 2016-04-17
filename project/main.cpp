@@ -15,7 +15,6 @@
 
 #define PI 3.14f
 
-Cube cube;
 Grid grid;
 
 int window_width = 800;
@@ -147,19 +146,11 @@ void Init() {
 void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    const float time = glfwGetTime();
 
-
-
-    
     //cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
-
-
-
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
-
-
-
 }
 
 // transforms glfw screen coordinates into normalized OpenGL coordinates.
