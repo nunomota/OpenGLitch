@@ -2,9 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../Reporter/Reporter.h"
-#include "../Transform/Transform.h"
-
 /** The Object3D class is a generic class from
   * which every 3D object instatiated on a scene
   * inherit from.

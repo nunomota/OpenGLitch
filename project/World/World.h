@@ -2,9 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../Object3D/Object3D.h"
-#include "../Camera/Camera.h"
-
 class World {
     private:
         static std::vector<Object3D> objects;

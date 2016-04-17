@@ -2,8 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../GlmStrings/GlmStrings.h"
-
 /** This class is simply used as a holder
   * of 3D information such as: position,
   * rotation and scale.
