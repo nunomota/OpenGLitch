@@ -119,7 +119,7 @@ class Object3D {
             }
         }
 
-        void CleanUp() {
+        void Cleanup() {
             glBindVertexArray(0);
             glUseProgram(0);
             glDeleteBuffers(1, &vertex_buffer_object_position_);
