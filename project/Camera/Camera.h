@@ -4,6 +4,10 @@
 
 class Camera: public Object3D {
     private:
+        const float default_fovy = 45.0f;
+        const float default_aspect = 16.0f/9.0f;
+        const float default_far_distance = 10.0f;
+
         float fovy_;
         float aspect_;
         float near_;
@@ -12,20 +16,45 @@ class Camera: public Object3D {
         glm::mat4 view_;
         glm::mat4 projection_;
 
+        void recalculateViewMatrix() {
+            view_ = glm::mat4(-1.0f * transform.getPosition(), 1.0f);
+            reporter.println("Recalculating view matrix");
+            reporter.println(view_);
+        }
+
+        void recalculateProjectionMatrix() {
+            float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
+            float bottom = -top;
+            float right = top * aspect_;
+            float left = -right;
+
+            projection_ = IDENTITY_MATRIX;
+            projection[0][0] = (2.0f * near_) / (right-left);
+            projection[1][1] = (2.0f * near_) / (top-bottom);
+            projection[2][2] = -1.0f * ((far_ + near_) / (far_ - near_));
+            projection[3][3] = 0.0f;
+            projection[2][0] = (right + left) / (right - left);
+            projection[2][1] = (top + bottom) / (top - bottom);
+            projection[3][2] = (-2.0f * far_ * near_) / (far_ - near_);
+            projection[2][3] = -1.0f;
+        }
+
     public:
         Camera(float fovy, float aspect, float near, float far) {
-            fovy_ = fovy;
-            aspect_ = aspect;
+            fovy_ = (fovy > 0)? fovy : default_fovy;
+            aspect_ = (aspect > 0)? aspect : default_aspect;
             near_ = near;
-            far_ = (far > near)? far : near;
+            far_ = (far > near)? far : near + default_far_distance;
+            recalculateViewMatrix();
+            recalculateProjectionMatrix();
         }
 
         void setFov(float new_fov) {
-            fovy_ = new_fov;
+            if (new_fov > 0) fovy_ = new_fov;
         }
 
         void setAspect(float new_aspect) {
-            aspect_ = new_aspect;
+            if (new_aspect > 0) aspect_ = new_aspect;
         }
 
         void setNear(float new_near_plane) {
