@@ -7,7 +7,7 @@
 class Cube: Object3D {
     private:
         // Position buffer
-        const GLfloat position[] = {-1.0f, -1.0f,  1.0f, // left, bottom, front
+        const GLfloat position[24] = {-1.0f, -1.0f,  1.0f, // left, bottom, front
                                     1.0f, -1.0f,  1.0f,  // right, bottom, front
                                     1.0f,  1.0f,  1.0f,  // right, top, front
                                     -1.0f,  1.0f,  1.0f, // left, top, front
@@ -17,7 +17,7 @@ class Cube: Object3D {
                                     -1.0f,  1.0f, -1.0f};// left, top, back
 
         // index buffer
-        const GLuint index[] = {0, 1, 2,  // front face triangle 1
+        const GLuint index[36] = {0, 1, 2,  // front face triangle 1
                                 0, 2, 3,  // front face triangle 2
                                 1, 5, 6,  // right face triangle 1
                                 1, 6, 2,  // right face triangle 2
