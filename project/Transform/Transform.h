@@ -29,14 +29,23 @@ class Transform {
             // apply translation
             model_ = glm::translate(model_, position_);
 
-            reporter_.println("Recalculating model matrix for object:");
+            reporter_.new_line();
+            reporter_.println("Calculating model matrix for object:");
             reporter_.println(position_, "Transform.position");
             reporter_.println(rotation_, "Transform.rotation");
             reporter_.println(scale_,    "Transform.scale   ");
             reporter_.println(model_,    "Model matrix      ");
+            reporter_.new_line();
         }
 
     public:
+        Transform() {
+            position_ = glm::vec3(0.0f, 0.0f, 0.0f);
+            rotation_ = glm::vec3(0.0f, 0.0f, 0.0f);
+            scale_ = glm::vec3(1.0f, 1.0f, 1.0f);
+            recalculateModelMatrix();
+        }
+
         void setPosition(glm::vec3 new_position) {
             position_ = new_position;
             recalculateModelMatrix();
