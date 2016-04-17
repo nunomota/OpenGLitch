@@ -30,7 +30,6 @@ mat4 projection_matrix;
 mat4 view_matrix;
 mat4 trackball_matrix;
 mat4 old_trackball_matrix;
-mat4 cube_scale;
 mat4 quad_model_matrix;
 
 float mouse_click_y = 0.0f;
