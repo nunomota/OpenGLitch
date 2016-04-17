@@ -13,48 +13,6 @@ class Object3D {
     private:
         Reporter reporter_;
 
-        void InitTransform() {
-            transform.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-            transform.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-            transform.setScale(glm::vec3(1.0f, 1.0f, 1.0f));
-        }
-
-    protected:
-        GLuint vertex_array_id_;                // vertex array object
-        GLuint vertex_buffer_object_position_;  // memory buffer for positions
-        GLuint vertex_buffer_object_index_;     // memory buffer for indices
-        GLuint program_id_;                     // GLSL shader program ID
-        GLuint num_indices_;                    // number of vertices to render
-        GLuint MVP_id_;                         // model, view, proj matrix ID
-
-        bool is_initialized_ = false;
-
-        virtual void LoadShaders();
-        virtual void SetupVertices();
-        virtual void SetupIndexBuffer();
-
-    public:
-        Transform transform;    // Object-specific Transform
-
-        // method called to rotate an Object3D along the specified axys
-        void rotate(glm::vec3 rotation_vector) {
-            glm::vec3 current_rotation = transform.getRotation();
-            // TODO keep every single coordinate between 0 and 360
-            transform.setRotation(current_rotation + rotation_vector);
-        }
-
-        // method called to translate an Object3D according to a vector
-        void translate(glm::vec3 translation_vector) {
-            glm::vec3 current_position = transform.getPosition();
-            transform.setPosition(current_position + translation_vector);
-        }
-
-        // method called to scale an Object3D along the specified axys
-        void scale(glm::vec3 scaling_vector) {
-            glm::vec3 current_scale = transform.getScale();
-            transform.setScale(current_scale + scaling_vector);
-        }
-
         void Init() {
             // call to the sub-class' method to get the shaders' name
             LoadShaders();
@@ -91,6 +49,54 @@ class Object3D {
             // to avoid the current object being polluted
             glBindVertexArray(0);
             glUseProgram(0);
+        }
+
+        void InitTransform() {
+            transform.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            transform.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+            transform.setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+        }
+
+    protected:
+        GLuint vertex_array_id_;                // vertex array object
+        GLuint vertex_buffer_object_position_;  // memory buffer for positions
+        GLuint vertex_buffer_object_index_;     // memory buffer for indices
+        GLuint program_id_;                     // GLSL shader program ID
+        GLuint num_indices_;                    // number of vertices to render
+        GLuint MVP_id_;                         // model, view, proj matrix ID
+
+        bool is_initialized_ = false;
+
+        virtual void LoadShaders();
+        virtual void SetupVertices();
+        virtual void SetupIndexBuffer();
+
+    public:
+        Transform transform;    // Object-specific Transform
+
+        // constructor
+        Object3D () {
+            Init();
+            InitTransform();
+        }
+
+        // method called to rotate an Object3D along the specified axys
+        void rotate(glm::vec3 rotation_vector) {
+            glm::vec3 current_rotation = transform.getRotation();
+            // TODO keep every single coordinate between 0 and 360
+            transform.setRotation(current_rotation + rotation_vector);
+        }
+
+        // method called to translate an Object3D according to a vector
+        void translate(glm::vec3 translation_vector) {
+            glm::vec3 current_position = transform.getPosition();
+            transform.setPosition(current_position + translation_vector);
+        }
+
+        // method called to scale an Object3D along the specified axys
+        void scale(glm::vec3 scaling_vector) {
+            glm::vec3 current_scale = transform.getScale();
+            transform.setScale(current_scale + scaling_vector);
         }
 
         void Draw(const glm::mat4 &view = IDENTITY_MATRIX,

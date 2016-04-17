@@ -113,7 +113,6 @@ void Init() {
     // sets background color
     glClearColor(0.937, 0.937, 0.937 /*gray*/, 1.0 /*solid*/);
     
-    cube.Init();
     grid.Init();
 
     // enable depth test.
@@ -129,7 +128,7 @@ void Init() {
 
     // scaling matrix to scale the cube down to a reasonable size.
     cube.scale(glm::vec3(0.25f, 0.25f, 0.25f));
-    
+
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
 
