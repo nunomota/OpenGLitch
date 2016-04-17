@@ -19,10 +19,14 @@ class Object3D {
         GLuint vertex_buffer_object_index_;     // memory buffer for indices
         GLuint program_id_;                     // GLSL shader program ID
         GLuint num_indices_;                    // number of vertices to render
+        GLuint MVP_id_;                         // model, view, proj matrix ID
 
         bool is_initialized_ = false;
+        std::string shader_names[2];
 
-        virtual void Init();
+        virtual void GetShaderNames();
+        virtual void SetupVertices();
+        virtual void SetupIndexBuffer();
 
     public:
         Transform transform;    // Object-specific Transform
@@ -44,6 +48,44 @@ class Object3D {
         void scale(glm::vec3 scaling_vector) {
             glm::vec3 current_scale = transform.getScale();
             transform.setScale(current_scale + scaling_vector);
+        }
+
+        void Init() {
+            // call to the sub-class' method to get the shaders' name
+            GetShaderNames();
+
+            // compile the shaders.
+            program_id_ = icg_helper::LoadShaders(shader_names[0],
+                                                  shader_names[1]);
+            if(!program_id_) {
+                exit(EXIT_FAILURE);
+            }
+
+            glUseProgram(program_id_);
+
+            // vertex one vertex array
+            glGenVertexArrays(1, &vertex_array_id_);
+            glBindVertexArray(vertex_array_id_);
+
+            // call to sub-class' method to setup the vertices correctly
+            SetupVertices();
+
+            // position shader attribute
+            // fetch attribute ID for vertex positions
+            GLuint loc_position = glGetAttribLocation(program_id_, "position");
+            glEnableVertexAttribArray(loc_position); // Enable it
+            glVertexAttribPointer(loc_position, 3, GL_FLOAT, DONT_NORMALIZE,
+                                  ZERO_STRIDE, ZERO_BUFFER_OFFSET);
+
+            // call to sub-class' method to setup the index buffer correctly
+            SetupIndexBuffer();
+
+            // other uniforms
+            MVP_id_ = glGetUniformLocation(program_id_, "MVP");
+
+            // to avoid the current object being polluted
+            glBindVertexArray(0);
+            glUseProgram(0);
         }
 
         void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
