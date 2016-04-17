@@ -49,6 +49,8 @@ class Object3D {
             // to avoid the current object being polluted
             glBindVertexArray(0);
             glUseProgram(0);
+
+            is_initialized_ = true;
         }
 
         void InitTransform() {
@@ -67,9 +69,9 @@ class Object3D {
 
         bool is_initialized_ = false;
 
-        virtual void LoadShaders() = 0;
-        virtual void SetupVertices() = 0;
-        virtual void SetupIndexBuffer() = 0;
+        virtual void LoadShaders() {};
+        virtual void SetupVertices() {};
+        virtual void SetupIndexBuffer() {};
 
     public:
         Transform transform;    // Object-specific Transform
