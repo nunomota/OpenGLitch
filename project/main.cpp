@@ -18,6 +18,7 @@
 Cube cube;
 Cube cube2;
 Cube cube3;
+Camera main_camera(45.0f, 1.0f, 0.1f, 100.0f);
 
 Grid grid;
 
@@ -119,6 +120,8 @@ void Init() {
     cube2.Init();
     cube3.Init();
 
+    camera.translate(glm::vec3(0.0f, 0.0f, 2.0f));
+
     grid.Init();
 
     // enable depth test.
@@ -154,9 +157,9 @@ void Display() {
 
     const float time = glfwGetTime();
 
-    cube.Draw(view_matrix, projection_matrix);
-    cube2.Draw(view_matrix, projection_matrix);
-    cube3.Draw(view_matrix, projection_matrix);
+    cube.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
+    cube2.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
+    cube3.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
 
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
@@ -225,6 +228,7 @@ void SetupProjection(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, window_width, window_height);
 
     projection_matrix = PerspectiveProjection(45.0f, (GLfloat)window_width / window_height, 0.1f, 100.0f);
+    main_camera.setAspect((GLfloat)window_width / window_height);
 }
 
 void ErrorCallback(int error, const char* description) {
