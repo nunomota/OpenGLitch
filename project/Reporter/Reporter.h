@@ -22,21 +22,32 @@ class Reporter {
                                   << vector.x << ", "
                                   << vector.y << ", "
                                   << vector.z 
-                                  << ")" << std::endl;
+                                  << ")";
             return string_representation.str();
         }
 
         std::string glm_to_string(glm::mat4 matrix) {
             std::ostringstream string_representation;
-            string_representation << "Mat4" << std::fixed << std::setprecision(2);
+            string_representation << "Mat4" << std::endl << std::fixed << std::setprecision(2);
             for (int x = 0; x < 4; x++) {
                 string_representation << "[";
                 for (int y = 0; y < 4; y++) {
-                    string_representation << matrix[x][y] << (y < 3)?", ":"";
+                    float element = float(matrix[x][y]);
+                    if (y < 3) string_representation << pretty_float(element) << ", ";
+                    else string_representation << pretty_float(element);
                 }
-                string_representation << "]" << std::endl;
+                if (x < 3) string_representation << "]" << std::endl;
+                else string_representation << "]";
             }
             return string_representation.str();
+        }
+
+        std::string pretty_float(float number) {
+            std::ostringstream number_representation;
+            number_representation << std::fixed << std::setprecision(2);
+            if (number >= 0) number_representation << "+" << number;
+            else number_representation << number;
+            return number_representation.str();
         }
 
     public:
@@ -63,4 +74,8 @@ class Reporter {
         void println(glm::mat4 matrix) {
             output(glm_to_string(matrix), default_flag_);
         }
+
+        void new_line() {
+            std::cout << std::endl;
+        };
 };
