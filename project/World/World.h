@@ -2,28 +2,39 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "../Object3D/Object3D.h"
+#include "../Camera/Camera.h"
+
 class World {
     private:
-        // TODO linked list of Object3D instantiated
+        std::vector<Object3D> objects;
+        Camera camera;
 
     public:
-        void addObject(Object3D new_object) {
-            // TODO add new_object to LL
+        static void addObject(Object3D new_object) {
+            if (new_object != NULL) objects3D.pushBack(new_object);
         }
 
-        void removeObject(Object3D target_object) {
+        static void removeObject(Object3D target_object) {
             // TODO remove target_object from LL
         }
 
-        void Init() {
-            // TODO call the Init method of every Object3D in the LL
+        static void Init() {
+            for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
+                it->Init();
+            }
         }
 
-        void Draw() {
-            // TODO call the Draw method of every Object3D in the LL
+        static void Draw() {
+            for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
+                // TODO get projection view matrix from cameraand send as parameters
+                it->Draw();
+            }
         }
 
-        void Cleanup() {
-            // TODO call the Cleanup method of every Object3D in the LL
+        static void Cleanup() {
+            for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
+                it->Cleanup();
+            }
         }
 };
