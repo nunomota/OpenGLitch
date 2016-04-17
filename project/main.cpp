@@ -128,6 +128,8 @@ void Init() {
 
     // scaling matrix to scale the cube down to a reasonable size.
     cube.scale(glm::vec3(0.25f, 0.25f, 0.25f));
+    cube.rotate(glm::vec3(0.0f, 45.0f, 0.0f));
+    cube.translate(glm::vec3(2.0f, 0.0f, 0.0f));
 
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
