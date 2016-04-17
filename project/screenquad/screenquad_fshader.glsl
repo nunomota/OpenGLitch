@@ -33,6 +33,7 @@ int p[512] = int[](151,160,137,91,90,15,
 49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
 138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180);
 
+
 vec2 gradients[8] = vec2[](vec2(0.0,1.0),
                      vec2(1.0,1.0),
                      vec2(1.0,0.0),
@@ -46,13 +47,14 @@ vec2 gradients[8] = vec2[](vec2(0.0,1.0),
 int permutation(int pos){return p[pos];}
 
 float fade(float t){return t * t * t * (t * (t * 6 - 15) + 10);}
+//float fade(float t){return t * t * (3.0 - 2.0 * t);} // classic perlin noise interpolation
 
 vec2 grad(int index){
    index = index % 8;
    return gradients[index];}
 
-void main() {
-   float N = 4; // number of tiles in each dimension
+float perlin_noise(vec2 uv){
+   float N = 50; // number of tiles in each dimension
 
    vec2 grads[4];
    vec2 difference_vectors[4];
@@ -97,7 +99,7 @@ void main() {
 
       grads[i] = grad(random_int);
       // 1.3 calculate distance vector from corners to point. 
-      difference_vectors[i] = vec2(norm_x,norm_y) - current_corner;
+      difference_vectors[i] = vec2(norm_x,norm_y) - current_corner; // point minus corner
 
       dot_products[i] = dot(normalize(difference_vectors[i]),normalize(grads[i]));
    }
@@ -106,9 +108,18 @@ void main() {
    float fx = fade(norm_x);
    float fy = fade(norm_y);
 
-   float st = mix(dot_products[0],dot_products[1],fx);
-   float uv = mix(dot_products[2],dot_products[3],fx);
-   float noise = mix(st,uv,fy);
+   float s_t = mix(dot_products[0],dot_products[1],fx);
+   float u_v = mix(dot_products[2],dot_products[3],fx);
+   float noise = mix(s_t,u_v,fy);
+   return noise;
+
+}
+
+
+void main() {
+
+   float noise = perlin_noise(uv);
+
 
    color = vec3(noise,noise,noise);
 }
