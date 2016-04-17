@@ -128,7 +128,7 @@ void Init() {
 
     trackball_matrix = IDENTITY_MATRIX;
 
-    GLuint fb_tex = framebuffer.Init(window_width,window_height);
+    GLuint fb_tex = framebuffer.Init(800,800);
     
     screenquad.Init(window_width,window_height,fb_tex);
     

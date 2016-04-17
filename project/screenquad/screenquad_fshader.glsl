@@ -54,7 +54,7 @@ vec2 grad(int index){
    return gradients[index];}
 
 float perlin_noise(vec2 uv){
-   float N = 50; // number of tiles in each dimension
+   float N = 800; // number of tiles in each dimension
 
    vec2 grads[4];
    vec2 difference_vectors[4];
@@ -112,14 +112,28 @@ float perlin_noise(vec2 uv){
    float u_v = mix(dot_products[2],dot_products[3],fx);
    float noise = mix(s_t,u_v,fy);
    return noise;
-
 }
 
 
 void main() {
 
    float noise = perlin_noise(uv);
+   int num_octaves = 5;
+
+   // fBm
+   float amp = 0.5;
+   float total = 0.0;
+   float freq = 2.0; // start with small frequence
+   float gain = 0.5; //  multiply amp by this after each octave
+   float lacunarity = 2.1042; // multiply frequency with this after each octave
+
+   for(int i = 0; i<num_octaves; i++){
+      total = total + amp * perlin_noise(uv * freq);
+      amp * 0.5;
+      freq = freq * lacunarity;
+   }
 
 
    color = vec3(noise,noise,noise);
+   //color = vec3(total,total,total);
 }
