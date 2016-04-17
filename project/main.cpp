@@ -128,10 +128,8 @@ void Init() {
     trackball_matrix = IDENTITY_MATRIX;
 
     // scaling matrix to scale the cube down to a reasonable size.
-    cube_scale = mat4(0.25f, 0.0f,  0.0f,  0.0f,
-                      0.0f,  0.25f, 0.0f,  0.0f,
-                      0.0f,  0.0f,  0.25f, 0.0f,
-                      0.0f,  0.0f,  0.0f,  1.0f);
+    cube.scale(glm::vec3(0.25f, 0.25f, 0.25f));
+    
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
 
@@ -141,13 +139,7 @@ void Display() {
 
     const float time = glfwGetTime();
 
-    mat4 cube_transf = rotate(mat4(1.0f), 2.0f * time, vec3(0.0f, 1.0f, 0.0f));
-    cube_transf = translate(cube_transf, vec3(0.75f, 0.0f, 0.0f));
-    cube_transf = rotate(cube_transf, 2.0f * time, vec3(0.0f, 1.0f, 0.0f));
-
-    mat4 cube_model_matrix = cube_transf * cube_scale;
-
-    cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
+    cube.Draw(view_matrix, projection_matrix);
 
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);

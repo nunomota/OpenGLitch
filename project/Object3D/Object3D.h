@@ -13,6 +13,12 @@ class Object3D {
     private:
         Reporter reporter_;
 
+        void InitTransform() {
+            transform.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            transform.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+            transform.setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+        }
+
     protected:
         GLuint vertex_array_id_;                // vertex array object
         GLuint vertex_buffer_object_position_;  // memory buffer for positions
@@ -53,6 +59,9 @@ class Object3D {
         void Init() {
             // call to the sub-class' method to get the shaders' name
             GetShaderNames();
+
+            // call to setup initial transform for new object
+            InitTransform();
 
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders(shader_names[0],
