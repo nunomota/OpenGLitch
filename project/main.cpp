@@ -16,6 +16,9 @@
 #define PI 3.14f
 
 Cube cube;
+Cube cube2;
+Cube cube3;
+
 Grid grid;
 
 int window_width = 800;
@@ -113,6 +116,9 @@ void Init() {
     glClearColor(0.937, 0.937, 0.937 /*gray*/, 1.0 /*solid*/);
     
     cube.Init();
+    cube2.Init();
+    cube3.Init();
+
     grid.Init();
 
     // enable depth test.
@@ -127,9 +133,17 @@ void Init() {
     trackball_matrix = IDENTITY_MATRIX;
 
     // scaling matrix to scale the cube down to a reasonable size.
-    cube.scale(glm::vec3(0.25f, 0.25f, 0.25f));
-    cube.rotate(glm::vec3(0.0f, 45.0f, 0.0f));
-    cube.translate(glm::vec3(2.0f, 0.0f, 0.0f));
+    cube.scale(glm::vec3(-0.5f, -0.5f, -0.5f));
+    cube.rotate(glm::vec3(45.0f, 45.0f, 0.0f));
+    cube.translate(glm::vec3(0.0f, 0.0f, -2.0f));
+
+    cube2.scale(glm::vec3(-0.5f, -0.5f, -0.5f));
+    cube2.translate(glm::vec3(2.0f, 0.0f, -2.0f));
+    cube2.rotate(glm::vec3(-45.0f, 0.0f, 0.0f));
+
+    cube3.scale(glm::vec3(-0.5f, -0.5f, -0.5f));
+    cube3.translate(glm::vec3(-2.0f, 0.0f, -2.0f));
+    cube3.rotate(glm::vec3(45.0f, 0.0f, 0.0f));
 
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
@@ -141,6 +155,8 @@ void Display() {
     const float time = glfwGetTime();
 
     cube.Draw(view_matrix, projection_matrix);
+    cube2.Draw(view_matrix, projection_matrix);
+    cube3.Draw(view_matrix, projection_matrix);
 
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
@@ -288,6 +304,8 @@ int main(int argc, char *argv[]) {
 
     grid.Cleanup();
     cube.Cleanup();
+    cube2.Cleanup();
+    cube3.Cleanup();
 
     // close OpenGL window and terminate GLFW
     glfwDestroyWindow(window);
