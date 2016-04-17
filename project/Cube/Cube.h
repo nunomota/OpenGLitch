@@ -31,9 +31,10 @@ class Cube: Object3D {
                                 1, 4, 5}; // bottom face triangle 2
 
     protected:
-        void GetShaderNames() {
-            shader_names_[0] = "cube_vshader.glsl";
-            shader_names_[1] = "cube_fshader.glsl";
+        void LoadShaders() {
+            // compile the shaders.
+            program_id_ = icg_helper::LoadShaders("cube_vshader.glsl",
+                                                  "cube_fshader.glsl");
         }
 
         void SetupVertices() {

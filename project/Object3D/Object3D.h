@@ -28,9 +28,8 @@ class Object3D {
         GLuint MVP_id_;                         // model, view, proj matrix ID
 
         bool is_initialized_ = false;
-        std::string shader_names_[2];
 
-        virtual void GetShaderNames();
+        virtual void LoadShaders();
         virtual void SetupVertices();
         virtual void SetupIndexBuffer();
 
@@ -58,14 +57,11 @@ class Object3D {
 
         void Init() {
             // call to the sub-class' method to get the shaders' name
-            GetShaderNames();
+            LoadShaders();
 
             // call to setup initial transform for new object
             InitTransform();
 
-            // compile the shaders.
-            program_id_ = icg_helper::LoadShaders(shader_names_[0],
-                                                  shader_names_[1]);
             if(!program_id_) {
                 exit(EXIT_FAILURE);
             }
