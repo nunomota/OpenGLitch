@@ -67,9 +67,9 @@ class Object3D {
 
         bool is_initialized_ = false;
 
-        virtual void LoadShaders();
-        virtual void SetupVertices();
-        virtual void SetupIndexBuffer();
+        virtual void LoadShaders() = 0;
+        virtual void SetupVertices() = 0;
+        virtual void SetupIndexBuffer() = 0;
 
     public:
         Transform transform;    // Object-specific Transform
