@@ -7,7 +7,7 @@
   */
 class Reporter {
     private:
-        const std::string flags[3]{"Info", "Warning", "Error"};
+        const std::string default_flag_ = "Info";
         const char flag_delimiters[2]{'[', ']'};
 
         void output(std::string message, std::string flag) {
@@ -16,17 +16,51 @@ class Reporter {
             std::cout << final_message.str() << std::endl;
         }
 
+        std::string glm_to_string(glm::vec3 vector) {
+            std::ostringstream string_representation;
+            string_representation << "vec3(" << std::fixed << std::setprecision(2)
+                                  << vector.x << ", "
+                                  << vector.y << ", "
+                                  << vector.z 
+                                  << ")" << std::endl;
+            return string_representation.str();
+        }
+
+        std::string glm_to_string(glm::mat4 matrix) {
+            std::ostringstream string_representation;
+            string_representation << "Mat4" << std::fixed << std::setprecision(2);
+            for (int x = 0; x < 4; x++) {
+                string_representation << "[";
+                for (int y = 0; y < 4; y++) {
+                    string_representation << matrix[x][y] << (y < 3)?", ":"";
+                }
+                string_representation << "]" << std::endl;
+            }
+            return string_representation.str();
+        }
+
     public:
         void println(std::string message, std::string flag) {
             output(message, flag);
         }
 
-        void println(std::string message, int flag_index) {
-            int index = (flag_index >= 0 && flag_index < 3) ? flag_index : 0;
-            output(message, flags[index]);
+        void println(glm::vec3 vector, std::string flag) {
+            output(glm_to_string(vector), flag);
+        }
+
+        void println(glm::mat4 matrix, std::string flag) {
+            output(glm_to_string(matrix), flag);
         }
 
         void println(std::string message) {
-            output(message, flags[0]);
+            output(message, default_flag_);
+        }
+
+        void println(glm::vec3 vector) {
+            output(glm_to_string(vector), default_flag_);
+        }
+
+        void println(glm::mat4 matrix) {
+            output(glm_to_string(matrix), default_flag_);
         }
 };
