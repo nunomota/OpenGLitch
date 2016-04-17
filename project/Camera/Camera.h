@@ -17,7 +17,10 @@ class Camera: public Object3D {
         glm::mat4 projection_;
 
         void recalculateViewMatrix() {
-            view_ = glm::mat4(-1.0f * transform.getPosition(), 1.0f);
+            view_ = IDENTITY_MATRIX;
+            view_[0][0] = -transform.getPosition().x;
+            view_[1][1] = -transform.getPosition().y;
+            view_[2][2] = -transform.getPosition().z;
             reporter.println("Recalculating view matrix");
             reporter.println(view_);
         }
