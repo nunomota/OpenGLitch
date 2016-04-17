@@ -32,8 +32,8 @@ class Cube: Object3D {
 
     protected:
         void GetShaderNames() {
-            shader_names[0] = "cube_vshader.glsl";
-            shader_names[1] = "cube_fshader.glsl";
+            shader_names_[0] = "cube_vshader.glsl";
+            shader_names_[1] = "cube_fshader.glsl";
         }
 
         void SetupVertices() {

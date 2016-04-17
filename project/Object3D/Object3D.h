@@ -22,7 +22,7 @@ class Object3D {
         GLuint MVP_id_;                         // model, view, proj matrix ID
 
         bool is_initialized_ = false;
-        std::string shader_names[2];
+        std::string shader_names_[2];
 
         virtual void GetShaderNames();
         virtual void SetupVertices();
