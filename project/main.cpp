@@ -113,6 +113,7 @@ void Init() {
     // sets background color
     glClearColor(0.937, 0.937, 0.937 /*gray*/, 1.0 /*solid*/);
     
+    cube.Init();
     grid.Init();
 
     // enable depth test.
