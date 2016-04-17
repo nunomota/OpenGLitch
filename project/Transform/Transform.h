@@ -2,6 +2,8 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "../GlmStrings/GlmStrings.h"
+
 /** This class is simply used as a holder
   * of 3D information such as: position,
   * rotation and scale.
@@ -10,6 +12,7 @@ class Transform {
 
     private:
         Reporter reporter_;
+        GlmStrings glm_strings_;
 
         glm::vec3 position_ = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 rotation_ = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -30,11 +33,7 @@ class Transform {
             model_ = glm::translate(model_, position_);
 
             reporter_.new_line();
-            reporter_.println("Calculating model matrix for object:");
-            reporter_.println(position_, "Transform.position");
-            reporter_.println(rotation_, "Transform.rotation");
-            reporter_.println(scale_,    "Transform.scale   ");
-            reporter_.println(model_,    "Model matrix      ");
+            reporter_.print_special(to_string());
             reporter_.new_line();
         }
 
@@ -75,5 +74,16 @@ class Transform {
 
         glm::mat4 getModelMatrix() {
             return model_;
+        }
+
+        std::string to_string() {
+            std::ostringstream transform_representation;
+            transform_representation << std::fixed << std::setprecision(2);
+            transform_representation << "┌--- Transform --------------------┐" << std::endl
+                                     << "| position: " << glm_strings_.create(position_) << std::endl
+                                     << "| rotation: " << glm_strings_.create(rotation_) << std::endl
+                                     << "| scale   : " << glm_strings_.create(scale_)    << std::endl
+                                     << "└----------------------------------┘";
+            return transform_representation.str();
         }
 };
