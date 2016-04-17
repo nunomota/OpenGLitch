@@ -64,8 +64,8 @@ class Object3D {
             InitTransform();
 
             // compile the shaders.
-            program_id_ = icg_helper::LoadShaders(shader_names[0],
-                                                  shader_names[1]);
+            program_id_ = icg_helper::LoadShaders(shader_names_[0],
+                                                  shader_names_[1]);
             if(!program_id_) {
                 exit(EXIT_FAILURE);
             }
