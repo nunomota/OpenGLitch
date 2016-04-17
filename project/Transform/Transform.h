@@ -1,7 +1,6 @@
 #pragma once
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
-#include "glm/gtx/string_cast.hpp"
 
 /** This class is simply used as a holder
   * of 3D information such as: position,
@@ -31,10 +30,10 @@ class Transform {
             model_ = glm::translate(model_, position_);
 
             reporter_.println("Recalculating model matrix for object:");
-            reporter_.println(glm::to_string(position_), "Transform.position");
-            reporter_.println(glm::to_string(rotation_), "Transform.rotation");
-            reporter_.println(glm::to_string(scale_),    "Transform.scale   ");
-            reporter_.println(glm::to_string(model_),    "Model matrix      ");
+            reporter_.println(position_, "Transform.position");
+            reporter_.println(rotation_, "Transform.rotation");
+            reporter_.println(scale_,    "Transform.scale   ");
+            reporter_.println(model_,    "Model matrix      ");
         }
 
     public:
