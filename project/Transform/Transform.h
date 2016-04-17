@@ -21,16 +21,19 @@ class Transform {
         glm::mat4 model_ = IDENTITY_MATRIX;
 
         void recalculateModelMatrix() {
-            // apply scale
-            model_ = glm::scale(IDENTITY_MATRIX, scale_);
+
+            model_ = IDENTITY_MATRIX;
+
+            // apply translation
+            model_ = glm::translate(model_, position_);
 
             // apply rotation to the 3 axys (x, y, z)
             model_ = glm::rotate(model_, rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-            // apply translation
-            model_ = glm::translate(model_, position_);
+            // apply scale
+            model_ = glm::scale(model_, scale_);
 
             reporter_.new_line();
             reporter_.print_special(to_string());
