@@ -78,6 +78,7 @@ class Camera: public Object3D {
         }
 
         glm::mat4 getViewMatrix() {
+            recalculateViewMatrix(); // TODO this should be recalculated when Transform gets updated, instead of here
             return view_;
         }
 
