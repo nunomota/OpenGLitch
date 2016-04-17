@@ -9,7 +9,6 @@
 #include "framebuffer.h"
 #include "screenquad/screenquad.h"
 
-#include "cube/cube.h"
 #include "grid/grid.h"
 
 #include "trackball.h"
@@ -138,14 +137,9 @@ void Init() {
     screenquad.Draw();
     framebuffer.Unbind();
 
-    cube.Init();
     grid.Init(fb_tex);
 
-    // scaling matrix to scale the cube down to a reasonable size.
-    cube_scale = mat4(0.25f, 0.0f,  0.0f,  0.0f,
-                      0.0f,  0.25f, 0.0f,  0.0f,
-                      0.0f,  0.0f,  0.25f, 0.0f,
-                      0.0f,  0.0f,  0.0f,  1.0f);
+
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
 
@@ -153,13 +147,7 @@ void Init() {
 void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    const float time = glfwGetTime();
 
-    mat4 cube_transf = rotate(mat4(1.0f), 2.0f * time, vec3(0.0f, 1.0f, 0.0f));
-    cube_transf = translate(cube_transf, vec3(0.75f, 0.0f, 0.0f));
-    cube_transf = rotate(cube_transf, 2.0f * time, vec3(0.0f, 1.0f, 0.0f));
-
-    mat4 cube_model_matrix = cube_transf * cube_scale;
 
 
     
@@ -315,7 +303,6 @@ int main(int argc, char *argv[]) {
     }
 
     grid.Cleanup();
-    cube.Cleanup();
 
     // close OpenGL window and terminate GLFW
     glfwDestroyWindow(window);
