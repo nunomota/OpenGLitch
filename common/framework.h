@@ -4,8 +4,10 @@
 
 // 3D related classes
 #include "../project/Transform/Transform.h"
+#include "../project/Object3D/EmptyObject/EmptyObject.h"
+#include "../project/Object3D/PhysicalObject/PhysicalObject.h"
 #include "../project/Object3D/Object3D.h"
-#include "../project/World/World.h"
+// #include "../project/World/World.h"
 
 // specific available Object3D subclasses
 #include "../project/Cube/Cube.h"
