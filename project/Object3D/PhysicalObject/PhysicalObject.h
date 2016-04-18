@@ -46,7 +46,8 @@ class PhysicalObject: public Object3D {
             is_initialized_ = true;
         }
 
-        void Draw() {
+        void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
+                  const glm::mat4 &projection = IDENTITY_MATRIX) {
             if (is_initialized_) {
                 glUseProgram(program_id_);
                 glBindVertexArray(vertex_array_id_);

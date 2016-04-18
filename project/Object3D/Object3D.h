@@ -9,7 +9,7 @@
 class Object3D {
     protected:
         Reporter reporter_;
-        
+
         GLuint vertex_array_id_;                // vertex array object
         GLuint vertex_buffer_object_position_;  // memory buffer for positions
         GLuint vertex_buffer_object_index_;     // memory buffer for indices
@@ -20,10 +20,6 @@ class Object3D {
         bool is_initialized_ = false;
 
         Transform transform;    // Object-specific Transform
-
-        virtual void LoadShaders() {};
-        virtual void SetupVertices() {};
-        virtual void SetupIndexBuffer() {};
 
     public:
         // constructor
@@ -57,7 +53,7 @@ class Object3D {
         virtual void Init() {}
 
         virtual void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
-                  const glm::mat4 &projection = IDENTITY_MATRIX) {}
+                          const glm::mat4 &projection = IDENTITY_MATRIX) {}
 
         virtual void Cleanup() {}
 };
