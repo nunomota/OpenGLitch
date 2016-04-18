@@ -34,7 +34,7 @@ class World {
 
         static void Draw() {
             for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                it->Draw(camera.getViewMatrix(), camera.getProjectionMatrix());
+                it->Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
             }
         }
 
