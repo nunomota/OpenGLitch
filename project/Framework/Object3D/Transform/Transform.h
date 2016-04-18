@@ -95,8 +95,6 @@ class Transform {
                                      << "| position: " << glm_strings_.create(position_) << std::endl
                                      << "| rotation: " << glm_strings_.create(rotation_) << std::endl
                                      << "| scale   : " << glm_strings_.create(scale_)    << std::endl
-                                     << "| "                                             << std::endl
-                                     <<                   glm_strings_.create(model_)    << std::endl
                                      << "└----------------------------------┘";
             return transform_representation.str();
         }
