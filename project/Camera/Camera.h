@@ -7,7 +7,7 @@
 class Camera: public Object3D {
     private:
         const float default_fovy = 45.0f;
-        const float default_aspect = 16.0f/9.0f;
+        const float default_aspect = 1.0f;
         const float default_far_distance = 10.0f;
 
         float fovy_;
