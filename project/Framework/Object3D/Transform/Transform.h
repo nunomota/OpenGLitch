@@ -43,9 +43,9 @@ class Transform {
             model_ = IDENTITY_MATRIX;
             inverted_model_ = IDENTITY_MATRIX;
 
-            calculateScale();
-            calculateRotation();
             calculateTranslation();
+            calculateRotation();
+            calculateScale();
         }
 
     public:
