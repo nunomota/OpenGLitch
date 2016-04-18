@@ -4,7 +4,7 @@
 
 #define PI 3.14f
 
-class Camera: public Object3D {
+class Camera: public EmptyObject {
     private:
         const float default_fovy = 45.0f;
         const float default_aspect = 1.0f;
