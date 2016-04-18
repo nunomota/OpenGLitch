@@ -13,6 +13,7 @@
 // Physical objects
 #include "../project/Framework/Object3D/PhysicalObject/PhysicalObject.h"
 #include "../project/Framework/Object3D/PhysicalObject/Cube/Cube.h"
+#include "../project/Framework/Object3D/PhysicalObject/Plane/Plane.h"
 
 // Empty objects
 #include "../project/Framework/Object3D/EmptyObject/EmptyObject.h"
