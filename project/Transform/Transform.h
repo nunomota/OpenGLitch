@@ -17,21 +17,28 @@ class Transform {
         glm::vec3 scale_ = glm::vec3(1.0f, 1.0f, 1.0f);
 
         glm::mat4 model_ = IDENTITY_MATRIX;
+        glm::mat4 inverted_model_ = IDENTITY_MATRIX;
 
         void recalculateModelMatrix() {
 
             model_ = IDENTITY_MATRIX;
+            inverted_model_ = IDENTITY_MATRIX;
 
             // apply translation
             model_ = glm::translate(model_, position_);
+            inverted_model_ = glm::translate(inverted_model_, -position_);
 
             // apply rotation to the 3 axys (x, y, z)
             model_ = glm::rotate(model_, rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
+            inverted_model_ = glm::rotate(inverted_model_, -rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
+            inverted_model_ = glm::rotate(inverted_model_, -rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
+            inverted_model_ = glm::rotate(inverted_model_, -rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
             // apply scale
             model_ = glm::scale(model_, scale_);
+            inverted_model_ = glm::scale(inverted_model_, scale_);
 
             reporter_.new_line();
             reporter_.print_special(to_string());
@@ -75,6 +82,10 @@ class Transform {
 
         glm::mat4 getModelMatrix() {
             return model_;
+        }
+
+        glm::mat4 getInvertedModelMatrix() {
+            return inverted_model_;
         }
 
         std::string to_string() {
