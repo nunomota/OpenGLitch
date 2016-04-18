@@ -38,7 +38,7 @@ class Transform {
 
             // apply scale
             model_ = glm::scale(model_, scale_);
-            inverted_model_ = glm::scale(inverted_model_, scale_);
+            inverted_model_ = glm::scale(inverted_model_, scale_); // TODO contrain scale to be > 0 and use 1/scale instead of scale
 
             reporter_.new_line();
             reporter_.print_special(to_string());
