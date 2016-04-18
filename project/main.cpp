@@ -149,7 +149,8 @@ void Init() {
     cube3.rotate(glm::vec3(45.0f, 0.0f, 0.0f));
 
     main_camera.translate(glm::vec3(0.0f, 0.0f, 4.0f));
-    main_camera.rotate(glm::vec3(0.0f, 0.0f, 45.0f));
+    //main_camera.rotate(glm::vec3(0.0f, 0.0f, 45.0f));
+    main_camera.scale(glm::vec3(-0.2f, -0.2f, -0.2f));
 
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
@@ -161,7 +162,7 @@ void Display() {
     const float time = glfwGetTime();
 
     reporter.println("View Matrix");
-    reporter.println(view_matrix);
+    reporter.println(main_camera.transform.getModelMatrix());
     reporter.new_line();
 
     reporter.println("Camera View");
