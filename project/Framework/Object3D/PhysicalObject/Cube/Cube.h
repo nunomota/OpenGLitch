@@ -2,8 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../Object3D/PhysicalObject/PhysicalObject.h"
-
 class Cube: public PhysicalObject {
     private:
         // Position buffer
