@@ -17,9 +17,7 @@ file(GLOB SHADERS
   grid/grid_vshader.glsl
   grid/grid_fshader.glsl
   Framework/Object3D/PhysicalObject/Cube/cube_vshader.glsl
-  Framework/Object3D/PhysicalObject/Cube/cube_fshader.glsl
-  Framework/Object3D/PhysicalObject/Tree/tree_vshader.glsl
-  Framework/Object3D/PhysicalObject/Tree/tree_fshader.glsl)
+  Framework/Object3D/PhysicalObject/Cube/cube_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
 
 add_executable(${EXERCISENAME} ${SOURCES} ${HEADERS} ${SHADERS})
