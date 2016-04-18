@@ -2,9 +2,9 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../Object3D/Object3D.h"
+#include "../Object3D/PhysicalObject/PhysicalObject.h"
 
-class Cube: public Object3D {
+class Cube: public PhysicalObject {
     private:
         // Position buffer
         const GLfloat position[24] = {-1.0f, -1.0f,  1.0f, // left, bottom, front
