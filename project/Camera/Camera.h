@@ -18,15 +18,6 @@ class Camera: public Object3D {
         glm::mat4 view_;
         glm::mat4 projection_;
 
-        void recalculateViewMatrix() {
-            view_ = IDENTITY_MATRIX;
-            view_ = glm::translate(view_, -1.0f * transform.getPosition());
-
-            view_ = glm::rotate(view_, transform.getRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-            view_ = glm::rotate(view_, transform.getRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-            view_ = glm::rotate(view_, transform.getRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
-        }
-
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
             float bottom = -top;
@@ -50,7 +41,6 @@ class Camera: public Object3D {
             aspect_ = (aspect > 0)? aspect : default_aspect;
             near_ = near;
             far_ = (far > near)? far : near + default_far_distance;
-            recalculateViewMatrix();
             recalculateProjectionMatrix();
         }
 
@@ -83,8 +73,8 @@ class Camera: public Object3D {
         }
 
         glm::mat4 getViewMatrix() {
-            recalculateViewMatrix(); // TODO this should be recalculated when Transform gets updated, instead of here
-            return view_;
+            // TODO maybe calculate this matrix from Transform.getModelMatrix()?
+            return transform.getInvertedModelMatrix();
         }
 
         glm::mat4 getProjectionMatrix() {
