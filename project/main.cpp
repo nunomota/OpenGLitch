@@ -19,6 +19,7 @@ Cube cube;
 Cube cube2;
 Cube cube3;
 Plane plane;
+Plane plane2;
 Camera main_camera(45.0f, 1.0f, 0.1f, 100.0f);
 
 Reporter reporter;
@@ -123,6 +124,7 @@ void Init() {
     cube2.Init();
     cube3.Init();
     plane.Init();
+    plane2.Init();
 
     grid.Init();
 
@@ -151,7 +153,10 @@ void Init() {
     cube3.rotate(glm::vec3(45.0f, 0.0f, 0.0f));
 
     plane.translate(glm::vec3(2.0f, 0.0f, -3.0f));
-    plane.rotate(glm::vec3(90.0f, 0.0f, 0.0f));
+    plane.rotate(glm::vec3(90.0f, 0.0f, 45.0f));
+
+    plane2.translate(glm::vec3(-2.0f, 0.0f, -3.0f));
+    plane2.rotate(glm::vec3(90.0f, 0.0f, -45.0f));
 
     reporter.new_line();
     reporter.print_special(plane.getTransform().to_string());
@@ -174,6 +179,7 @@ void Display() {
     cube2.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
     cube3.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
     plane.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
+    plane2.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
 
     // draw a quad on the ground.
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
