@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-class Cube: public PhysicalObject {
+class Plane: public PhysicalObject {
     private:
         const int sub_division = 512;
 
@@ -47,7 +47,7 @@ class Cube: public PhysicalObject {
 
         void SetupVertices() {
             calculateVertices();
-            
+
             glGenBuffers(1, &vertex_buffer_object_position_);
             glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object_position_);
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat),
