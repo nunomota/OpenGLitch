@@ -161,14 +161,6 @@ void Display() {
 
     const float time = glfwGetTime();
 
-    reporter.println("View Matrix");
-    reporter.println(main_camera.transform.getModelMatrix());
-    reporter.new_line();
-
-    reporter.println("Camera View");
-    reporter.println(main_camera.getViewMatrix());
-    reporter.new_line();
-
     cube.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
     cube2.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
     cube3.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
