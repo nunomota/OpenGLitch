@@ -151,7 +151,11 @@ void Init() {
     cube3.rotate(glm::vec3(45.0f, 0.0f, 0.0f));
 
     plane.translate(glm::vec3(2.0f, 0.0f, -3.0f));
-    plane.rotate(glm::vec3(10.0f, 0.0f, 0.0f));
+    plane.rotate(glm::vec3(90.0f, 0.0f, 0.0f));
+
+    reporter.new_line();
+    reporter.print_special(plane.getTransform().to_string());
+    reporter.new_line();
 
     main_camera.translate(glm::vec3(0.0f, 0.0f, 4.0f));
     //main_camera.rotate(glm::vec3(0.0f, 0.0f, 45.0f));
