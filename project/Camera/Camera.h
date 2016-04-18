@@ -20,9 +20,7 @@ class Camera: public Object3D {
 
         void recalculateViewMatrix() {
             view_ = IDENTITY_MATRIX;
-            view_[0][0] = -transform.getPosition().x;
-            view_[1][1] = -transform.getPosition().y;
-            view_[2][2] = -transform.getPosition().z;
+            view_ = glm::translate(view_, -1.0f * transform.getPosition());
         }
 
         void recalculateProjectionMatrix() {
