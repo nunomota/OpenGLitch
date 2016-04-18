@@ -42,5 +42,6 @@ class World {
             for (std::vector<Object3D>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 it->Cleanup();
             }
+            main_camera.Cleanup();
         }
 };
