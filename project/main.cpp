@@ -20,6 +20,8 @@ Cube cube2;
 Cube cube3;
 Camera main_camera(45.0f, 1.0f, 0.1f, 100.0f);
 
+Reporter reporter;
+
 Grid grid;
 
 int window_width = 800;
@@ -120,8 +122,6 @@ void Init() {
     cube2.Init();
     cube3.Init();
 
-    main_camera.translate(glm::vec3(0.0f, 0.0f, 2.0f));
-
     grid.Init();
 
     // enable depth test.
@@ -148,6 +148,8 @@ void Init() {
     cube3.translate(glm::vec3(-2.0f, 0.0f, -2.0f));
     cube3.rotate(glm::vec3(45.0f, 0.0f, 0.0f));
 
+    main_camera.translate(glm::vec3(0.0f, 0.0f, 4.0f));
+
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
 
@@ -156,6 +158,14 @@ void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     const float time = glfwGetTime();
+
+    reporter.println("View Matrix");
+    reporter.println(view_matrix);
+    reporter.new_line();
+
+    reporter.println("Camera View");
+    reporter.println(main_camera.getViewMatrix());
+    reporter.new_line();
 
     cube.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
     cube2.Draw(main_camera.getViewMatrix(), main_camera.getProjectionMatrix());
