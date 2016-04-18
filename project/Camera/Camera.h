@@ -6,8 +6,6 @@
 
 class Camera: public Object3D {
     private:
-        Reporter reporter;
-
         const float default_fovy = 45.0f;
         const float default_aspect = 16.0f/9.0f;
         const float default_far_distance = 10.0f;
@@ -25,8 +23,6 @@ class Camera: public Object3D {
             view_[0][0] = -transform.getPosition().x;
             view_[1][1] = -transform.getPosition().y;
             view_[2][2] = -transform.getPosition().z;
-            reporter.println("Recalculating view matrix");
-            reporter.println(view_);
         }
 
         void recalculateProjectionMatrix() {
