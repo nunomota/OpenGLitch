@@ -1,16 +1,24 @@
-// debugging purposes
-#include "../project/GlmStrings/GlmStrings.h"
-#include "../project/Reporter/Reporter.h"
+/*--------------------
+| Debugging purposes |
+--------------------*/
+#include "../project/Framework/Debugging/GlmStrings/GlmStrings.h"
+#include "../project/Framework/Debugging/Reporter/Reporter.h"
 
-// 3D related classes
-#include "../project/Transform/Transform.h"
-#include "../project/Object3D/Object3D.h"
-#include "../project/Object3D/EmptyObject/EmptyObject.h"
-#include "../project/Object3D/PhysicalObject/PhysicalObject.h"
+/*--------------------
+| 3D related classes |
+--------------------*/
+#include "../project/Framework/Object3D/Transform/Transform.h"
+#include "../project/Framework/Object3D/Object3D.h"
 
-// specific available Object3D subclasses
-#include "../project/Cube/Cube.h"
-#include "../project/Camera/Camera.h"
+// Physical objects
+#include "../project/Framework/Object3D/PhysicalObject/PhysicalObject.h"
+#include "../project/Framework/Object3D/PhysicalObject/Cube/Cube.h"
 
-// class that coordinates everything that happens in the 2D/3D world
-// #include "../project/World/World.h"
+// Empty objects
+#include "../project/Framework/Object3D/EmptyObject/EmptyObject.h"
+#include "../project/Framework/Object3D/EmptyObject/Camera/Camera.h"
+
+/*--------------------
+|    World class     |
+--------------------*/
+// #include "../project/Framework/World/World.h"
