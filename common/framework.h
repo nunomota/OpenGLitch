@@ -13,4 +13,4 @@
 #include "../project/Camera/Camera.h"
 
 // class that coordinates everything that happens in the 2D/3D world
-#include "../project/World/World.h"
+// #include "../project/World/World.h"
