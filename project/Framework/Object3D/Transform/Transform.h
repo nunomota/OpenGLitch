@@ -25,12 +25,12 @@ class Transform {
         }
 
         void calculateRotation() {
-            model_ = glm::rotate(model_, rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
-            model_ = glm::rotate(model_, rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
-            model_ = glm::rotate(model_, rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
-            inverted_model_ = glm::rotate(inverted_model_, -rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
-            inverted_model_ = glm::rotate(inverted_model_, -rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
-            inverted_model_ = glm::rotate(inverted_model_, -rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
+            model_ = glm::rotate(model_, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
+            model_ = glm::rotate(model_, glm::radians(rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            model_ = glm::rotate(model_, glm::radians(rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
+            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
+            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
         }
 
         void calculateScale() {
