@@ -21,6 +21,10 @@ class Camera: public Object3D {
         void recalculateViewMatrix() {
             view_ = IDENTITY_MATRIX;
             view_ = glm::translate(view_, -1.0f * transform.getPosition());
+
+            view_ = glm::rotate(view_, transform.getRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+            view_ = glm::rotate(view_, transform.getRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+            view_ = glm::rotate(view_, transform.getRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
         }
 
         void recalculateProjectionMatrix() {
