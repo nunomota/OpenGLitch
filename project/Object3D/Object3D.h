@@ -20,13 +20,13 @@ class Object3D {
 
         bool is_initialized_ = false;
 
+        Transform transform;    // Object-specific Transform
+
         virtual void LoadShaders() {};
         virtual void SetupVertices() {};
         virtual void SetupIndexBuffer() {};
 
     public:
-        Transform transform;    // Object-specific Transform
-
         // constructor
         Object3D () {
             // TODO add this object to World
@@ -49,6 +49,10 @@ class Object3D {
         void scale(glm::vec3 scaling_vector) {
             glm::vec3 current_scale = transform.getScale();
             transform.setScale(current_scale + scaling_vector);
+        }
+
+        Transform getTransform() {
+            return transform;
         }
 
         void Init() {
