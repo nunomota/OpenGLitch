@@ -19,26 +19,33 @@ class Transform {
         glm::mat4 model_ = IDENTITY_MATRIX;
         glm::mat4 inverted_model_ = IDENTITY_MATRIX;
 
-        void recalculateModelMatrix() {
-
-            model_ = IDENTITY_MATRIX;
-            inverted_model_ = IDENTITY_MATRIX;
-
-            // apply translation
+        void calculateTranslation() {
             model_ = glm::translate(model_, position_);
             inverted_model_ = glm::translate(inverted_model_, -position_);
+        }
 
-            // apply rotation to the 3 axys (x, y, z)
+        void calculateRotation() {
             model_ = glm::rotate(model_, rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
             model_ = glm::rotate(model_, rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
             inverted_model_ = glm::rotate(inverted_model_, -rotation_.x, glm::vec3(1.0f, 0.0f, 0.0f));
             inverted_model_ = glm::rotate(inverted_model_, -rotation_.y, glm::vec3(0.0f, 1.0f, 0.0f));
             inverted_model_ = glm::rotate(inverted_model_, -rotation_.z, glm::vec3(0.0f, 0.0f, 1.0f));
+        }
 
-            // apply scale
+        void calculateScale() {
             model_ = glm::scale(model_, scale_);
             inverted_model_ = glm::scale(inverted_model_, scale_); // TODO contrain scale to be > 0 and use 1/scale instead of scale
+        }
+
+        void recalculateModelMatrix() {
+
+            model_ = IDENTITY_MATRIX;
+            inverted_model_ = IDENTITY_MATRIX;
+
+            calculateScale();
+            calculateRotation();
+            calculateTranslation();
         }
 
     public:
