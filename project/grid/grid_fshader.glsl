@@ -19,12 +19,14 @@ void main() {
     for (int i = 0; i<= max_i; i++){
         for(int j = 0; i<= max_j; j++){
             vec2 neighbor_2D = bl_corner + vec2(float(i), float(j));
+
             //getting the neighbors height
             float height = texture(height_tex, neighbor_2D).x;
 
             //getting the position of the neighbor
             vec3 neighbor_3D = vec3(neighbor_2D.x, neighbor_2D.y, height);
             normal_mv += neighbor_3D;
+
         }
     }
 
@@ -45,22 +47,5 @@ void main() {
     vec3 diffuse = kd * nl * Ld;
 
     color = (diffuse).xyz;
-    /*
-    // # P.xy store the position for which we want to calculate the normals
-      // # height() here is a function that return the height at a point in the terrain
 
-      // read neightbor heights using an arbitrary small offset
-      vec3 off = vec3(1.0, 1.0, 0.0);
-      float hL = texture(height_tex, uv.xy - off.xz).x;
-      float hR = texture(height_tex, uv.xy + off.xz).x;
-      float hD = texture(height_tex, uv.xy - off.zy).x;
-      float hU = texture(height_tex, uv.xy + off.zy).x;
-      vec3 N;
-
-      // deduce terrain normal
-      N.x = hL - hR;
-      N.y = hD - hU;
-      N.z = 2.0;
-      N = normalize(N);
-    */
 }
