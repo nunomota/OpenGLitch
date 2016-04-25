@@ -18,6 +18,9 @@
 // Empty objects
 #include "../project/Framework/Object3D/EmptyObject/EmptyObject.h"
 #include "../project/Framework/Object3D/EmptyObject/Camera/Camera.h"
+#include "../project/Framework/Object3D/EmptyObject/Light/Light.h"
+#include "../project/Framework/Object3D/EmptyObject/Light/PointLight/PointLight.h"
+#include "../project/Framework/Object3D/EmptyObject/Light/DirectionalLight/DirectionalLight.h"
 
 /*--------------------
 |    World class     |
