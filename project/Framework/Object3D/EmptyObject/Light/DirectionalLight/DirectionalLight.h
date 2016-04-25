@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-class DirectionalLight {
+class DirectionalLight: public Light {
     private:
         glm::vec3 default_direction_ = glm::vec3(0.0f, 0.0f, 1.0f);
 
