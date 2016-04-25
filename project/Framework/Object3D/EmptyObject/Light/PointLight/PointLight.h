@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-class PointLight {
+class PointLight: public Light {
     private:
         float radius_ = 1.0f;
 
