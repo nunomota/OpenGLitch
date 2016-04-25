@@ -2,7 +2,7 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-class Light {
+class Light: public EmptyObject {
     protected:
         glm::vec3 color_ = glm::vec3(0.0f, 0.0f, 0.0f);
         float intensity_ = 1.0f;
