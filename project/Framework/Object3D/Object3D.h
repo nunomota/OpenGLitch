@@ -24,7 +24,7 @@ class Object3D {
     public:
         // constructor
         Object3D () {
-            World.addObject(this);
+            //World.addObject(this);
         }
 
         // method called to rotate an Object3D along the specified axys
