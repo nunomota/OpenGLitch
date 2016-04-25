@@ -21,6 +21,4 @@ class DirectionalLight {
             glm::mat4 rotation_matrix = getRotationMatrix();
             return (rotation_matrix * glm::vec4(default_direction_, 1.0f)).xyz;
         }
-
-
 };
