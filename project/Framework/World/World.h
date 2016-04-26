@@ -8,6 +8,8 @@ class World {
         static std::vector<Object3D*> objects;
         static Camera* main_camera;
 
+        static bool areObjectsUninitialized;
+
     public:
         static void addObject(Object3D* new_object) {
             if (new_object) uninitialized.push_back(new_object);
