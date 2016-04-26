@@ -93,4 +93,8 @@ class World {
         void setKeyState(int key, bool state) {
             // TODO store these values in an array
         }
+
+        void setMouseButtonState(int key, bool state) {
+            // TODO store these values in an array
+        }
 };
