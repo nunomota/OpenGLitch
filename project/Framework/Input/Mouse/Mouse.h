@@ -13,6 +13,10 @@ class Mouse {
             }
         }
 
+        bool isValidKey(int key) {
+            if (key >= 0 && key < supportedButtons) true else false; 
+        }
+
     public:
         static const int LEFT_BUTTON = 0;
         static const int RIGHT_BUTTON = 1;
@@ -23,8 +27,12 @@ class Mouse {
 
         void setState(int key, bool state) {
             int new_key = key-1;
-            if (new_key >= 0 && new_key < supportedButtons) {
+            if (isValidKey(new_key)) {
                 buttons[key] = state;
             }
+        }
+
+        bool getState(int key) {
+            return (isValidKey(key))? buttons[key]:false;
         }
 };
