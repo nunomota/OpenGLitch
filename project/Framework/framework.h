@@ -31,3 +31,4 @@
 |    World class     |
 --------------------*/
 #include "World/World.h"
+#include "World/WorldInstance/WorldInstance.h"

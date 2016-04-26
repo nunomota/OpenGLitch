@@ -14,4 +14,4 @@ class WorldInstance: public World {
         void Update() {
 
         }    
-}
+};
