@@ -3,5 +3,6 @@
 #include "glm/gtc/type_ptr.hpp"
 
 class Keyboard {
-    
+    private:
+        bool keys[10];
 };
