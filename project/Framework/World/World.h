@@ -8,6 +8,7 @@ class World {
         static std::vector<Object3D*> objects;
         static Camera* main_camera;
 
+        static Time worldTime;
         static bool areObjectsUninitialized;
 
         static void initializeObjects() {
@@ -66,10 +67,12 @@ class World {
 
         static void Start() {
             areObjectsUninitialized = false;
+            worldTime.Init();
         }
 
         static void Update() {
-            if (areObjectsUninitialized) initializeObjects(); 
+            if (areObjectsUninitialized) initializeObjects();
+            worldTime.Update();
         }
 
         static void Terminate() {
