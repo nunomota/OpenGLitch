@@ -4,6 +4,8 @@
 
 class World {
     private:
+        Mouse mouse;
+
         std::vector<Object3D*> uninitialized;
         std::vector<Object3D*> objects;
         Camera* main_camera;
@@ -95,6 +97,6 @@ class World {
         }
 
         void setMouseButtonState(int key, bool state) {
-            // TODO store these values in an array
+            mouse.setState(key, state);
         }
 };
