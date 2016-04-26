@@ -4,14 +4,14 @@
 
 class World {
     private:
-        static std::vector<Object3D*> uninitialized;
-        static std::vector<Object3D*> objects;
-        static Camera* main_camera;
+        std::vector<Object3D*> uninitialized;
+        std::vector<Object3D*> objects;
+        Camera* main_camera;
 
-        static Time world_time;
-        static bool are_objects_uninitialized;
+        Time world_time;
+        bool are_objects_uninitialized;
 
-        static void initializeObjects() {
+        void initializeObjects() {
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
                 Object3D* object = (*it);
                 if(object) {
@@ -23,7 +23,7 @@ class World {
             are_objects_uninitialized = false;
         }
 
-        static void drawObjects() {
+        void drawObjects() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
                 if(object) {
@@ -32,7 +32,7 @@ class World {
             }
         }
 
-        static void cleanupObjects() {
+        void cleanupObjects() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
                 if (object) object->Cleanup();
