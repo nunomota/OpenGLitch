@@ -5,6 +5,7 @@
 class Mouse {
     private:
         static const int supportedButtons = 2;
+        static const int startingKeyIndex = 1;
         bool buttons[supportedButtons];
 
         void initButtonValues() {
@@ -26,7 +27,7 @@ class Mouse {
         }
 
         void setState(int key, bool state) {
-            int new_key = key-1;
+            int new_key = key-startingKeyIndex;
             if (isValidKey(new_key)) {
                 buttons[key] = state;
             }
