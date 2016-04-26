@@ -27,22 +27,29 @@ class World {
 
         static void Init() {
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
-                (*it)->Init();
-                objects.push_back(*it);
+                Object3D* object = (*it);
+                if(object != NULL) {
+                    object->Init();
+                    objects.push_back(object);
+                }
             }
             uninitialized.clear();
         }
 
         static void Draw() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                (*it)->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                Object3D* object = (*it);
+                if(object != NULL) {
+                    object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                }
             }
         }
 
         static void Cleanup() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                (*it)->Cleanup();
+                Object3D* object = (*it);
+                if (object != NULL) object->Cleanup();
             }
-            main_camera->Cleanup();
+            if (main_camera != NULL) main_camera->Cleanup();
         }
 };
