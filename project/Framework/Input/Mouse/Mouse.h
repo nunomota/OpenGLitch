@@ -4,7 +4,7 @@
 
 class Mouse {
     private:
-        const int supportedButtons = 2;
+        static const int supportedButtons = 2;
         bool buttons[supportedButtons];
 
         void initButtonValues() {
@@ -14,7 +14,11 @@ class Mouse {
         }
 
         bool isValidKey(int key) {
-            if (key >= 0 && key < supportedButtons) true else false; 
+            if (key >= 0 && key < supportedButtons) {
+                return true;
+            } else {
+                return false;
+            } 
         }
 
     public:
