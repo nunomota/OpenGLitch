@@ -14,11 +14,7 @@ class Mouse {
         }
 
         bool isValidKey(int key) {
-            if (key >= 0 && key < supportedButtons) {
-                return true;
-            } else {
-                return false;
-            } 
+            return (key >= 0 && key < supportedButtons)? true: false;
         }
 
     public:
