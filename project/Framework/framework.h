@@ -10,6 +10,11 @@
 #include "Time/Time.h"
 
 /*--------------------
+|   Input classes    |
+--------------------*/
+#include "Input/Mouse/Mouse.h"
+
+/*--------------------
 | 3D related classes |
 --------------------*/
 #include "Object3D/Transform/Transform.h"
