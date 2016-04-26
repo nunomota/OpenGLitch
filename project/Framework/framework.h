@@ -5,6 +5,11 @@
 #include "Debugging/Reporter/Reporter.h"
 
 /*--------------------
+|     Time class     |
+--------------------*/
+#include "Time/Time.h"
+
+/*--------------------
 | 3D related classes |
 --------------------*/
 #include "Object3D/Transform/Transform.h"
