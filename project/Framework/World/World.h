@@ -89,4 +89,8 @@ class World {
         void Terminate() {
             cleanupObjects();
         }
+
+        void setKeyState(int key, bool state) {
+            // TODO store these values in an array
+        }
 };
