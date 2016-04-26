@@ -65,6 +65,10 @@ class World {
             return main_camera;
         }
 
+        static Time getTime() {
+            return worldTime;
+        }
+
         static void Start() {
             areObjectsUninitialized = false;
             worldTime.Init();
