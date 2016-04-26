@@ -42,44 +42,51 @@ class World {
             objects.clear();
             are_objects_uninitialized = false;
         }
-
-    public:
-        static void addObject(Object3D* new_object) {
+    protected:
+        Object3D* instantiate(Object3D* new_object) {
             if (new_object) {
                 uninitialized.push_back(new_object);
                 are_objects_uninitialized = true;
             }
+            return new_object;
         }
 
-        static void removeObject(Object3D* target_object) {
+        void destroy(Object3D* target_object) {
+            // TODO make sure memory is being 'destroyed', avoiding memory leaks
             uninitialized.erase(std::remove(uninitialized.begin(), uninitialized.end(), target_object), uninitialized.end());
             objects.erase(std::remove(objects.begin(), objects.end(), target_object), objects.end());
             if (uninitialized.empty()) are_objects_uninitialized = false;
         }
 
-        static void setCamera(Camera* camera) {
+        void setCamera(Camera* camera) {
             if (camera) main_camera = camera;
         }
 
-        static Camera* getCamera() {
+        Camera* getCamera() {
             return main_camera;
         }
 
-        static Time getTime() {
+        Time getTime() {
             return world_time;
         }
 
-        static void Start() {
+        virtual void Start() {};
+        virtual void Update() {};
+
+    public:
+        void Init() {
             are_objects_uninitialized = false;
             world_time.Init();
+            Start();
         }
 
-        static void Update() {
+        void Display() {
             if (are_objects_uninitialized) initializeObjects();
             world_time.Update();
+            Update();
         }
 
-        static void Terminate() {
+        void Terminate() {
             cleanupObjects();
         }
 };
