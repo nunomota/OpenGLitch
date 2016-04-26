@@ -10,7 +10,7 @@ class World {
 
     public:
         static void addObject(Object3D* new_object) {
-            if (new_object != NULL) uninitialized.push_back(new_object);
+            if (new_object) uninitialized.push_back(new_object);
         }
 
         static void removeObject(Object3D* target_object) {
@@ -18,7 +18,7 @@ class World {
         }
 
         static void setCamera(Camera* camera) {
-            if (camera != NULL) main_camera = camera;
+            if (camera) main_camera = camera;
         }
 
         static Camera* getCamera() {
@@ -28,7 +28,7 @@ class World {
         static void Init() {
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
                 Object3D* object = (*it);
-                if(object != NULL) {
+                if(object) {
                     object->Init();
                     objects.push_back(object);
                 }
@@ -39,7 +39,7 @@ class World {
         static void Draw() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
-                if(object != NULL) {
+                if(object) {
                     object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
                 }
             }
@@ -48,8 +48,8 @@ class World {
         static void Cleanup() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
-                if (object != NULL) object->Cleanup();
+                if (object) object->Cleanup();
             }
-            if (main_camera != NULL) main_camera->Cleanup();
+            if (main_camera) main_camera->Cleanup();
         }
 };
