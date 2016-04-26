@@ -8,8 +8,8 @@ class World {
         static std::vector<Object3D*> objects;
         static Camera* main_camera;
 
-        static Time worldTime;
-        static bool areObjectsUninitialized;
+        static Time world_time;
+        static bool are_objects_uninitialized;
 
         static void initializeObjects() {
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
@@ -20,7 +20,7 @@ class World {
                 }
             }
             uninitialized.clear();
-            areObjectsUninitialized = false;
+            are_objects_uninitialized = false;
         }
 
         static void drawObjects() {
@@ -40,21 +40,21 @@ class World {
             if (main_camera) main_camera->Cleanup();
             uninitialized.clear();
             objects.clear();
-            areObjectsUninitialized = false;
+            are_objects_uninitialized = false;
         }
 
     public:
         static void addObject(Object3D* new_object) {
             if (new_object) {
                 uninitialized.push_back(new_object);
-                areObjectsUninitialized = true;
+                are_objects_uninitialized = true;
             }
         }
 
         static void removeObject(Object3D* target_object) {
             uninitialized.erase(std::remove(uninitialized.begin(), uninitialized.end(), target_object), uninitialized.end());
             objects.erase(std::remove(objects.begin(), objects.end(), target_object), objects.end());
-            if (uninitialized.empty()) areObjectsUninitialized = false;
+            if (uninitialized.empty()) are_objects_uninitialized = false;
         }
 
         static void setCamera(Camera* camera) {
@@ -66,17 +66,17 @@ class World {
         }
 
         static Time getTime() {
-            return worldTime;
+            return world_time;
         }
 
         static void Start() {
-            areObjectsUninitialized = false;
-            worldTime.Init();
+            are_objects_uninitialized = false;
+            world_time.Init();
         }
 
         static void Update() {
-            if (areObjectsUninitialized) initializeObjects();
-            worldTime.Update();
+            if (are_objects_uninitialized) initializeObjects();
+            world_time.Update();
         }
 
         static void Terminate() {
