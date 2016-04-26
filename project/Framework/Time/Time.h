@@ -8,19 +8,19 @@ class Time {
         double deltaTime;
 
     public:
-        static void Init() {
+        void Init() {
             cur_time = glfwGetTime();
             prev_time = glfwGetTime();
             deltaTime = 0.0f;
         }
 
-        static void Update() {
+        void Update() {
             prev_time = cur_time;
             cur_time = glfwGetTime();
             deltaTime = cur_time - prev_time;
         }
 
-        static float DeltaTime() {
+        float DeltaTime() {
             return (float)deltaTime;
         }
 };
