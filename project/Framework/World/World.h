@@ -39,6 +39,7 @@ class World {
             if (main_camera) main_camera->Cleanup();
             uninitialized.clear();
             objects.clear();
+            areObjectsUninitialized = false;
         }
 
     public:
@@ -50,7 +51,9 @@ class World {
         }
 
         static void removeObject(Object3D* target_object) {
-            // TODO remove target_object from LL
+            uninitialized.erase(std::remove(uninitialized.begin(), uninitialized.end(), target_object), uninitialized.end());
+            objects.erase(std::remove(objects.begin(), objects.end(), target_object), objects.end());
+            if (uninitialized.empty()) areObjectsUninitialized = false;
         }
 
         static void setCamera(Camera* camera) {
