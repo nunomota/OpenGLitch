@@ -31,8 +31,8 @@ class Mouse {
         }
 
     public:
-        static const int LEFT_BUTTON = 0;
-        static const int RIGHT_BUTTON = 1;
+        static const int RIGHT_BUTTON = 0;
+        static const int LEFT_BUTTON = 1;
 
         Mouse() {
             initButtonValues();
