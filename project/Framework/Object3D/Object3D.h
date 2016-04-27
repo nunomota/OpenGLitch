@@ -20,6 +20,7 @@ class Object3D {
         bool is_initialized_ = false;
 
         Transform transform;    // Object-specific Transform
+        Renderer renderer;      // Object-specific Renderer
 
     public:
         // constructor
