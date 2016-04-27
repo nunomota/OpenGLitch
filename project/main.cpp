@@ -6,9 +6,11 @@
 #include "icg_helper.h"
 #include "Framework/framework.h"
 
-using namespace glm;
-
 WorldInstance world;
+int window_width = 800;
+int window_height = 600;
+
+using namespace glm;
 
 // gets called once at the beggining
 void Init() {
