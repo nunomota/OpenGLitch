@@ -73,10 +73,16 @@ class World {
             return world_time;
         }
 
+        bool getMouseButtonDown(int key) {
+            return mouse.getState(key);
+        }
+
+        bool getKeyDown(int key) {
+            return keyboard.getState(key);
+        }
+
         virtual void Start() {};
         virtual void Update() {};
-        virtual void getMouseButtonDown(int key) {};
-        virtual void getKeyDown(int key) {};
 
     public:
         void Init() {
