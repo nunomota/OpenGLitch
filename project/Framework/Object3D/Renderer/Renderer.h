@@ -5,6 +5,7 @@
 class Renderer {
     private:
         bool is_enabled;
+        Material material;
 
     public:
         Renderer() {
@@ -17,5 +18,13 @@ class Renderer {
 
         void setState(bool new_state) {
             is_enabled = new_state;
+        }
+
+        void setMaterial(Material new_material) {
+            material = new_material;
+        }
+
+        Material getMaterial() {
+            return material;
         }
 }
