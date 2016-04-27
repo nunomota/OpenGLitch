@@ -80,6 +80,7 @@ class World {
         bool getMouseButtonPressed(int key) {
             bool state = mouse.getState(key);
             mouse.setState(key, false);
+            // TODO add a click timer to not allow the value to be true for a while
             return state;
         }
 
@@ -90,6 +91,7 @@ class World {
         bool getKeyPressed(int key) {
             bool state = keyboard.getState(key);
             keyboard.setState(key, false);
+            // TODO add a click timer to not allow the value to be true for a while
             return state;
         }
 
