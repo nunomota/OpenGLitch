@@ -4,7 +4,7 @@
 
 // contains helper functions such as shader compiler
 #include "icg_helper.h"
-#include "Framework/framework.h"
+#include "../framework.h"
 
 WorldInstance world;
 int window_width = 800;
