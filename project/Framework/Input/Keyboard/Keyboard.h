@@ -4,7 +4,7 @@
 
 class Keyboard {
     private:
-        static const int clickYieldSeconds = 1;
+        static const int clickYieldMiliSeconds = 500;
         static const int supportedKeys = 26;
         static const int startingKeyIndex = 65;
         bool keys[supportedKeys];
@@ -23,7 +23,9 @@ class Keyboard {
 
         bool isClickAvailable(int key, float timeStamp) {
             if (isValidKey(key)) {
-                return ((timeStamp - keyDownTimeStamp[key]) >= (float)clickYieldSeconds && keys[key])?true:false;
+                float minimum_time_diff = (float)clickYieldMiliseconds/1000.0f;
+                float time_diff = timeStamp - keyDownTimeStamp[key];
+                return (time_diff >= minimum_time_diff && keys[key])?true:false;
             }
             return false;
         }
