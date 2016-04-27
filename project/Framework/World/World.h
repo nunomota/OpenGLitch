@@ -32,8 +32,10 @@ class World {
         void drawObjects() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
-                if(object && main_camera && object->getRenderer()->getState()) {
-                    object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                if(object && main_camera) {
+                    if (object->getRenderer()->getState()) {
+                        object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                    }
                 }
             }
         }
