@@ -4,18 +4,28 @@
 
 class Keyboard {
     private:
+        static const int clickYieldSeconds = 1;
         static const int supportedKeys = 26;
         static const int startingKeyIndex = 65;
         bool keys[supportedKeys];
+        float keyDownTimeStamp[supportedKeys];
 
         void initKeyValues() {
             for (int i = 0; i < supportedKeys; i++) {
                 keys[i] = false;
+                keyDownTimeStamp[i] = 0.0f;
             }
         }
 
         bool isValidKey(int key) {
             return (key >= 0 && key < supportedKeys)? true: false;
+        }
+
+        bool isClickAvailable(int key, float timeStamp) {
+            if (isValidKey(key)) {
+                return ((timeStamp - keyDownTimeStamp[key]) >= (float)clickYieldSeconds && keys[key])?true:false;
+            }
+            return false;
         }
 
     public:
@@ -52,12 +62,18 @@ class Keyboard {
 
         void setState(int key, bool state) {
             int new_key = key-startingKeyIndex;
-            if (isValidKey(new_key)) {
-                keys[new_key] = state;
-            }
+            if (isValidKey(new_key)) keys[new_key] = state;
         }
 
-        bool getState(int key) {
+        bool getDownState(int key) {
             return (isValidKey(key))? keys[key]:false;
+        }
+
+        bool getPressedState(int key, float timeStamp) {
+            if (isClickAvailable(key, timeStamp)) {
+                keyDownTimeStamp[key] = timeStamp;
+                return keys[key];
+            }
+            return false;
         }
 };

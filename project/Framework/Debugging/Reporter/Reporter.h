@@ -10,7 +10,7 @@
 class Reporter {
     private:
         static GlmStrings glm_strings_;
-        static const bool is_enabled = false;
+        static const bool is_enabled = true;
 
         static void output(std::string message, std::string flag) {
             if (is_enabled) {

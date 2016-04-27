@@ -121,14 +121,11 @@ class World {
         }
 
         bool getKeyDown(int key) {
-            return keyboard.getState(key);
+            return keyboard.getDownState(key);
         }
 
         bool getKeyPressed(int key) {
-            bool state = keyboard.getState(key);
-            keyboard.setState(key, false);
-            // TODO add a click timer to not allow the value to be true for a while
-            return state;
+            return keyboard.getPressedState(key, world_time.getCurrentTime());;
         }
 
         virtual void Start() {};

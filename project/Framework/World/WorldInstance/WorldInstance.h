@@ -47,11 +47,13 @@ class WorldInstance: public World {
         // method called every frame
         void Update() {
             if (getKeyDown(Keyboard::A)) {
-                setCamera(camera);
+                Reporter::println("A is being held down");
+                //setCamera(camera);
             }
 
             if (getKeyPressed(Keyboard::B)) {
-                setCamera(camera2);
+                Reporter::println("B was pressed");
+                //setCamera(camera2);
             }
 
             if (getKeyPressed(Keyboard::C)) {
