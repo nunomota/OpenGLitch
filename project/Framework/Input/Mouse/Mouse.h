@@ -29,7 +29,7 @@ class Mouse {
         void setState(int key, bool state) {
             int new_key = key-startingKeyIndex;
             if (isValidKey(new_key)) {
-                buttons[key] = state;
+                buttons[new_key] = state;
             }
         }
 

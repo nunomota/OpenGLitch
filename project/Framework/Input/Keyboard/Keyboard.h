@@ -53,7 +53,7 @@ class Keyboard {
         void setState(int key, bool state) {
             int new_key = key-startingKeyIndex;
             if (isValidKey(new_key)) {
-                keys[key] = state;
+                keys[new_key] = state;
             }
         }
 
