@@ -2,6 +2,8 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
+using namespace glm;
+
 class WorldInstance: public World {
     private:
         Camera* camera;
@@ -20,20 +22,20 @@ class WorldInstance: public World {
             cube3 = instantiate(new Cube());
             setCamera(camera);
 
-            camera->translate(glm::vec3(0.0f, 0.0f, 8.0f));
-            camera->scale(glm::vec3(-0.2f, -0.2f, -0.2f));
+            camera->translate(vec3(0.0f, 0.0f, 8.0f));
+            camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
-            cube->scale(glm::vec3(-0.5f, -0.5f, -0.5f));
-            cube->translate(glm::vec3(0.0f, 0.0f, -2.0f));
-            cube->rotate(glm::vec3(45.0f, 45.0f, 0.0f));
+            cube->scale(vec3(-0.5f, -0.5f, -0.5f));
+            cube->translate(vec3(0.0f, 0.0f, -2.0f));
+            cube->rotate(vec3(45.0f, 45.0f, 0.0f));
 
-            cube2->scale(glm::vec3(-0.5f, -0.5f, -0.5f));
-            cube2->translate(glm::vec3(-2.0f, 0.0f, -2.0f));
-            cube2->rotate(glm::vec3(-45.0f, 0.0f, 0.0f));
+            cube2->scale(vec3(-0.5f, -0.5f, -0.5f));
+            cube2->translate(vec3(-2.0f, 0.0f, -2.0f));
+            cube2->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
-            cube3->scale(glm::vec3(-0.5f, -0.5f, -0.5f));
-            cube3->translate(glm::vec3(2.0f, 0.0f, -2.0f));
-            cube3->rotate(glm::vec3(45.0f, 0.0f, 0.0f));
+            cube3->scale(vec3(-0.5f, -0.5f, -0.5f));
+            cube3->translate(vec3(2.0f, 0.0f, -2.0f));
+            cube3->rotate(vec3(45.0f, 0.0f, 0.0f));
         }
 
         // method called every frame
@@ -45,8 +47,9 @@ class WorldInstance: public World {
             if (getKeyPressed(Keyboard::B)) {
                 Reporter::println("B was pressed");
             }
-            cube->rotate(glm::vec3(20.0f, 0.0f, 0.0f) * getTime().DeltaTime());
-            cube2->rotate(glm::vec3(0.0f, 25.0f, 0.0f) * getTime().DeltaTime());
-            cube3->rotate(glm::vec3(0.0f, 0.0f, 30.0f) * getTime().DeltaTime());
+
+            cube->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime().DeltaTime());
+            cube2->rotate(vec3(0.0f, 25.0f, 0.0f) * getTime().DeltaTime());
+            cube3->rotate(vec3(0.0f, 0.0f, 30.0f) * getTime().DeltaTime());
         }    
 };
