@@ -31,21 +31,31 @@ class World {
         void drawObjects() {
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
-                if(object) {
+                if(object && main_camera) {
                     object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
                 }
             }
         }
 
         void cleanupObjects() {
+            Reporter::println("Cleaning up objects", "World");
+            for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    delete object;
+                }
+            }
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
-                if (object) object->Cleanup();
+                if (object) {
+                    object->Cleanup();
+                    delete object;
+                }
             }
-            if (main_camera) main_camera->Cleanup();
             uninitialized.clear();
             objects.clear();
             are_objects_uninitialized = false;
+            Reporter::println("All objects cleaned up", "World");
         }
     protected:
         template <typename Object>
