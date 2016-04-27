@@ -13,6 +13,7 @@
 |   Input classes    |
 --------------------*/
 #include "Input/Mouse/Mouse.h"
+#include "Input/Keyboard/Keyboard.h"
 
 /*--------------------
 | 3D related classes |
