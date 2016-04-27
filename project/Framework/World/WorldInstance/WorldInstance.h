@@ -13,7 +13,11 @@ class WorldInstance: public World {
         // method called every frame
         void Update() {
             if (getKeyDown(Keyboard::A)) {
-                Reporter::println("A was pressed");
+                Reporter::println("A is being pressed");
+            }
+
+            if (getKeyPressed(Keyboard::B)) {
+                Reporter::println("B was pressed");
             }
         }    
 };
