@@ -23,4 +23,8 @@ class Time {
         float getDeltaTime() {
             return (float)deltaTime;
         }
+
+        float getCurrentTime() {
+            return (float)cur_time;
+        }
 };
