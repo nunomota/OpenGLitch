@@ -110,14 +110,11 @@ class World {
         }
 
         bool getMouseButtonDown(int key) {
-            return mouse.getState(key);
+            return mouse.getDownState(key);
         }
 
         bool getMouseButtonPressed(int key) {
-            bool state = mouse.getState(key);
-            mouse.setState(key, false);
-            // TODO add a click timer to not allow the value to be true for a while
-            return state;
+            return mouse.getPressedState(key, world_time.getCurrentTime());
         }
 
         bool getKeyDown(int key) {

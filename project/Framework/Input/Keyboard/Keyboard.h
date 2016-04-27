@@ -4,7 +4,7 @@
 
 class Keyboard {
     private:
-        static const int clickYieldMiliseconds = 500;
+        static const int clickYieldMiliseconds = 250;
         static const int supportedKeys = 26;
         static const int startingKeyIndex = 65;
         bool keys[supportedKeys];
