@@ -38,7 +38,7 @@ void SetupProjection(GLFWwindow* window, int width, int height) {
     cout << "Window has been resized to "
          << window_width << "x" << window_height << "." << endl;
 
-    world.setAspectRatio(window_width/window_height);
+    world.setAspectRatio((float)window_width/(float)window_height);
     glViewport(0, 0, window_width, window_height);
 }
 
