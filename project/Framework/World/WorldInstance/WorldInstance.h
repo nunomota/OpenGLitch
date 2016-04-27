@@ -7,13 +7,13 @@ class WorldInstance: public World {
 
         // method called only once
         void Start() {
-
+            Reporter::println("Start method called");
         }
 
         // method called every frame
         void Update() {
-            if (getKeyPressed(0)) {
-                Reporter::println("A was pressed", "Keyboard");
+            if (getKeyDown(Keyboard::A)) {
+                Reporter::println("A was pressed");
             }
         }    
 };
