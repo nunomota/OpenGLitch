@@ -71,9 +71,26 @@ class World {
         }
 
         void destroy(Object3D* target_object) {
-            // TODO make sure memory is being 'destroyed', avoiding memory leaks
-            uninitialized.erase(std::remove(uninitialized.begin(), uninitialized.end(), target_object), uninitialized.end());
-            objects.erase(std::remove(objects.begin(), objects.end(), target_object), objects.end());
+            std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
+            for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    object->Cleanup();
+                    delete object;
+                }
+            }
+            uninitialized.erase(uninitialized_delete_index, uninitialized.end());
+
+            std::vector<Object3D*>::iterator objects_delete_index = std::remove(objects.begin(), objects.end(), target_object);
+            for (std::vector<Object3D*>::iterator it = objects_delete_index; it != objects.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    object->Cleanup();
+                    delete object;
+                }
+            }
+            objects.erase(objects_delete_index, objects.end());
+
             if (uninitialized.empty()) are_objects_uninitialized = false;
         }
 
