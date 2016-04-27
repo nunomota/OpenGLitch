@@ -7,6 +7,7 @@ using namespace glm;
 class WorldInstance: public World {
     private:
         Camera* camera;
+        Camera* camera2;
         Cube* cube;
         Cube* cube2;
         Cube* cube3;
@@ -17,6 +18,7 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
             cube = instantiate(new Cube());
             cube2 = instantiate(new Cube());
             cube3 = instantiate(new Cube());
@@ -24,6 +26,10 @@ class WorldInstance: public World {
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
+
+            camera2->translate(vec3(-2.0f, 0.0f, 8.0f));
+            camera2->rotate(vec3(0.0f, -45.0f, 0.0f));
+            camera2->scale(vec3(-0.2f, -0.2f, -0.2f));
 
             cube->scale(vec3(-0.5f, -0.5f, -0.5f));
             cube->translate(vec3(0.0f, 0.0f, -2.0f));
@@ -41,11 +47,11 @@ class WorldInstance: public World {
         // method called every frame
         void Update() {
             if (getKeyDown(Keyboard::A)) {
-                Reporter::println("A is being pressed");
+                setCamera(camera);
             }
 
             if (getKeyPressed(Keyboard::B)) {
-                Reporter::println("B was pressed");
+                setCamera(camera2);
             }
 
             cube->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime().DeltaTime());
