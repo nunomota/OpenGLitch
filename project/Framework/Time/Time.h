@@ -20,7 +20,7 @@ class Time {
             deltaTime = cur_time - prev_time;
         }
 
-        float DeltaTime() {
+        float getDeltaTime() {
             return (float)deltaTime;
         }
 };
