@@ -105,8 +105,8 @@ class World {
             return main_camera;
         }
 
-        Time getTime() {
-            return world_time;
+        Time* getTime() {
+            return &world_time;
         }
 
         bool getMouseButtonDown(int key) {
