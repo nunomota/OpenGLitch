@@ -23,14 +23,6 @@ void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void MouseButton(GLFWwindow* window, int button, int action, int mod) {
-    if (action == GLFW_PRESS) {
-        world.setMouseButtonState(button, true);
-    } else if (action == GLFW_RELEASE) {
-        world.setMouseButtonState(button, false);
-    }
-}
-
 void MousePos(GLFWwindow* window, double x, double y) {
     // called for mouse position update
 }
@@ -62,6 +54,14 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     }
 }
 
+void MouseButton(GLFWwindow* window, int button, int action, int mod) {
+    if (action == GLFW_PRESS) {
+        world.setMouseButtonState(button, true);
+    } else if (action == GLFW_RELEASE) {
+        world.setMouseButtonState(button, false);
+    }
+}
+
 
 int main(int argc, char *argv[]) {
     // GLFW Initialization
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
     // note some Intel GPUs do not support OpenGL 3.2
     // note update the driver of your graphic card
     GLFWwindow* window = glfwCreateWindow(window_width, window_height,
-                                          "Trackball", NULL, NULL);
+                                          "World", NULL, NULL);
     if(!window) {
         glfwTerminate();
         return EXIT_FAILURE;
