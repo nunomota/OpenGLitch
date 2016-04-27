@@ -27,4 +27,4 @@ class Renderer {
         Material getMaterial() {
             return material;
         }
-}
+};
