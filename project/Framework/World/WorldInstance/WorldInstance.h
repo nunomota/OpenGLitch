@@ -56,6 +56,10 @@ class WorldInstance: public World {
                 //setCamera(camera2);
             }
 
+            if (getMouseButtonPressed(Mouse::LEFT_BUTTON)) {
+                Reporter::println("Mouse left was pressed");
+            }
+
             if (getKeyPressed(Keyboard::C)) {
                 Renderer* cube_renderer = cube->getRenderer();
                 cube_renderer->setState(!cube_renderer->getState());
