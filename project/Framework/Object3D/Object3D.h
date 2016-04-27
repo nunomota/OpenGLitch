@@ -47,8 +47,12 @@ class Object3D {
             transform.setScale(current_scale + scaling_vector);
         }
 
-        Transform getTransform() {
-            return transform;
+        Transform* getTransform() {
+            return &transform;
+        }
+
+        Renderer* getRenderer() {
+            return &renderer;
         }
 
         virtual void Init() {}
