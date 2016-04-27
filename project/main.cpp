@@ -4,7 +4,7 @@
 
 // contains helper functions such as shader compiler
 #include "icg_helper.h"
-#include "../framework.h"
+#include "Framework/framework.h"
 
 using namespace glm;
 
