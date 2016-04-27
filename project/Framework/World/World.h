@@ -75,8 +75,8 @@ class World {
 
         virtual void Start() {};
         virtual void Update() {};
-        virtual void getMouseButtonDown() {};
-        virtual void getKeyDown() {};
+        virtual void getMouseButtonDown(int key) {};
+        virtual void getKeyDown(int key) {};
 
     public:
         void Init() {
