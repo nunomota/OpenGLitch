@@ -54,6 +54,11 @@ class WorldInstance: public World {
                 setCamera(camera2);
             }
 
+            if (getKeyPressed(Keyboard::C)) {
+                Renderer* cube_renderer = cube->getRenderer();
+                cube_renderer->setState(!cube_renderer->getState());
+            }
+
             cube->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime().DeltaTime());
             cube2->rotate(vec3(0.0f, 25.0f, 0.0f) * getTime().DeltaTime());
             cube3->rotate(vec3(0.0f, 0.0f, 30.0f) * getTime().DeltaTime());
