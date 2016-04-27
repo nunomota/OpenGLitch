@@ -18,8 +18,8 @@
 /*--------------------
 | 3D related classes |
 --------------------*/
-#include "Object3D/Renderer/Renderer.h"
 #include "Object3D/Renderer/Material/Material.h"
+#include "Object3D/Renderer/Renderer.h"
 #include "Object3D/Transform/Transform.h"
 #include "Object3D/Object3D.h"
 #include "Object3D/PhysicalObject/PhysicalObject.h"
