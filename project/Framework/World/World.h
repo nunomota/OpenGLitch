@@ -15,6 +15,7 @@ class World {
         bool are_objects_uninitialized;
 
         void initializeObjects() {
+            Reporter::println("Objects being initialized", "World");
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
                 Object3D* object = (*it);
                 if(object) {
@@ -24,6 +25,7 @@ class World {
             }
             uninitialized.clear();
             are_objects_uninitialized = false;
+            Reporter::println("All objects initialized", "World");
         }
 
         void drawObjects() {
@@ -46,8 +48,8 @@ class World {
             are_objects_uninitialized = false;
         }
     protected:
-        template <typename T>
-        T* instantiate(T* new_object) {
+        template <typename Object>
+        Object* instantiate(Object* new_object) {
             if (new_object) {
                 uninitialized.push_back(new_object);
                 are_objects_uninitialized = true;

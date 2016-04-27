@@ -9,8 +9,8 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             Cube* cube = instantiate(new Cube());
-            (*cube).translate(glm::vec3(0.0f, 0.0f, -4.0f));
-            (*cube).rotate(glm::vec3(0.0f, 45.0f, 45.0f));
+            //(*cube).translate(glm::vec3(0.0f, 0.0f, -4.0f));
+            //(*cube).rotate(glm::vec3(0.0f, 45.0f, 45.0f));
         }
 
         // method called every frame
