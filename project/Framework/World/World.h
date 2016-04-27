@@ -107,6 +107,7 @@ class World {
 
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
+            drawObjects();
             world_time.Update();
             Update();
         }
