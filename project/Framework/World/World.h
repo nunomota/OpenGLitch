@@ -77,8 +77,20 @@ class World {
             return mouse.getState(key);
         }
 
+        bool getMouseButtonPressed(int key) {
+            bool state = mouse.getState(key);
+            mouse.setState(key, false);
+            return state;
+        }
+
         bool getKeyDown(int key) {
             return keyboard.getState(key);
+        }
+
+        bool getKeyPressed(int key) {
+            bool state = keyboard.getState(key);
+            keyboard.setState(key, false);
+            return state;
         }
 
         virtual void Start() {};
