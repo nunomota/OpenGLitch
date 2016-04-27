@@ -46,7 +46,8 @@ class World {
             are_objects_uninitialized = false;
         }
     protected:
-        Object3D* instantiate(Object3D* new_object) {
+        template <typename T>
+        T* instantiate(T* new_object) {
             if (new_object) {
                 uninitialized.push_back(new_object);
                 are_objects_uninitialized = true;
