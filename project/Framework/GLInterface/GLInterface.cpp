@@ -4,11 +4,13 @@
 
 // contains helper functions such as shader compiler
 #include "icg_helper.h"
-#include "../framework.h"
-
-using namespace glm;
+#include "Framework/framework.h"
 
 WorldInstance world;
+int window_width = 800;
+int window_height = 600;
+
+using namespace glm;
 
 // gets called once at the beggining
 void Init() {
@@ -48,9 +50,9 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         glfwSetWindowShouldClose(window, GL_TRUE);
     } else {
         if (action == GLFW_PRESS) {
-            world.setKeyState(int key, true);
+            world.setKeyState(key, true);
         } else if (action == GLFW_RELEASE) {
-            world.setKeyState(int key, false);
+            world.setKeyState(key, false);
         }
     }
 }
