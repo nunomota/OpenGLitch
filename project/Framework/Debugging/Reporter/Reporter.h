@@ -10,11 +10,14 @@
 class Reporter {
     private:
         static GlmStrings glm_strings_;
+        static const bool is_enabled = false;
 
         static void output(std::string message, std::string flag) {
-            std::ostringstream final_message;
-            final_message << '[' << flag << ']' << " " << message;
-            std::cout << final_message.str() << std::endl;
+            if (is_enabled) {
+                std::ostringstream final_message;
+                final_message << '[' << flag << ']' << " " << message;
+                std::cout << final_message.str() << std::endl;
+            }
         }
 
     public:
@@ -43,10 +46,10 @@ class Reporter {
         }
 
         static void print_special(std::string message) {
-            std::cout << message << std::endl;
+            if (is_enabled) std::cout << message << std::endl;
         }
 
         static void new_line() {
-            std::cout << std::endl;
+            if (is_enabled) std::cout << std::endl;
         }
 };
