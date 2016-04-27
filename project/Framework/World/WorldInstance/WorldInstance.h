@@ -56,11 +56,11 @@ class WorldInstance: public World {
                 //setCamera(camera2);
             }
 
-            if (getMouseButtonPressed(Mouse::RIGHT_BUTTON)) {
+            if (getMouseButtonPressed(Mouse::RIGHT)) {
                 Reporter::println("Mouse right was pressed");
             }
 
-            if (getMouseButtonPressed(Mouse::LEFT_BUTTON)) {
+            if (getMouseButtonPressed(Mouse::LEFT)) {
                 Reporter::println("Mouse left was pressed");
             }
 
