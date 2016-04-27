@@ -1,10 +1,10 @@
 #version 330 core
+#define M_PI 3.14
 
 in vec2 uv;
-
 uniform float tex_width;
 uniform float tex_height;
-
+uniform sampler1D texture_1d_id_;
 out vec3 color;
 
 int p[512] = int[](151,160,137,91,90,15,
@@ -33,107 +33,114 @@ int p[512] = int[](151,160,137,91,90,15,
 49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
 138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180);
 
+// gradient vectors
+vec2 g[8] = vec2[](vec2(0.0,1.0),
+                   vec2(1.0,1.0),
+                   vec2(1.0,0.0),
+                   vec2(1.0,-1.0),
+                   vec2(0.0,-1.0),
+                   vec2(-1.0,-1.0),
+                   vec2(-1.0,0.0),
+                   vec2(-1.0,1.0)
+                   );
 
-vec2 gradients[8] = vec2[](vec2(0.0,1.0),
-                     vec2(1.0,1.0),
-                     vec2(1.0,0.0),
-                     vec2(1.0,-1.0),
-                     vec2(0.0,-1.0),
-                     vec2(-1.0,-1.0),
-                     vec2(-1.0,0.0),
-                     vec2(-1.0,1.0)
-                     );
 
-int permutation(int pos){return p[pos];}
+int PERMUTATION(int pos){pos = pos % 512; return p[pos];}
 
-float fade(float t){return t * t * t * (t * (t * 6 - 15) + 10);}
-//float fade(float t){return t * t * (3.0 - 2.0 * t);} // classic perlin noise interpolation
+float FADE(float t){return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);}
+//float FADE(float t){return (6 * t * t * t * t * t) - (15.0 * t * t * t * t) + (10.0 * t * t * t);}
 
-vec2 grad(int index){
+float TEX_1D(float coord){return float(texture(texture_1d_id_, coord));}
+
+//float FADE(float t){return t * t * (3.0 - 2.0 * t);} // classic perlin noise curve
+vec2 GRAD(int index){
    index = index % 8;
-   return gradients[index];}
+   return g[index];}
 
-float perlin_noise(vec2 uv){
-   float N = 800; // number of tiles in each dimension
+/*vec2 GRAD(int index){
+   return g[1];
+ }
+*/
 
-   vec2 grads[4];
-   vec2 difference_vectors[4];
-   float dot_products[4];
+float MIXER(float x, float y, float alpha){return (1.0-alpha) * x + alpha * y;}
 
-   // 1.1 check which tile the coordinate is inside
-   vec2 uv_norms = uv;
+float PERLIN_NOISE(vec2 uv){
 
-   float norm_x = uv_norms.x;
-   float norm_y = uv_norms.y;
+  float num_of_tiles = 20.0;
+  // 1.1 check which tile the coordinate is inside
+  float x = uv.x * num_of_tiles;
+  float y = uv.y * num_of_tiles;
 
-   float tile_width = 1.0/N;
-   float tile_height = 1.0/N;
+  // 1.2 for all corners, calculate the gradients
+  // x and y component for bottom left corner
+  float bl_x = floor(x);
+  float bl_y = floor(y);
+  vec2 bl_corner = vec2(bl_x, bl_y);   
+  
+  // tile corners
+  vec2 a_corner = bl_corner;
+  vec2 b_corner = bl_corner + vec2(1.0,0.0);
+  vec2 c_corner = bl_corner + vec2(0.0,1.0);
+  vec2 d_corner = bl_corner + vec2(1.0,1.0);
 
-   // 1.2 for all corners, calculate the gradients
-   vec2 corners[4] = vec2[](vec2(0.0,0.0),
-                  vec2(1.0/N,0.0),
-                  vec2(0.0,1.0/N),
-                  vec2(1.0/N,1.0/N));
+  // difference vector
+  vec2 a = vec2(x,y) - a_corner;
+  vec2 b = vec2(x,y) - b_corner;
+  vec2 c = vec2(x,y) - c_corner;
+  vec2 d = vec2(x,y) - d_corner;
 
-   int random_int = 0;
+  // get random integer from by converting the coordinates to a 1d array. 
+  int ra = PERMUTATION(int(a_corner.x + (num_of_tiles * a_corner.y) * 512 / (num_of_tiles * num_of_tiles)));
+  int rb = PERMUTATION(int(b_corner.x + (num_of_tiles * b_corner.y) * 512 / (num_of_tiles * num_of_tiles)));
+  int rc = PERMUTATION(int(c_corner.x + (num_of_tiles * c_corner.y) * 512 / (num_of_tiles * num_of_tiles)));
+  int rd = PERMUTATION(int(d_corner.x + (num_of_tiles * d_corner.y) * 512 / (num_of_tiles * num_of_tiles)));
 
-   // x and y component for bottom left corner   
-   float bl_x = float(floor(norm_x/tile_width) * tile_width);
-   float bl_y = float(floor(norm_y/tile_height) * tile_height);
+  // angles
+  float ga_y = TEX_1D(ra / 255.0);
+  float gb_y = TEX_1D(rb / 255.0);
+  float gc_y = TEX_1D(rc / 255.0);
+  float gd_y = TEX_1D(rd / 255.0);
+ 
+  vec2 ga = vec2(sin(ga_y), cos(ga_y));
+  vec2 gb = vec2(sin(gb_y), cos(gb_y));
+  vec2 gc = vec2(sin(gc_y), cos(gc_y));
+  vec2 gd = vec2(sin(gd_y), cos(gd_y)); 
 
-   // check if point is on boundary
-   if(norm_x == 1.0){
-      bl_x = 1.0-tile_width;
-   }
-   if(norm_y == 1.0){
-      bl_y = 1.0-tile_height;
-   }
-   vec2 bl_corner = vec2(bl_x,bl_y);
+  vec2 gr = vec2(1.0,1.0);
+  float s = dot(a, normalize(ga));
+  float t = dot(b, normalize(gb));
+  float u = dot(c, normalize(gc));
+  float v = dot(d, normalize(gd));
 
-   vec2 current_corner;
-   // for every corner, calculate gradient vector
-   for(int i = 0; i<4; i++){
-      current_corner = bl_corner + corners[i];
-      random_int = permutation(int(current_corner.x * 255));
-      random_int = permutation(int(current_corner.y * 255) + random_int);
+  // 1.4 do the mixing and fading (interpolation)
+  float fx = FADE(fract(x));
+  float fy = FADE(fract(y));
 
-      grads[i] = grad(random_int);
-      // 1.3 calculate distance vector from corners to point. 
-      difference_vectors[i] = vec2(norm_x,norm_y) - current_corner; // point minus corner
+  float s_t = MIXER(s,t,fx);
+  float u_v = MIXER(u,v,fx);
+  float noise = MIXER(s_t,u_v,fy);
 
-      dot_products[i] = dot(normalize(difference_vectors[i]),normalize(grads[i]));
-   }
-
-   // 1.4 do the mixing and fading (interpolation)
-   float fx = fade(norm_x);
-   float fy = fade(norm_y);
-
-   float s_t = mix(dot_products[0],dot_products[1],fx);
-   float u_v = mix(dot_products[2],dot_products[3],fx);
-   float noise = mix(s_t,u_v,fy);
-   return noise;
+  return noise;
 }
-
 
 void main() {
 
-   float noise = perlin_noise(uv);
-   int num_octaves = 5;
+   float noise = PERLIN_NOISE(uv);
+   int num_octaves = 4;
 
    // fBm
-   float amp = 0.5;
+   float H = 0.5;
    float total = 0.0;
    float freq = 2.0; // start with small frequence
    float gain = 0.5; //  multiply amp by this after each octave
    float lacunarity = 2.1042; // multiply frequency with this after each octave
+   vec2 point = uv;
 
    for(int i = 0; i<num_octaves; i++){
-      total = total + amp * perlin_noise(uv * freq);
-      amp * 0.5;
-      freq = freq * lacunarity;
+      total += PERLIN_NOISE(point) * pow(lacunarity, -H*i);
+      point = point * lacunarity;
    }
 
 
-   color = vec3(noise,noise,noise);
-   //color = vec3(total,total,total);
+   color = vec3(total,total,total); // without fBM
 }

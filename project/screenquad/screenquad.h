@@ -1,6 +1,10 @@
 #pragma once
 #include "icg_helper.h"
 
+// setup 1D color texture
+#define NB_COLOR 2
+GLfloat tex[NB_COLOR] = {0.0, 2.0 * 3.14};
+
 struct PASS {
         enum ENUM {
             FIRST=1, SECOND=2
@@ -14,6 +18,7 @@ class ScreenQuad {
         GLuint program_id_;             // GLSL shader program ID
         GLuint vertex_buffer_object_;   // memory buffer
         GLuint texture_1_id_;           // texture ID 1
+        GLuint texture_1d_id_;          // texture ID
 
         float std_dev = 2;
 
@@ -47,7 +52,8 @@ class ScreenQuad {
                 const GLfloat vertex_point[] = { /*V1*/ -1.0f, -1.0f, 0.0f,
                                                  /*V2*/ +1.0f, -1.0f, 0.0f,
                                                  /*V3*/ -1.0f, +1.0f, 0.0f,
-                                                 /*V4*/ +1.0f, +1.0f, 0.0f};
+                                                 /*V4*/ +1.0f, +1.0f, 0.0f
+            };
                 // buffer
                 glGenBuffers(1, &vertex_buffer_object_);
                 glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object_);
@@ -66,7 +72,9 @@ class ScreenQuad {
                 const GLfloat vertex_texture_coordinates[] = { /*V1*/ 0.0f, 0.0f,
                                                                /*V2*/ 1.0f, 0.0f,
                                                                /*V3*/ 0.0f, 1.0f,
-                                                               /*V4*/ 1.0f, 1.0f};
+                                                               /*V4*/ 1.0f, 1.0f
+
+            };
 
                 // buffer
                 glGenBuffers(1, &vertex_buffer_object_);
@@ -89,9 +97,20 @@ class ScreenQuad {
             float * data = new float[screenquad_width_*screenquad_height_];
             glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,screenquad_width_,screenquad_height_,0,GL_DEPTH_COMPONENT,GL_FLOAT,data);
 
+            
+            // 1D texture for gradients shader
+            glGenTextures(1, &texture_1d_id_);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_1D, texture_1d_id_);
+            glTexImage1D(GL_TEXTURE_1D, 0, GL_RED, NB_COLOR, 0, GL_RED, GL_FLOAT, tex);
+            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameterf( GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameterf( GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glBindTexture(GL_TEXTURE_1D, texture_1d_id_);
+            
             glUniform1i(glGetUniformLocation(program_id_, "tex_PASS1"),
                         0 /*GL_TEXTURE0*/);
-
 
             // to avoid the current object being polluted
             glBindVertexArray(0);
@@ -125,16 +144,8 @@ class ScreenQuad {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
 
-            glUniform1f(glGetUniformLocation(program_id_, "std"), std_dev);
-            glUniform1f(glGetUniformLocation(program_id_, "tex_width"),
-                        screenquad_width_);
-            glUniform1f(glGetUniformLocation(program_id_, "tex_height"),
-                        screenquad_height_);
-            
-            glUniform1i(glGetUniformLocation(program_id_,"efficient_gaussian"),efficient_gaussian_);
-
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texture_1_id_);
+            glBindTexture(GL_TEXTURE_1D, texture_1_id_);
 
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

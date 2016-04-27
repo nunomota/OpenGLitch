@@ -128,7 +128,7 @@ void Init() {
 
     trackball_matrix = IDENTITY_MATRIX;
 
-    GLuint fb_tex = framebuffer.Init(800,800);
+    GLuint fb_tex = framebuffer.Init(512,512);
     
     screenquad.Init(window_width,window_height,fb_tex);
     
@@ -161,13 +161,11 @@ void Display() {
 
     mat4 cube_model_matrix = cube_transf * cube_scale;
 
-
-    
     //cube.Draw(trackball_matrix * cube_model_matrix, view_matrix, projection_matrix);
 
 
-
     // draw a quad on the ground.
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
 
 
