@@ -60,6 +60,10 @@ class WorldInstance: public World {
                 Reporter::println("Mouse right was pressed");
             }
 
+            if (getMouseButtonPressed(Mouse::LEFT_BUTTON)) {
+                Reporter::println("Mouse left was pressed");
+            }
+
             if (getKeyPressed(Keyboard::C)) {
                 Renderer* cube_renderer = cube->getRenderer();
                 cube_renderer->setState(!cube_renderer->getState());

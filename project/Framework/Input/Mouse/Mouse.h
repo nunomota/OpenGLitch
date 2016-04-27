@@ -6,7 +6,7 @@ class Mouse {
     private:
         static const int clickYieldMiliseconds = 250;
         static const int supportedButtons = 2;
-        static const int startingKeyIndex = 1;
+        static const int startingKeyIndex = 0;
         bool buttons[supportedButtons];
         float buttonDownTimeStamp[supportedButtons];
 
@@ -31,8 +31,8 @@ class Mouse {
         }
 
     public:
-        static const int RIGHT_BUTTON = 0;
-        static const int LEFT_BUTTON = 1;
+        static const int LEFT_BUTTON = 0;
+        static const int RIGHT_BUTTON = 1;
 
         Mouse() {
             initButtonValues();
