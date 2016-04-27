@@ -5,6 +5,7 @@
 class World {
     private:
         Mouse mouse;
+        Keyboard keyboard;
 
         std::vector<Object3D*> uninitialized;
         std::vector<Object3D*> objects;
@@ -93,7 +94,7 @@ class World {
         }
 
         void setKeyState(int key, bool state) {
-            // TODO store these values in an array
+            keyboard.setState(key, state);
         }
 
         void setMouseButtonState(int key, bool state) {
