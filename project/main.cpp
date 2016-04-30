@@ -319,7 +319,30 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 screenquad.Draw();
                 framebuffer.Unbind();
                 break; 
-            
+            case 'C':
+                screenquad.UseFractalAlgorithm(0);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;
+            case 'V':
+                screenquad.UseFractalAlgorithm(1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;           
+            case 'B':
+                screenquad.UseFractalAlgorithm(2);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;           
 
             default:
                 break;

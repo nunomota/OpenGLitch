@@ -28,6 +28,7 @@ class ScreenQuad {
         int octaves = 3;
         float gain = 1.0;
         float offset = 1.0;
+        int fractal_algo = 0; // 0 = fBm, 1=
 
         int efficient_gaussian_;
 
@@ -164,6 +165,18 @@ class ScreenQuad {
             std::cout << "new offset : " << offset << std::endl;
         }
 
+        void UseFractalAlgorithm(int value){
+            this->fractal_algo = value;
+            if( value == 0){
+                std::cout << "using fBm : " << offset << std::endl;
+            }else if( value == 1){
+                std::cout << "using Ridged Multifractal : " << offset << std::endl;
+            }else{
+                std::cout << "using hybrid Multifractal : " << offset << std::endl;
+            }
+
+        }
+
         void Draw() {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
@@ -173,7 +186,7 @@ class ScreenQuad {
             glUniform1i(glGetUniformLocation(program_id_, "octaves"), octaves);
             glUniform1f(glGetUniformLocation(program_id_, "gain"), gain);
             glUniform1f(glGetUniformLocation(program_id_, "offset"), offset);
-
+            glUniform1i(glGetUniformLocation(program_id_, "fractal_algorithm"), fractal_algo);
 
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_1D, texture_1_id_);

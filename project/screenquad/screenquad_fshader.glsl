@@ -9,6 +9,7 @@ uniform float H;
 uniform float gain;
 uniform float offset;
 uniform int octaves;
+uniform int fractal_algorithm;
 uniform sampler1D texture_1d_id_;
 out vec3 color;
 
@@ -130,8 +131,8 @@ float PERLIN_NOISE(vec2 uv){
 
 void main() {
 
-/*
 
+if(fractal_algorithm == 0){
   float noise = PERLIN_NOISE(uv);
   int num_octaves = octaves;
 
@@ -147,8 +148,14 @@ void main() {
       total += PERLIN_NOISE(point + 0.0) * pow(lacunarity, -h*i);
       point = point * lacunarity;
    }
-   
-*/
+
+   color = vec3(total,total,total); //fBM
+
+
+}else if(fractal_algorithm == 1){
+
+
+
    
   //inital values
   float h = H;
@@ -188,7 +195,45 @@ void main() {
     result += noise * pow(frequency, -h);
     frequency *= lacunarity;
   }    
-
+  result = (result * 1.25) -1.0;
   color = vec3(result,result,result); // without fBM 
-  //color = vec3(total,total,total); // without fBM
+}
+else{
+
+  vec2 coords = uv;
+  float frequency = 1.0;
+  float lacunarity = 2.143212; // multiply frequency with this after each octave
+  float sig;
+  float weight = 0.0;
+
+  // get first octave
+  float result = (PERLIN_NOISE(coords) + offset) * pow(frequency, -H);
+  frequency *= lacunarity;
+
+  weight = result;
+
+  coords.x *= lacunarity;
+  coords.y *= lacunarity;
+
+  for(int i = 1; i < octaves; i++){
+
+    if (weight > 1.0) weight = 1.0;
+
+    sig = ( PERLIN_NOISE( coords ) + offset ) * pow(frequency, -H);
+    frequency *= lacunarity;
+
+    result += weight * sig;
+
+    coords.x *= lacunarity;
+    coords.y *= lacunarity;
+  }
+
+  // take care of remainder in octaves?
+
+  color = vec3(result,result,result);
+
+}
+
+
+
 }
