@@ -173,9 +173,11 @@ float turbulence(vec2 coords){
 void main() {
 
 
-/*if(fractal_algorithm == 0){
+if(fractal_algorithm == 0){
 
-  // fBm
+
+
+  // Only fBm
   float noise = PERLIN_NOISE(uv);
   int num_octaves = octaves;
 
@@ -192,9 +194,8 @@ void main() {
   }
   color = vec3(total,total,total); //fBM
 
-
-}else*/
-if(fractal_algorithm == 0){
+}
+else if(fractal_algorithm == 1){
 
   // Ridged Multifractal
 
