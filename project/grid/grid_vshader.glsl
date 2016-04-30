@@ -36,7 +36,7 @@ void main() {
     }
 */
 
-    vec3 pos_3d = vec3(position.x, height* 0.25, -position.y);
+    vec3 pos_3d = vec3(position.x, height* 0.05, -position.y);
 
     gl_Position = MVP * vec4(pos_3d, 1.0);
 }

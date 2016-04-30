@@ -129,34 +129,75 @@ float PERLIN_NOISE(vec2 uv){
   return noise;
 }
 
+float fBm(vec2 coords){
+    // fBm
+  float noise = PERLIN_NOISE(coords);
+  int num_octaves = octaves;
+
+  float h = H;
+  float total = 0.0;
+  //float freq = 2.0; // start with small frequence
+  //float gain = 0.5; //  multiply amp by this after each octave
+  float lacunarity = 2.143212; // multiply frequency with this after each octave
+  vec2 point = coords;
+
+  for(int i = 0; i<num_octaves; i++){
+    total += PERLIN_NOISE(point + 0.0) * pow(lacunarity, -h*i);
+    point = point * lacunarity;
+  }
+  return total;
+  //color = vec3(total,total,total); //fBM
+
+}
+
+float turbulence(vec2 coords){
+
+  float sum = 0;
+  float amp = H;
+  float frequency = 1.0;
+  float lacunarity = 2.143212; // multiply frequency with this after each octave
+
+  for(int i = 0; i < octaves; i++)
+  {
+  float sig = PERLIN_NOISE(vec2(coords.x * frequency, coords.y * frequency));
+  sum += sig * amp;
+  frequency *= lacunarity;
+  amp *= gain;
+  }
+
+  return sum;
+
+}
+
+
 void main() {
 
 
-if(fractal_algorithm == 0){
+/*if(fractal_algorithm == 0){
+
+  // fBm
   float noise = PERLIN_NOISE(uv);
   int num_octaves = octaves;
 
-   // fBm
-   float h = H;
-   float total = 0.0;
-   //float freq = 2.0; // start with small frequence
-   //float gain = 0.5; //  multiply amp by this after each octave
-   float lacunarity = 2.143212; // multiply frequency with this after each octave
-   vec2 point = uv;
+  float h = H;
+  float total = 0.0;
+  //float freq = 2.0; // start with small frequence
+  //float gain = 0.5; //  multiply amp by this after each octave
+  float lacunarity = 2.143212; // multiply frequency with this after each octave
+  vec2 point = uv;
 
-   for(int i = 0; i<num_octaves; i++){
-      total += PERLIN_NOISE(point + 0.0) * pow(lacunarity, -h*i);
-      point = point * lacunarity;
-   }
-
-   color = vec3(total,total,total); //fBM
+  for(int i = 0; i<num_octaves; i++){
+    total += PERLIN_NOISE(point + 0.0) * pow(lacunarity, -h*i);
+    point = point * lacunarity;
+  }
+  color = vec3(total,total,total); //fBM
 
 
-}else if(fractal_algorithm == 1){
+}else*/
+if(fractal_algorithm == 0){
 
+  // Ridged Multifractal
 
-
-   
   //inital values
   float h = H;
   float g = gain;
@@ -166,7 +207,7 @@ if(fractal_algorithm == 0){
   
   vec2 coords = uv;
   // first octave
-  float noise = PERLIN_NOISE(coords);
+  float noise = turbulence(coords);
 
   // absolute value creates ridges
   if (noise < 0.0) noise = -noise;
@@ -186,7 +227,7 @@ if(fractal_algorithm == 0){
     if(weight > 1.0 ) weight = 1.0;
     if(weight < 0.0 ) weight = 0.0;
 
-    noise = PERLIN_NOISE(coords);
+    noise = turbulence(coords);
     if(noise < 0.0) noise = -noise;
     noise = offset - noise;
     noise *= noise;
@@ -196,9 +237,11 @@ if(fractal_algorithm == 0){
     frequency *= lacunarity;
   }    
   result = (result * 1.25) -1.0;
-  color = vec3(result,result,result); // without fBM 
-}
-else{
+  color = vec3(result,result,result); 
+
+}else{
+
+  // Hybrid Multifractal
 
   vec2 coords = uv;
   float frequency = 1.0;
@@ -207,7 +250,7 @@ else{
   float weight = 0.0;
 
   // get first octave
-  float result = (PERLIN_NOISE(coords) + offset) * pow(frequency, -H);
+  float result = (turbulence(coords) + offset) * pow(frequency, -H);
   frequency *= lacunarity;
 
   weight = result;
@@ -218,10 +261,8 @@ else{
   for(int i = 1; i < octaves; i++){
 
     if (weight > 1.0) weight = 1.0;
-
-    sig = ( PERLIN_NOISE( coords ) + offset ) * pow(frequency, -H);
+    sig = ( turbulence( coords ) + offset ) * pow(frequency, -H);
     frequency *= lacunarity;
-
     result += weight * sig;
 
     coords.x *= lacunarity;
@@ -229,9 +270,7 @@ else{
   }
 
   // take care of remainder in octaves?
-
   color = vec3(result,result,result);
-
 }
 
 

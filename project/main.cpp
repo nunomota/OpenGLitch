@@ -237,7 +237,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         switch (key) {
             case 'Q':
-                screenquad.UpdateNumberOfTiles(2.0);
+                screenquad.UpdateNumberOfTiles(1.0);
                 // render to FB
                 framebuffer.Bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -246,7 +246,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 
                 break;
             case 'W':
-                screenquad.UpdateNumberOfTiles(-2.0);
+                screenquad.UpdateNumberOfTiles(-1.0);
                 // render to FB
                 framebuffer.Bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
