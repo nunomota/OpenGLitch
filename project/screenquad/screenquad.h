@@ -5,6 +5,8 @@
 #define NB_COLOR 2
 GLfloat tex[NB_COLOR] = {0.0, 2.0 * 3.14};
 
+
+
 struct PASS {
         enum ENUM {
             FIRST=1, SECOND=2
@@ -21,6 +23,11 @@ class ScreenQuad {
         GLuint texture_1d_id_;          // texture ID
 
         float std_dev = 2;
+        float num_of_tiles = 4.0;
+        float amplitude = 1.0;
+        int octaves = 3;
+        float gain = 1.0;
+        float offset = 1.0;
 
         int efficient_gaussian_;
 
@@ -131,18 +138,42 @@ class ScreenQuad {
             this->screenquad_height_ = screenquad_height;
         }
 
-        void UseEfficientGaussian(int choice){
-            this->efficient_gaussian_ = choice;
-        }
 
-        void UpdateStandardDeviation(float multiplier){
-            std_dev *= multiplier;
-            std::cout << "new std_dev : " << std_dev << std::endl;
+        void UpdateNumberOfTiles(float tiles){
+            this->num_of_tiles += tiles;
+            std::cout << "new num of tiles : " << num_of_tiles << std::endl;
         }
         
+        void UpdateFractalAmplitude(float increment){
+            this->amplitude += increment;
+            std::cout << "new amplitude : " << amplitude << std::endl;
+        }
+
+        void UpdateNumberOfOctaves(int increment){
+            this->octaves += increment;
+            std::cout << "new num of octaves : " << octaves << std::endl;
+        }
+
+        void UpdateGain(float increment){
+            this->gain += increment;
+            std::cout << "new gain : " << gain << std::endl;
+        }
+
+        void UpdateOffset(float increment){
+            this->offset += increment;
+            std::cout << "new offset : " << offset << std::endl;
+        }
+
         void Draw() {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
+
+            glUniform1f(glGetUniformLocation(program_id_, "num_tiles"), num_of_tiles);
+            glUniform1f(glGetUniformLocation(program_id_, "H"), amplitude);
+            glUniform1i(glGetUniformLocation(program_id_, "octaves"), octaves);
+            glUniform1f(glGetUniformLocation(program_id_, "gain"), gain);
+            glUniform1f(glGetUniformLocation(program_id_, "offset"), offset);
+
 
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_1D, texture_1_id_);

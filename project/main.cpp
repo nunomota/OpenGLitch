@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "framebuffer.h"
 #include "screenquad/screenquad.h"
+#include "water/water.h"
 
 #include "grid/grid.h"
 
@@ -16,6 +17,8 @@
 #define PI 3.14f
 
 Grid grid;
+Water water;
+
 
 int window_width = 800;
 int window_height = 600;
@@ -33,10 +36,13 @@ mat4 old_trackball_matrix;
 mat4 cube_scale;
 mat4 quad_model_matrix;
 
+GLuint fb_tex;
+
 float mouse_click_y = 0.0f;
 bool is_zooming = false;
 float ZOOM_FACTOR = 4.0f;
 mat4 matrix_click = mat4(1.0f);
+//float num_of_tiles = 10.0;
 
 Trackball trackball;
 
@@ -113,8 +119,6 @@ void Init() {
     // sets background color
     glClearColor(0.937, 0.937, 0.937 /*gray*/, 1.0 /*solid*/);
     
-
-
     // enable depth test.
     glEnable(GL_DEPTH_TEST);
 
@@ -126,7 +130,7 @@ void Init() {
 
     trackball_matrix = IDENTITY_MATRIX;
 
-    GLuint fb_tex = framebuffer.Init(512,512);
+    fb_tex = framebuffer.Init(512,512);
     
     screenquad.Init(window_width,window_height,fb_tex);
     
@@ -137,21 +141,22 @@ void Init() {
     framebuffer.Unbind();
 
     grid.Init(fb_tex);
-
+    water.Init();
 
     quad_model_matrix = translate(mat4(1.0f), vec3(0.0f, -0.25f, 0.0f));
 }
 
 // gets called for every frame.
 void Display() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     const float time = glfwGetTime();
 
-
     // draw a quad on the ground.
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+    
     grid.Draw(time, trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
+    //water.Draw(time,trackball_matrix * quad_model_matrix, view_matrix, projection_matrix);
 }
 
 // transforms glfw screen coordinates into normalized OpenGL coordinates.
@@ -183,9 +188,7 @@ void MousePos(GLFWwindow* window, double x, double y) {
         // trackball.Drag(...) and the value stored in 'old_trackball_matrix'.
         // See also the mouse_button(...) function.
         // trackball_matrix = ...
-        
         trackball_matrix = trackball.Drag(p.x,p.y) * old_trackball_matrix;
-
     }
 
     // zoom
@@ -224,10 +227,107 @@ void ErrorCallback(int error, const char* description) {
 }
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
+
+    if(action == GLFW_RELEASE) {
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        switch (key) {
+            case 'Q':
+                screenquad.UpdateNumberOfTiles(2.0);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                
+                break;
+            case 'W':
+                screenquad.UpdateNumberOfTiles(-2.0);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+  
+                break;
+            case 'A':
+                screenquad.UpdateFractalAmplitude(0.05);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+  
+                break;
+            case 'S':
+                screenquad.UpdateFractalAmplitude(-0.05);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;   
+            case 'Z':
+                screenquad.UpdateNumberOfOctaves(1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;   
+            case 'X':
+                screenquad.UpdateNumberOfOctaves(-1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;   
+            case 'E':
+                screenquad.UpdateGain(0.1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;  
+            case 'R':
+                screenquad.UpdateGain(-0.1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break;  
+            case 'D':
+                screenquad.UpdateOffset(0.1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break; 
+            case 'F':
+                screenquad.UpdateOffset(-0.1);
+                // render to FB
+                framebuffer.Bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                screenquad.Draw();
+                framebuffer.Unbind();
+                break; 
+            
+
+            default:
+                break;
+        }
+
+    }
 }
+
 
 
 int main(int argc, char *argv[]) {
@@ -295,6 +395,7 @@ int main(int argc, char *argv[]) {
     }
 
     grid.Cleanup();
+    water.Cleanup();
 
     // close OpenGL window and terminate GLFW
     glfwDestroyWindow(window);

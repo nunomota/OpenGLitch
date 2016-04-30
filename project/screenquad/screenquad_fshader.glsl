@@ -4,6 +4,11 @@
 in vec2 uv;
 uniform float tex_width;
 uniform float tex_height;
+uniform float num_tiles;
+uniform float H;
+uniform float gain;
+uniform float offset;
+uniform int octaves;
 uniform sampler1D texture_1d_id_;
 out vec3 color;
 
@@ -66,7 +71,7 @@ float MIXER(float x, float y, float alpha){return (1.0-alpha) * x + alpha * y;}
 
 float PERLIN_NOISE(vec2 uv){
 
-  float num_of_tiles = 20.0;
+  float num_of_tiles = num_tiles;
   // 1.1 check which tile the coordinate is inside
   float x = uv.x * num_of_tiles;
   float y = uv.y * num_of_tiles;
@@ -125,22 +130,65 @@ float PERLIN_NOISE(vec2 uv){
 
 void main() {
 
-   float noise = PERLIN_NOISE(uv);
-   int num_octaves = 4;
+/*
+
+  float noise = PERLIN_NOISE(uv);
+  int num_octaves = octaves;
 
    // fBm
-   float H = 0.5;
+   float h = H;
    float total = 0.0;
-   float freq = 2.0; // start with small frequence
-   float gain = 0.5; //  multiply amp by this after each octave
-   float lacunarity = 2.1042; // multiply frequency with this after each octave
+   //float freq = 2.0; // start with small frequence
+   //float gain = 0.5; //  multiply amp by this after each octave
+   float lacunarity = 2.143212; // multiply frequency with this after each octave
    vec2 point = uv;
 
    for(int i = 0; i<num_octaves; i++){
-      total += PERLIN_NOISE(point) * pow(lacunarity, -H*i);
+      total += PERLIN_NOISE(point + 0.0) * pow(lacunarity, -h*i);
       point = point * lacunarity;
    }
+   
+*/
+   
+  //inital values
+  float h = H;
+  float g = gain;
+  float frequency = 1.0;
+  float result = 0.0;
+  float lacunarity = 2.143212; // multiply frequency with this after each octave
+  
+  vec2 coords = uv;
+  // first octave
+  float noise = PERLIN_NOISE(coords);
 
+  // absolute value creates ridges
+  if (noise < 0.0) noise = -noise;
+  noise = offset - noise;
 
-   color = vec3(total,total,total); // without fBM
+  // square signal to increase sharpness of ridges.
+  noise *= noise;
+  result = noise;
+  float weight = 1.0;
+
+  for( int i = 1; i<octaves; i++ ){
+    // use a new point variable
+    coords.x *= lacunarity;
+    coords.y *= lacunarity;
+    weight = noise * g;
+
+    if(weight > 1.0 ) weight = 1.0;
+    if(weight < 0.0 ) weight = 0.0;
+
+    noise = PERLIN_NOISE(coords);
+    if(noise < 0.0) noise = -noise;
+    noise = offset - noise;
+    noise *= noise;
+    noise *= weight;
+
+    result += noise * pow(frequency, -h);
+    frequency *= lacunarity;
+  }    
+
+  color = vec3(result,result,result); // without fBM 
+  //color = vec3(total,total,total); // without fBM
 }
