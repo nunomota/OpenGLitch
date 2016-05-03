@@ -4,6 +4,7 @@
 
 class PhysicalObject: public Object3D {
     protected:
+        virtual void InitialCalculations() {};
         virtual void LoadShaders() {};
         virtual void SetupVertices() {};
         virtual void SetupIndexBuffer() {};
@@ -12,6 +13,8 @@ class PhysicalObject: public Object3D {
 
     public:
         void Init() {
+            InitialCalculations();
+
             // call to the sub-class' method to get the shaders' name
             LoadShaders();
 
@@ -59,6 +62,7 @@ class PhysicalObject: public Object3D {
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
+
                 UpdateUniforms();
 
                 // draw
