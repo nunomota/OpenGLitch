@@ -8,6 +8,7 @@ class PhysicalObject: public Object3D {
         virtual void SetupVertices() {};
         virtual void SetupIndexBuffer() {};
         virtual void SetupUniforms() {};
+        virtual void UpdateUniforms() {};
 
     public:
         void Init() {
@@ -58,6 +59,7 @@ class PhysicalObject: public Object3D {
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
+                UpdateUniforms();
 
                 // draw
                 glDrawElements(GL_TRIANGLES, num_indices_, GL_UNSIGNED_INT, 0);
