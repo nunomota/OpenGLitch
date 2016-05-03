@@ -17,15 +17,15 @@ class Light: public EmptyObject {
         }
 
         void setAmbienceColor(glm::vec3 new_color) {
-            ambience_color(new_color);
+            ambience_color = new_color;
         }
 
         void setDiffuseColor(glm::vec3 new_color) {
-            diffuse_color(new_color);
+            diffuse_color = new_color;
         }
 
         void setSpecularColor(glm::vec3 new_color) {
-            specular_color(new_color);
+            specular_color = new_color;
         }
 
         void setColor(glm::vec3 new_color) {
