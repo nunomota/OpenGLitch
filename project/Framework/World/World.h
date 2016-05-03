@@ -62,6 +62,18 @@ class World {
             Reporter::println("All objects cleaned up", "World");
         }
     protected:
+        /*--------------------
+        | Core World methods |
+        --------------------*/
+
+        /** Method called to instantiate a new object
+          * in the current World instance.
+          *
+          * Usage:       instantiate(new T(args))
+          * Returns:     T* obj_ptr
+          * Assumptions: T <: Object3D AND args represents
+          *              arguments for class instantialization
+          */
         template <typename Object>
         Object* instantiate(Object* new_object) {
             if (new_object) {
@@ -71,6 +83,11 @@ class World {
             return new_object;
         }
 
+        /** Method called to destroy a previously instantiated
+          * object in the current world instance.
+          *
+          * Usage:       destroy(obj_ptr)
+          */
         void destroy(Object3D* target_object) {
             std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
             for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
@@ -95,6 +112,11 @@ class World {
             if (uninitialized.empty()) are_objects_uninitialized = false;
         }
 
+        /** Method called to set the main camera
+          * in the current World instance.
+          *
+          * Usage:       setCamera(camera_ptr)
+          */
         void setCamera(Camera* camera) {
             if (camera) {
                 main_camera = camera;
@@ -102,12 +124,64 @@ class World {
             }
         }
 
+        /** Method called to set the main light source
+          * in the current World instance.
+          *
+          * Usage:       setLight(light_ptr)
+          */
         void setLight(DirectionalLight* light) {
             if (light) {
                 main_light = light;
             }
         }
 
+        /*--------------------
+        |   Input getters    |
+        --------------------*/
+
+        /** Method called to get state of
+          * held mouse keys.
+          * 
+          * Usage:       getMouseButtonDown(Mouse::RIGHT)
+          * Returns:     true, while Mouse::RIGHT is being held down
+          */
+        bool getMouseButtonDown(int key) {
+            return mouse.getDownState(key);
+        }
+
+        /** Method called to get state of
+          * pressed mouse keys.
+          * 
+          * Usage:       getMouseButtonPressed(Mouse::RIGHT)
+          * Returns:     true, if Mouse::RIGHT is pressed
+          */
+        bool getMouseButtonPressed(int key) {
+            return mouse.getPressedState(key, world_time.getCurrentTime());
+        }
+
+        /** Method called to get state of
+          * held keyboard keys.
+          * 
+          * Usage:       getKeyDown(Keyboard::A)
+          * Returns:     true, while Keyboard::A is being held down
+          */
+        bool getKeyDown(int key) {
+            return keyboard.getDownState(key);
+        }
+
+        /** Method called to get state of
+          * pressed keyboard keys.
+          * 
+          * Usage:       getKeyPressed(Keyboard::A)
+          * Returns:     true, if Keyboard::A is pressed
+          */
+        bool getKeyPressed(int key) {
+            return keyboard.getPressedState(key, world_time.getCurrentTime());;
+        }
+
+        /*--------------------
+        |   Other getters    |
+        --------------------*/
         DirectionalLight* getLight() {
             return main_light;
         }
@@ -120,24 +194,11 @@ class World {
             return &world_time;
         }
 
-        bool getMouseButtonDown(int key) {
-            return mouse.getDownState(key);
-        }
-
-        bool getMouseButtonPressed(int key) {
-            return mouse.getPressedState(key, world_time.getCurrentTime());
-        }
-
-        bool getKeyDown(int key) {
-            return keyboard.getDownState(key);
-        }
-
-        bool getKeyPressed(int key) {
-            return keyboard.getPressedState(key, world_time.getCurrentTime());;
-        }
-
-        virtual void Start() {};
-        virtual void Update() {};
+        /*--------------------
+        | life-cycle methods |
+        --------------------*/
+        virtual void Start() {};    // Called once, at the beggining of a world's life
+        virtual void Update() {};   // Called every frame
 
     public:
         void Init() {
