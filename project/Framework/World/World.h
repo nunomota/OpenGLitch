@@ -10,6 +10,7 @@ class World {
         std::vector<Object3D*> uninitialized;
         std::vector<Object3D*> objects;
         Camera* main_camera;
+        DirectionalLight* main_light;
 
         Time world_time;
         bool are_objects_uninitialized;
@@ -99,6 +100,16 @@ class World {
                 main_camera = camera;
                 main_camera->setAspect(camera_aspect_ratio);
             }
+        }
+
+        void setLight(DirectionalLight* light) {
+            if (light) {
+                main_light = light;
+            }
+        }
+
+        DirectionalLight* getLight() {
+            return main_light;
         }
 
         Camera* getCamera() {
