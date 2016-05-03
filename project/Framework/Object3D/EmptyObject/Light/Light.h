@@ -46,4 +46,4 @@ class Light: public EmptyObject {
             return specular_color;
         }
 };
-const glm::vec3 default_color = glm::vec3(1.0f, 1.0f, 1.0f);
+const glm::vec3 Light::default_color = glm::vec3(1.0f, 1.0f, 1.0f);
