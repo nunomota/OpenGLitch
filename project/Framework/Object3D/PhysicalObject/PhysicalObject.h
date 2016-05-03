@@ -4,12 +4,12 @@
 
 class PhysicalObject: public Object3D {
     protected:
-        virtual void InitialCalculations() {};
-        virtual void LoadShaders() {};
-        virtual void SetupVertices() {};
-        virtual void SetupIndexBuffer() {};
-        virtual void SetupUniforms() {};
-        virtual void UpdateUniforms() {};
+        virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
+        virtual void LoadShaders() {};            // Called once, to compile the object's shaders
+        virtual void SetupVertices() {};          // Called once, to setup the mesh's vertices
+        virtual void SetupIndexBuffer() {};       // Called once, to setup the vertices' indices
+        virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
+        virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
 
     public:
         void Init() {
