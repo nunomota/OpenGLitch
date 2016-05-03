@@ -7,6 +7,7 @@ class PhysicalObject: public Object3D {
         virtual void LoadShaders() {};
         virtual void SetupVertices() {};
         virtual void SetupIndexBuffer() {};
+        virtual void SetupUniforms() {};
 
     public:
         void Init() {
@@ -38,6 +39,7 @@ class PhysicalObject: public Object3D {
 
             // other uniforms
             MVP_id_ = glGetUniformLocation(program_id_, "MVP");
+            SetupUniforms();
 
             // to avoid the current object being polluted
             glBindVertexArray(0);
