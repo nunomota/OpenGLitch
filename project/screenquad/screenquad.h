@@ -102,9 +102,9 @@ class ScreenQuad {
             // load/Assign texture
             this->texture_1_id_ = texture;
             glBindTexture(GL_TEXTURE_2D, texture_1_id_);
-            float * data = new float[screenquad_width_*screenquad_height_];
-            glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,screenquad_width_,screenquad_height_,0,GL_DEPTH_COMPONENT,GL_FLOAT,data);
-
+            //float * data = new float[screenquad_width_*screenquad_height_];
+            //glTexImage2D(GL_TEXTURE_2D,0,GL_R16F,screenquad_width_,screenquad_height_,0,GL_RED,GL_FLOAT,data);
+	    check_error_gl();
             
             // 1D texture for gradients shader
             glGenTextures(1, &texture_1d_id_);
@@ -180,17 +180,18 @@ class ScreenQuad {
         void Draw() {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
-
+	    check_error_gl();
             glUniform1f(glGetUniformLocation(program_id_, "num_tiles"), num_of_tiles);
             glUniform1f(glGetUniformLocation(program_id_, "H"), amplitude);
             glUniform1i(glGetUniformLocation(program_id_, "octaves"), octaves);
             glUniform1f(glGetUniformLocation(program_id_, "gain"), gain);
             glUniform1f(glGetUniformLocation(program_id_, "offset"), offset);
             glUniform1i(glGetUniformLocation(program_id_, "fractal_algorithm"), fractal_algo);
-
+	    check_error_gl();
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_1D, texture_1_id_);
-
+	    check_error_gl();
+            //glBindTexture(GL_TEXTURE_1D, texture_1_id_);
+	    check_error_gl();
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
             glBindVertexArray(0);

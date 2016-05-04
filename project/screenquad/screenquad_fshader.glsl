@@ -172,7 +172,8 @@ float turbulence(vec2 coords){
 
 void main() {
 
-
+//color = vec3(PERLIN_NOISE(uv));
+//return;
 if(fractal_algorithm == 0){
 
 
@@ -275,5 +276,5 @@ else if(fractal_algorithm == 1){
 }
 
 
-
+//color = vec3(PERLIN_NOISE(uv));
 }
