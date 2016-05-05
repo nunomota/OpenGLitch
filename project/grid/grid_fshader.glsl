@@ -54,8 +54,8 @@ void main() {
         kd = vec3(0.0f, 1.0f, 0.0f);
 
     }
-    Ld = vec3(1.0f, 1.0f, 1.0f);
-    kd = vec3(1.0f, 1.0f, 1.0f);
+    //Ld = vec3(1.0f, 1.0f, 1.0f);
+    //kd = vec3(1.0f, 1.0f, 1.0f);
 
 
     vec3 diffuse = kd * nl * Ld;
