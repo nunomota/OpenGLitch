@@ -8,8 +8,8 @@ class Grid: public PhysicalObject {
         std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;
 
-        void addVertex(float x, float y) {
-            vertices.push_back(x); vertices.push_back(y);
+        void addVertex(float x, float y, float z) {
+            vertices.push_back(x); vertices.push_back(y); vertices.push_back(z);
         }
 
         void useVertex(int index) {
@@ -24,12 +24,12 @@ class Grid: public PhysicalObject {
                 for (int j = 0; j < grid_dim+1; j++) {
                     float y_coord = (float)mult * (-1.0f + j*step);
                     if (i == 0) {
-                        addVertex(x_coord, y_coord);   // create a new vertex
+                        addVertex(x_coord, 0.0f, y_coord);   // create a new vertex
                     } else {
                         int index = (int)vertices.size()/2;
-                        useVertex(index - (j*2+1));    // use the previously calculated vertex, in the same line
-                        addVertex(x_coord, y_coord);   // create a new vertex
-                        useVertex(index);              // use the newly created vertex
+                        useVertex(index - (j*2+1));          // use the previously calculated vertex, in the same line
+                        addVertex(x_coord, 0.0f, y_coord);   // create a new vertex
+                        useVertex(index);                    // use the newly created vertex
                     }
                 }
             }
@@ -63,6 +63,5 @@ class Grid: public PhysicalObject {
 
         void UpdateUniforms() {
             // TODO bind the texture
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
 };
