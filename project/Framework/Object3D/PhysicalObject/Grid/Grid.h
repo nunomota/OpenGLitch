@@ -24,12 +24,12 @@ class Grid: public PhysicalObject {
                 for (int j = 0; j < grid_dim+1; j++) {
                     float y_coord = (float)mult * (-1.0f + j*step);
                     if (i == 0) {
-                        addVertex(x_coord, y_coord, &vertices);  // create a new vertex
+                        addVertex(x_coord, y_coord);  // create a new vertex
                     } else {
                         int index = (int)vertices.size()/2;
-                        useVertex(index - (j*2+1), &indices);    // use the previously calculated vertex, in the same line
-                        addVertex(x_coord, y_coord, &vertices);  // create a new vertex
-                        useVertex(index, &indices);              // use the newly created vertex
+                        useVertex(index - (j*2+1));    // use the previously calculated vertex, in the same line
+                        addVertex(x_coord, y_coord);  // create a new vertex
+                        useVertex(index);              // use the newly created vertex
                     }
                 }
             }
