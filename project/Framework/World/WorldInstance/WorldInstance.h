@@ -45,7 +45,7 @@ class WorldInstance: public World {
             cube3->translate(vec3(2.0f, 0.0f, -2.0f));
             cube3->rotate(vec3(45.0f, 0.0f, 0.0f));
 
-            //grid->translate(vec3(0.0f, 0.0f, 3.0f));
+            grid->translate(vec3(0.0f, 0.0f, -3.0f));
             //grid->rotate(vec3(90.0f, 0.0f, 0.0f));
         }
 
@@ -77,5 +77,6 @@ class WorldInstance: public World {
             cube->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             cube2->rotate(vec3(0.0f, 25.0f, 0.0f) * getTime()->getDeltaTime());
             cube3->rotate(vec3(0.0f, 0.0f, 30.0f) * getTime()->getDeltaTime());
+            grid->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
         }    
 };
