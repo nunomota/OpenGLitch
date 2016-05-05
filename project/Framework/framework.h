@@ -28,6 +28,7 @@
 // Physical objects
 #include "Object3D/PhysicalObject/Cube/Cube.h"
 #include "Object3D/PhysicalObject/Plane/Plane.h"
+#include "Object3D/PhysicalObject/Grid/Grid.h"
 
 // Empty objects
 #include "Object3D/EmptyObject/Camera/Camera.h"
