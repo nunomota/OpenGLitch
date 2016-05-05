@@ -5,17 +5,17 @@ file(GLOB_RECURSE HEADERS "*.h")
 
 # these files are copied only once
 file(GLOB TEXTURES
-    grid/grid_texture.tga
-    grid/water.tga)
+    Resources/Textures/grid_texture.tga
+    Resources/Textures/water.tga)
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime
 # you build (ie, you want the shaders there)
 file(GLOB SHADERS
-  cube/cube_vshader.glsl
-  cube/cube_fshader.glsl
-  grid/grid_vshader.glsl
-  grid/grid_fshader.glsl)
+  Framework/Object3D/PhysicalObject/Cube/cube_vshader.glsl
+  Framework/Object3D/PhysicalObject/Cube/cube_fshader.glsl
+  Framework/Object3D/PhysicalObject/Plane/plane_vshader.glsl
+  Framework/Object3D/PhysicalObject/Plane/plane_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
 
 add_executable(${EXERCISENAME} ${SOURCES} ${HEADERS} ${SHADERS})
