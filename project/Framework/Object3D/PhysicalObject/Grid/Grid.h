@@ -17,7 +17,7 @@ class Grid: public PhysicalObject {
         }
 
     protected:
-        void InitialCalculation() {
+        void InitialCalculations() {
             float step = 2.0f / (float)grid_dim;
             for (int i = 0, mult = 1; i < grid_dim+1; i++, mult = -mult) {
                 float x_coord = -1.0f + i*step;
