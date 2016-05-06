@@ -26,7 +26,7 @@ class Grid: public PhysicalObject {
                     if (i == 0) {
                         addVertex(x_coord, 0.0f, y_coord);   // create a new vertex
                     } else {
-                        int index = (int)vertices.size()/2;
+                        int index = (int)vertices.size()/3;
                         useVertex(index - (j*2+1));          // use the previously calculated vertex, in the same line
                         addVertex(x_coord, 0.0f, y_coord);   // create a new vertex
                         useVertex(index);                    // use the newly created vertex
