@@ -66,7 +66,7 @@ class PhysicalObject: public Object3D {
                 UpdateUniforms();
 
                 // draw
-                glDrawElements(GL_TRIANGLES, num_indices_, GL_UNSIGNED_INT, 0);
+                glDrawElements(GL_TRIANGLE_STRIP, num_indices_, GL_UNSIGNED_INT, 0);
 
                 glBindVertexArray(0);
                 glUseProgram(0);
