@@ -11,8 +11,7 @@ class Plane: public PhysicalObject {
                                       +1.0f, 0.0f,  -1.0f};
 
         // index buffer
-        const GLuint index[36] = {0, 1, 2,
-                                3, 2, 1};
+        const GLuint index[4] = {0, 1, 2, 3};
 
     protected:
         void LoadShaders() {
