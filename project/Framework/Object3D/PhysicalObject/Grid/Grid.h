@@ -63,6 +63,6 @@ class Grid: public PhysicalObject {
 
         void UpdateUniforms() {
             // TODO bind the texture
-            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
 };

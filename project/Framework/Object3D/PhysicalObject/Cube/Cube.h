@@ -15,18 +15,11 @@ class Cube: public PhysicalObject {
                                     -1.0f,  1.0f, -1.0f};// left, top, back
 
         // index buffer
-        const GLuint index[36] = {0, 1, 2,  // front face triangle 1
-                                0, 2, 3,  // front face triangle 2
-                                1, 5, 6,  // right face triangle 1
-                                1, 6, 2,  // right face triangle 2
-                                5, 4, 7,  // back face triangle 1
-                                5, 7, 6,  // back face triangle 2
-                                4, 0, 3,  // left face triangle 1
-                                4, 3, 7,  // left face triangle 2
-                                3, 2, 6,  // top face triangle 1
-                                3, 6, 7,  // top face triangle 2
-                                1, 0, 4,  // bottom face triangle 1
-                                1, 4, 5}; // bottom face triangle 2
+        const GLuint index[14] = {5, 4, 1,
+                                  0, 3, 4,
+                                  7, 5, 6,
+                                  1, 2, 3,
+                                  6, 7};
 
     protected:
         void LoadShaders() {
