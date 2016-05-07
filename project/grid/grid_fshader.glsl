@@ -50,10 +50,10 @@ void main() {
          //white
         Ld = vec3(1.0f, 1.0f, 1.0f);
         kd = vec3(1.0f, 1.0f, 1.0f);
-    }else if(n.z > -0.10f){
+    }else if(n.z > 0.01f){
         //yellow
-      Ld = vec3(0.0f, 1.0f, 0.0f);
-      kd = vec3(0.0f, 1.0f, 0.0f);
+        Ld = vec3(0.0f, 1.0f, 0.0f);
+        kd = vec3(0.0f, 1.0f, 0.0f);
     }
     vec3 diffuse = kd * nl * Ld;
 
