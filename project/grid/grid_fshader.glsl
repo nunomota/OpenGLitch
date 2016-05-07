@@ -4,8 +4,10 @@ in vec2 uv;
 
 out vec3 color;
 
-vec3 Ld = vec3(1.0f, 1.0f, 1.0f);
-vec3 kd = vec3(1.0f, 1.0f, 1.0f);
+//yellow for the bottom part of the terrain
+vec3 Ld = vec3(0.9f, 0.9f, 0.0f);
+vec3 kd = vec3(0.9f, 0.9f, 0.0f);
+
 uniform sampler2D tex_height;
 
 int iterations = 15;
@@ -44,20 +46,15 @@ void main() {
     //Now we do the difuse shading
     float temp;
     float nl = ((temp = dot(n,l)) < 0)             ? 0.0f : temp;
-    if(n.z < 0.33f){
+    if(n.z > 0.10f){
+         //white
+        Ld = vec3(1.0f, 1.0f, 1.0f);
+        kd = vec3(1.0f, 1.0f, 1.0f);
+    }else if(n.z > -0.10f){
         //yellow
-        Ld = vec3(1.0f, 1.0f, 0.0f);
-        kd = vec3(0.9f, 0.9f, 0.0f);
-    }else if(n.z < 0.66f){
-        //green
-        Ld = vec3(0.0f, 1.0f, 0.0f);
-        kd = vec3(0.0f, 1.0f, 0.0f);
-
+      Ld = vec3(0.0f, 1.0f, 0.0f);
+      kd = vec3(0.0f, 1.0f, 0.0f);
     }
-    //Ld = vec3(1.0f, 1.0f, 1.0f);
-    //kd = vec3(1.0f, 1.0f, 1.0f);
-
-
     vec3 diffuse = kd * nl * Ld;
 
     color = diffuse.xyz;

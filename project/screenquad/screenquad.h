@@ -104,7 +104,7 @@ class ScreenQuad {
             glBindTexture(GL_TEXTURE_2D, texture_1_id_);
             //float * data = new float[screenquad_width_*screenquad_height_];
             //glTexImage2D(GL_TEXTURE_2D,0,GL_R16F,screenquad_width_,screenquad_height_,0,GL_RED,GL_FLOAT,data);
-	    check_error_gl();
+	    
             
             // 1D texture for gradients shader
             glGenTextures(1, &texture_1d_id_);
