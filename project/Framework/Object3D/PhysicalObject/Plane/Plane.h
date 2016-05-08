@@ -14,6 +14,10 @@ class Plane: public PhysicalObject {
         const GLuint index[4] = {0, 1, 2, 3};
 
     protected:
+        void InitialCalculations() {
+            setDrawMode(1);
+        }
+
         void LoadShaders() {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("cube_vshader.glsl",

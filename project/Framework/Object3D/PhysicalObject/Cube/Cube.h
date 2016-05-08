@@ -22,6 +22,10 @@ class Cube: public PhysicalObject {
                                   6, 7};
 
     protected:
+        void InitialCalculations() {
+            setDrawMode(1);
+        }
+
         void LoadShaders() {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("cube_vshader.glsl",
