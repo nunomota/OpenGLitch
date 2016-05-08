@@ -59,7 +59,7 @@ class Grid: public PhysicalObject {
         }
 
         void SetupUniforms() {
-            setTexture("grid_texture.tga");
+            setTexture("water.tga");
         }
 
         void UpdateUniforms() {

@@ -50,9 +50,12 @@ class WorldInstance: public World {
 
         // method called every frame
         void Update() {
-            if (getKeyDown(Keyboard::A)) {
-                Reporter::println("A is being held down");
-                //setCamera(camera);
+            if (getKeyDown(Keyboard::W)) {
+                camera->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+            }
+
+            if (getKeyDown(Keyboard::S)) {
+                camera->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
             }
 
             if (getKeyPressed(Keyboard::B)) {
