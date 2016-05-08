@@ -38,8 +38,8 @@ class Grid: public PhysicalObject {
 
         void LoadShaders() {
             // compile the shaders.
-            program_id_ = icg_helper::LoadShaders("cube_vshader.glsl",
-                                                  "cube_fshader.glsl");
+            program_id_ = icg_helper::LoadShaders("grid_vshader.glsl",
+                                                  "grid_fshader.glsl");
         }
 
         void SetupVertices() {
