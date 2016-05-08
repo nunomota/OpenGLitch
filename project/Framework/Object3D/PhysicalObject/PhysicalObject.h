@@ -41,7 +41,7 @@ class PhysicalObject: public Object3D {
             int nb_component;
 
             is_texture_defined = true;
-            
+
             // set stb_image to have the same coordinates as OpenGL
             stbi_set_flip_vertically_on_load(1);
             unsigned char* image = stbi_load(texture_name.c_str(), &width,
@@ -144,5 +144,6 @@ class PhysicalObject: public Object3D {
             glDeleteBuffers(1, &vertex_buffer_object_index_);
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
+            if (is_texture_defined) glDeleteTextures(1, &texture_id_);
         }
 };
