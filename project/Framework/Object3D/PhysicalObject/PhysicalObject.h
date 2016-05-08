@@ -120,6 +120,12 @@ class PhysicalObject: public Object3D {
                 glUseProgram(program_id_);
                 glBindVertexArray(vertex_array_id_);
 
+                // bind texture
+                if (is_texture_defined) {
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, texture_id_);
+                }
+
                 // setup MVP
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
