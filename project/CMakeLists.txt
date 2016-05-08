@@ -17,7 +17,9 @@ file(GLOB SHADERS
   Framework/Object3D/PhysicalObject/Plane/plane_vshader.glsl
   Framework/Object3D/PhysicalObject/Plane/plane_fshader.glsl
   Framework/Object3D/PhysicalObject/Grid/grid_vshader.glsl
-  Framework/Object3D/PhysicalObject/Grid/grid_fshader.glsl)
+  Framework/Object3D/PhysicalObject/Grid/grid_fshader.glsl
+  Objects/Water/water_vshader.glsl
+  Objects/Water/water_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
 
 add_executable(${EXERCISENAME} ${SOURCES} ${HEADERS} ${SHADERS})

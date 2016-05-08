@@ -11,7 +11,7 @@ class WorldInstance: public World {
         Cube* cube;
         Cube* cube2;
         Cube* cube3;
-        Grid* grid;
+        Water* water;
 
     protected:
 
@@ -23,7 +23,7 @@ class WorldInstance: public World {
             cube = instantiate(new Cube());
             cube2 = instantiate(new Cube());
             cube3 = instantiate(new Cube());
-            grid = instantiate(new Grid());
+            water = instantiate(new Water());
             setCamera(camera);
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
@@ -45,7 +45,7 @@ class WorldInstance: public World {
             cube3->translate(vec3(2.0f, 0.0f, -2.0f));
             cube3->rotate(vec3(45.0f, 0.0f, 0.0f));
 
-            grid->rotate(vec3(90.0f, 0.0f, 0.0f));
+            water->rotate(vec3(90.0f, 0.0f, 0.0f));
         }
 
         // method called every frame
