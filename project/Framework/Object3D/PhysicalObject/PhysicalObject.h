@@ -14,7 +14,12 @@ class PhysicalObject: public Object3D {
         virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
 
-        void setDrawMode(GLenum new_mode) {
+        /** Called to set the drawing mode to either:
+          * 0     - GL_TRIANGLES
+          * 1     - GL_TRIANGLE_STRIP
+          * Other - GL_TRIANGLE_STRIP
+          */
+        void setDrawMode(int new_mode) {
             if (new_mode == 0) {
                 draw_mode_ = GL_TRIANGLES;
             } else if (new_mode == 1) {
