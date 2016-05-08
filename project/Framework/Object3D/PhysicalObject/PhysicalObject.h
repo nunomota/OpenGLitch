@@ -3,15 +3,27 @@
 #include "glm/gtc/type_ptr.hpp"
 
 class PhysicalObject: public Object3D {
-    protected:
+    private:
         GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
 
+    protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
         virtual void LoadShaders() {};            // Called once, to compile the object's shaders
         virtual void SetupVertices() {};          // Called once, to setup the mesh's vertices
         virtual void SetupIndexBuffer() {};       // Called once, to setup the vertices' indices
         virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
+
+        void setDrawMode(GLenum new_mode) {
+            if (new_mode == 0) {
+                draw_mode_ = GL_TRIANGLES;
+            } else if (new_mode == 1) {
+                draw_mode_ = GL_TRIANGLE_STRIP;
+            } else {
+                Reporter::println("Invalid draw mode provided. Reverting to default (GL_TRIANGLE_STRIP)");
+                draw_mode_ = GL_TRIANGLE_STRIP;
+            }
+        }
 
     public:
         void Init() {
