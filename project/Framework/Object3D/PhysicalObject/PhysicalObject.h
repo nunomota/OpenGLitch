@@ -4,6 +4,8 @@
 
 class PhysicalObject: public Object3D {
     protected:
+        GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
+
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
         virtual void LoadShaders() {};            // Called once, to compile the object's shaders
         virtual void SetupVertices() {};          // Called once, to setup the mesh's vertices
@@ -66,7 +68,7 @@ class PhysicalObject: public Object3D {
                 UpdateUniforms();
 
                 // draw
-                glDrawElements(GL_TRIANGLE_STRIP, num_indices_, GL_UNSIGNED_INT, 0);
+                glDrawElements(draw_mode_, num_indices_, GL_UNSIGNED_INT, 0);
 
                 glBindVertexArray(0);
                 glUseProgram(0);
