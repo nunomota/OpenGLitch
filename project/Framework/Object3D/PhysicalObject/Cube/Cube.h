@@ -15,15 +15,22 @@ class Cube: public PhysicalObject {
                                     -1.0f,  1.0f, -1.0f};// left, top, back
 
         // index buffer
-        const GLuint index[14] = {5, 4, 1,
-                                  0, 3, 4,
-                                  7, 5, 6,
-                                  1, 2, 3,
-                                  6, 7};
+        const GLuint index[36] = {0, 1, 2,
+                                  0, 2, 3,
+                                  1, 5, 6,
+                                  1, 6, 2,
+                                  5, 4, 7,
+                                  5, 7, 6,
+                                  4, 0, 3,
+                                  4, 3, 7,
+                                  3, 2, 6,
+                                  3, 6, 7,
+                                  1, 0, 4,
+                                  1, 4, 5};
 
     protected:
         void InitialCalculations() {
-            setDrawMode(1);
+            setDrawMode(0);
         }
 
         void LoadShaders() {
