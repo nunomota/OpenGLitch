@@ -5,6 +5,7 @@
 class PhysicalObject: public Object3D {
     private:
         GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
+        bool is_texture_defined = false;
 
     protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
@@ -28,6 +29,48 @@ class PhysicalObject: public Object3D {
                 Reporter::println("Invalid draw mode provided. Reverting to default (GL_TRIANGLE_STRIP)");
                 draw_mode_ = GL_TRIANGLE_STRIP;
             }
+        }
+
+        /** This method can be called from any of
+          * the virtual methods defined above except 
+          * 'InitialCalculations'. 
+          */
+        void setTexture(string texture_name) {
+            int width;
+            int height;
+            int nb_component;
+
+            is_texture_defined = true;
+            
+            // set stb_image to have the same coordinates as OpenGL
+            stbi_set_flip_vertically_on_load(1);
+            unsigned char* image = stbi_load(texture_name.c_str(), &width,
+                                             &height, &nb_component, 0);
+
+            if(image == nullptr) {
+                is_texture_defined = false;
+                throw(string("Failed to load texture"));
+            }
+
+            glGenTextures(1, &texture_id_);
+            glBindTexture(GL_TEXTURE_2D, texture_id_);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+            if(nb_component == 3) {
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
+                             GL_RGB, GL_UNSIGNED_BYTE, image);
+            } else if(nb_component == 4) {
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+                             GL_RGBA, GL_UNSIGNED_BYTE, image);
+            }
+
+            GLuint tex_id = glGetUniformLocation(program_id_, "texture");
+            glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
+
+            // cleanup
+            glBindTexture(GL_TEXTURE_2D, 0);
+            stbi_image_free(image);
         }
 
     public:
