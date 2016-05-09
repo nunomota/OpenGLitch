@@ -60,6 +60,12 @@ class World {
             }
         }
 
+        /** WARNING!! This method does not eliminate the objects
+          * inside the 'texture_rendering_cameras' vector. If
+          * the cameras are instantiated like every other object
+          * (AS THEY SHOULD) they will also be inside the 'objects'
+          * vector and their memory will be freed.
+          */
         void cleanupObjects() {
             Reporter::println("Cleaning up objects", "World");
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
