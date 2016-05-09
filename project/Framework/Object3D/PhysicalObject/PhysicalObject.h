@@ -5,7 +5,6 @@
 class PhysicalObject: public Object3D {
     private:
         GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
-        bool is_texture_defined = false;
 
     protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
@@ -39,9 +38,8 @@ class PhysicalObject: public Object3D {
             int width;
             int height;
             int nb_component;
+            texture_holder holder;
             GLuint texture_id;
-
-            is_texture_defined = true;
 
             // set stb_image to have the same coordinates as OpenGL
             stbi_set_flip_vertically_on_load(1);
@@ -49,8 +47,10 @@ class PhysicalObject: public Object3D {
                                              &height, &nb_component, 0);
 
             if(image == nullptr) {
-                is_texture_defined = false;
+                holder.is_loaded = false;
                 throw(string("Failed to load texture"));
+            } else {
+                holder.is_loaded = true;
             }
 
             glGenTextures(1, &texture_id);
@@ -72,7 +72,8 @@ class PhysicalObject: public Object3D {
             GLuint tex_id = glGetUniformLocation(program_id_, tex_name.str().c_str());
             glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
 
-            texture_ids_.push_back(texture_id);
+            holder.texture_id = texture_id;
+            texture_ids_.push_back(holder);
 
             // cleanup
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -127,11 +128,11 @@ class PhysicalObject: public Object3D {
                 glBindVertexArray(vertex_array_id_);
 
                 // bind texture
-                if (is_texture_defined) {
-                    for(std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
-                        GLuint cur_id = *it;
+                for(std::vector<texture_holder>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                    texture_holder cur_holder = *it;
+                    if (cur_holder.is_loaded) {
                         glActiveTexture(GL_TEXTURE0);
-                        glBindTexture(GL_TEXTURE_2D, cur_id);
+                        glBindTexture(GL_TEXTURE_2D, cur_holder.texture_id);
                     }
                 }
 
@@ -160,11 +161,9 @@ class PhysicalObject: public Object3D {
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
             // TODO turn boolean value into boolean vector
-            if (is_texture_defined) {
-                for (std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
-                    GLuint cur_id = *it;
-                    glDeleteTextures(1, &cur_id);
-                }
+            for (std::vector<texture_holder>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                texture_holder cur_holder = *it;
+                if (cur_holder.is_loaded) glDeleteTextures(1, &(cur_holder.texture_id));
             }
         }
 };
