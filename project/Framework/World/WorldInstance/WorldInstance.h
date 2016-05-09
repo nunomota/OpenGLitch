@@ -12,6 +12,7 @@ class WorldInstance: public World {
         Cube* cube2;
         Cube* cube3;
         Water* water;
+        LiveViewer* liveViewer;
 
     protected:
 
@@ -20,11 +21,14 @@ class WorldInstance: public World {
             Reporter::println("Start method called");
             camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            enableLiveRenderer(camera);
+            setCamera(camera);
+
             cube = instantiate(new Cube());
             cube2 = instantiate(new Cube());
             cube3 = instantiate(new Cube());
             water = instantiate(new Water());
-            setCamera(camera);
+            liveViewer = instantiate(new LiveViewer(camera->getRenderTextureID()));
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -46,6 +50,8 @@ class WorldInstance: public World {
             cube3->rotate(vec3(45.0f, 0.0f, 0.0f));
 
             water->rotate(vec3(90.0f, 0.0f, 0.0f));
+            liveViewer->rotate(vec3(90.0f, 0.0f, 0.0f));
+            liveViewer->translate(vec3(2.0f, 0.0f, 0.0f));
         }
 
         // method called every frame

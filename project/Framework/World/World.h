@@ -49,9 +49,9 @@ class World {
                     camera->bindRenderBuffer();
                     for (std::vector<Object3D*>::iterator o_it = objects.begin(); o_it != objects.end(); ++o_it) {
                         Object3D* object = (*o_it);
-                        if(object && main_camera) {
+                        if(object) {
                             if (object->getRenderer()->getState()) {
-                                object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
                             }
                         }
                     }
@@ -240,10 +240,10 @@ class World {
 
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
+            drawRenderTextures();
             drawObjects();
             world_time.Update();
             Update();
-            drawRenderTextures();
         }
 
         void Terminate() {
