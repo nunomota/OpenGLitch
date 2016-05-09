@@ -9,6 +9,7 @@ class World {
 
         std::vector<Object3D*> uninitialized;
         std::vector<Object3D*> objects;
+        std::vector<Camera*> texture_rendering_cameras;
         Camera* main_camera;
         DirectionalLight* main_light;
 
@@ -41,6 +42,24 @@ class World {
             }
         }
 
+        void drawRenderTextures() {
+            for (std::vector<Camera*>::iterator c_it = texture_rendering_cameras.begin(); c_it != texture_rendering_cameras.end(); ++c_it) {
+                Camera* camera = (*c_it);
+                if (camera) {
+                    camera->bindRenderBuffer();
+                    for (std::vector<Object3D*>::iterator o_it = objects.begin(); o_it != objects.end(); ++o_it) {
+                        Object3D* object = (*o_it);
+                        if(object && main_camera) {
+                            if (object->getRenderer()->getState()) {
+                                object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+                            }
+                        }
+                    }
+                    camera->unbindRenderBuffer();
+                }
+            }
+        }
+
         void cleanupObjects() {
             Reporter::println("Cleaning up objects", "World");
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
@@ -58,6 +77,7 @@ class World {
             }
             uninitialized.clear();
             objects.clear();
+            texture_rendering_cameras.clear();
             are_objects_uninitialized = false;
             Reporter::println("All objects cleaned up", "World");
         }
@@ -81,6 +101,15 @@ class World {
                 are_objects_uninitialized = true;
             }
             return new_object;
+        }
+
+        /** Method called to start rendering a Camera's
+          * view to a live texture.
+          *
+          * Usage:       enableLiveRenderer(camera_ptr)
+          */
+        void enableLiveRenderer(Camera* camera) {
+            texture_rendering_cameras.push_back(camera);
         }
 
         /** Method called to destroy a previously instantiated
@@ -214,6 +243,7 @@ class World {
             drawObjects();
             world_time.Update();
             Update();
+            drawRenderTextures();
         }
 
         void Terminate() {

@@ -89,12 +89,12 @@ class Camera: public EmptyObject {
         }
 
         void bindRenderBuffer() {
-            framebuffer.bind();
+            framebuffer.Bind();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
         void unbindRenderBuffer() {
-            framebuffer.unbind();
+            framebuffer.Unbind();
         }
 
         glm::mat4 getViewMatrix() {
