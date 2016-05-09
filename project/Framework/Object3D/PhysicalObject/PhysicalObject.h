@@ -66,7 +66,10 @@ class PhysicalObject: public Object3D {
                              GL_RGBA, GL_UNSIGNED_BYTE, image);
             }
 
-            GLuint tex_id = glGetUniformLocation(program_id_, "tex");
+            std::ostringstream tex_name;
+            tex_name << "tex" << texture_ids_.size();
+
+            GLuint tex_id = glGetUniformLocation(program_id_, tex_name.str().c_str());
             glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
 
             texture_ids_.push_back(texture_id);
