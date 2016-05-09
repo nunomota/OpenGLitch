@@ -97,6 +97,10 @@ class Camera: public EmptyObject {
             return projection_;
         }
 
+        GLuint getRenderTextureID() {
+            return render_texture_id;
+        }
+
         void Cleanup() {
             framebuffer.Cleanup();
         }
