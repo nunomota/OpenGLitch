@@ -39,7 +39,7 @@ class PhysicalObject: public Object3D {
             tex_name << "tex" << texture_ids_.size();
 
             GLuint tex_id = glGetUniformLocation(program_id_, tex_name.str().c_str());
-            glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
+            glUniform1i(tex_id, texture_ids_.size());
 
             texture_ids_.push_back(texture_id);
         }
