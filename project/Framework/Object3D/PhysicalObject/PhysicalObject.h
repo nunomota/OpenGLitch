@@ -35,10 +35,11 @@ class PhysicalObject: public Object3D {
           * the virtual methods defined above except 
           * 'InitialCalculations'. 
           */
-        void setTexture(string texture_name) {
+        void addTexture(string texture_name) {
             int width;
             int height;
             int nb_component;
+            GLuint texture_id;
 
             is_texture_defined = true;
 
@@ -52,8 +53,8 @@ class PhysicalObject: public Object3D {
                 throw(string("Failed to load texture"));
             }
 
-            glGenTextures(1, &texture_id_);
-            glBindTexture(GL_TEXTURE_2D, texture_id_);
+            glGenTextures(1, &texture_id);
+            glBindTexture(GL_TEXTURE_2D, texture_id);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -67,6 +68,8 @@ class PhysicalObject: public Object3D {
 
             GLuint tex_id = glGetUniformLocation(program_id_, "tex");
             glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
+
+            texture_ids_.push_back(texture_id);
 
             // cleanup
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -122,8 +125,11 @@ class PhysicalObject: public Object3D {
 
                 // bind texture
                 if (is_texture_defined) {
-                    glActiveTexture(GL_TEXTURE0);
-                    glBindTexture(GL_TEXTURE_2D, texture_id_);
+                    for(std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                        GLuint cur_id = *it;
+                        glActiveTexture(GL_TEXTURE0);
+                        glBindTexture(GL_TEXTURE_2D, cur_id);
+                    }
                 }
 
                 // setup MVP
@@ -150,6 +156,12 @@ class PhysicalObject: public Object3D {
             glDeleteBuffers(1, &vertex_buffer_object_index_);
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
-            if (is_texture_defined) glDeleteTextures(1, &texture_id_);
+            // TODO turn boolean value into boolean vector
+            if (is_texture_defined) {
+                for (std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                    GLuint cur_id = *it;
+                    glDeleteTextures(1, &cur_id);
+                }
+            }
         }
 };

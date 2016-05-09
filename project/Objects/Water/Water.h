@@ -9,7 +9,7 @@ class Water: public Grid {
         }
 
         void SetupUniforms() {
-            setTexture("water.tga");
+            addTexture("water.tga");
             // TODO setup time for animation
         }
 
