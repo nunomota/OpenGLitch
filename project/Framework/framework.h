@@ -10,6 +10,11 @@
 #include "Loader/Loader.h"
 
 /*--------------------
+| Frame buffer class |
+--------------------*/
+#include "FrameBuffer/FrameBuffer.h"
+
+/*--------------------
 |     Time class     |
 --------------------*/
 #include "Time/Time.h"
