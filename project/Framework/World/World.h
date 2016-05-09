@@ -14,7 +14,7 @@ class World {
 
         Time world_time;
         bool are_objects_uninitialized;
-        float camera_aspect_ratio;
+        int window_width, window_height;
 
         void initializeObjects() {
             Reporter::println("Objects being initialized", "World");
@@ -120,7 +120,7 @@ class World {
         void setCamera(Camera* camera) {
             if (camera) {
                 main_camera = camera;
-                main_camera->setAspect(camera_aspect_ratio);
+                main_camera->setScreenDimensions(window_width, window_height);
             }
         }
 
@@ -203,7 +203,8 @@ class World {
     public:
         void Init() {
             are_objects_uninitialized = false;
-            camera_aspect_ratio = 1.0f;
+            window_width = 600;
+            window_height = 400;
             world_time.Init();
             Start();
         }
@@ -227,10 +228,12 @@ class World {
             mouse.setState(key, state);
         }
 
-        void setAspectRatio(float new_aspect) {
-            if (new_aspect > 0.0f) {
-                camera_aspect_ratio = new_aspect;
-                if (main_camera) main_camera->setAspect(new_aspect);
+        void setWindowDimensions(int new_width, int new_height) {
+            float new_aspect = (float)new_width / (float)new_height;
+            if (new_width > 0 && new_height > 0) {
+                window_width = new_width;
+                window_height = new_height;
+                if (main_camera) main_camera->setScreenDimensions(new_width, new_height);
             }
         }
 };

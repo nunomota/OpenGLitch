@@ -37,7 +37,7 @@ void SetupProjection(GLFWwindow* window, int width, int height) {
 
     Reporter::println("Window has been resized", "OpenGL");
 
-    world.setAspectRatio((float)window_width/(float)window_height);
+    world.setWindowDimensions(window_width, window_height);
     glViewport(0, 0, window_width, window_height);
 }
 

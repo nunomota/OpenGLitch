@@ -15,8 +15,12 @@ class Camera: public EmptyObject {
         float near_;
         float far_;
 
+        int width_, height_;
+
         glm::mat4 view_;
         glm::mat4 projection_;
+
+        FrameBuffer framebuffer;
 
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
@@ -35,6 +39,14 @@ class Camera: public EmptyObject {
             projection_[2][3] = -1.0f;
         }
 
+        void setAspect() {
+            float new_aspect = (float)width_/(float)height_;
+            if (new_aspect > 0) {
+                aspect_ = new_aspect;
+                recalculateProjectionMatrix();
+            }
+        }
+
     public:
         Camera(float fovy, float aspect, float near, float far) {
             fovy_ = (fovy > 0)? fovy : default_fovy;
@@ -51,10 +63,11 @@ class Camera: public EmptyObject {
             }
         }
 
-        void setAspect(float new_aspect) {
-            if (new_aspect > 0) {
-                aspect_ = new_aspect;
-                recalculateProjectionMatrix();
+        void setScreenDimensions(int new_width, int new_height) {
+            if (new_width > 0 && new_height > 0) {
+                width_ = new_width;
+                height_ = new_height;
+                setAspect();
             }
         }
 
