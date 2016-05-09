@@ -11,5 +11,5 @@ class EmptyObject: public Object3D {
         void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
                   const glm::mat4 &projection = IDENTITY_MATRIX) {}
 
-        void Cleanup() {}
+        virtual void Cleanup() {}
 };

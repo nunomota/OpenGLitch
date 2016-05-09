@@ -96,4 +96,8 @@ class Camera: public EmptyObject {
         glm::mat4 getProjectionMatrix() {
             return projection_;
         }
+
+        void Cleanup() {
+            framebuffer.Cleanup();
+        }
 };
