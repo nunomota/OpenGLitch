@@ -21,6 +21,7 @@ class Camera: public EmptyObject {
         glm::mat4 projection_;
 
         FrameBuffer framebuffer;
+        GLuint render_texture_id;
 
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
@@ -54,6 +55,8 @@ class Camera: public EmptyObject {
             near_ = near;
             far_ = (far > near)? far : near + default_far_distance;
             recalculateProjectionMatrix();
+
+            render_texture_id = framebuffer.Init(width_, height_);
         }
 
         void setFov(float new_fov) {
