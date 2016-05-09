@@ -5,6 +5,11 @@
 #include "Debugging/Reporter/Reporter.h"
 
 /*--------------------
+|    Loader class    |
+--------------------*/
+#include "Loader/Loader.h"
+
+/*--------------------
 |     Time class     |
 --------------------*/
 #include "Time/Time.h"

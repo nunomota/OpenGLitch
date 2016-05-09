@@ -34,50 +34,14 @@ class PhysicalObject: public Object3D {
           * the virtual methods defined above except 
           * 'InitialCalculations'. 
           */
-        void addTexture(string texture_name) {
-            int width;
-            int height;
-            int nb_component;
-            texture_holder holder;
-            GLuint texture_id;
-
-            // set stb_image to have the same coordinates as OpenGL
-            stbi_set_flip_vertically_on_load(1);
-            unsigned char* image = stbi_load(texture_name.c_str(), &width,
-                                             &height, &nb_component, 0);
-
-            if(image == nullptr) {
-                holder.is_loaded = false;
-                throw(string("Failed to load texture"));
-            } else {
-                holder.is_loaded = true;
-            }
-
-            glGenTextures(1, &texture_id);
-            glBindTexture(GL_TEXTURE_2D, texture_id);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-            if(nb_component == 3) {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
-                             GL_RGB, GL_UNSIGNED_BYTE, image);
-            } else if(nb_component == 4) {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-                             GL_RGBA, GL_UNSIGNED_BYTE, image);
-            }
-
+        void addTexture(GLuint texture_id) {
             std::ostringstream tex_name;
             tex_name << "tex" << texture_ids_.size();
 
             GLuint tex_id = glGetUniformLocation(program_id_, tex_name.str().c_str());
             glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
 
-            holder.texture_id = texture_id;
-            texture_ids_.push_back(holder);
-
-            // cleanup
-            glBindTexture(GL_TEXTURE_2D, 0);
-            stbi_image_free(image);
+            texture_ids_.push_back(texture_id);
         }
 
     public:
@@ -127,13 +91,11 @@ class PhysicalObject: public Object3D {
                 glUseProgram(program_id_);
                 glBindVertexArray(vertex_array_id_);
 
-                // bind texture
-                for(std::vector<texture_holder>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
-                    texture_holder cur_holder = *it;
-                    if (cur_holder.is_loaded) {
-                        glActiveTexture(GL_TEXTURE0);
-                        glBindTexture(GL_TEXTURE_2D, cur_holder.texture_id);
-                    }
+                // bind textures
+                for(std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                    GLuint cur_id = *it;
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, cur_id);
                 }
 
                 // setup MVP
@@ -161,9 +123,9 @@ class PhysicalObject: public Object3D {
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
             // TODO turn boolean value into boolean vector
-            for (std::vector<texture_holder>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
-                texture_holder cur_holder = *it;
-                if (cur_holder.is_loaded) glDeleteTextures(1, &(cur_holder.texture_id));
+            for (std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
+                GLuint cur_id = *it;
+                glDeleteTextures(1, &cur_id);
             }
         }
 };

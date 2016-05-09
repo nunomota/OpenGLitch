@@ -9,7 +9,8 @@ class Water: public Grid {
         }
 
         void SetupUniforms() {
-            addTexture("water.tga");
+            GLuint texture = Loader::loadTexture("water.tga");
+            addTexture(texture);
             // TODO setup time for animation
         }
 

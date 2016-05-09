@@ -2,11 +2,6 @@
 #include "icg_helper.h"
 #include "glm/gtc/type_ptr.hpp"
 
-typedef struct {
-    GLuint texture_id;
-    bool is_loaded = true;
-} texture_holder;
-
 /** The Object3D class is a generic class from
   * which every 3D object instatiated on a scene
   * inherit from.
@@ -22,7 +17,7 @@ class Object3D {
         GLuint num_indices_;                      // number of vertices to render
         GLuint MVP_id_;                           // model, view, proj matrix ID
 
-        std::vector<texture_holder> texture_ids_; // Optional texture IDs
+        std::vector<GLuint> texture_ids_;         // Optional texture IDs
 
         bool is_initialized_ = false;
 
