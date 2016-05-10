@@ -116,6 +116,7 @@ class World {
           */
         void enableLiveRenderer(Camera* camera) {
             texture_rendering_cameras.push_back(camera);
+            camera->setScreenDimensions(window_width, window_height);
         }
 
         /** Method called to destroy a previously instantiated
@@ -270,6 +271,10 @@ class World {
                 window_width = new_width;
                 window_height = new_height;
                 if (main_camera) main_camera->setScreenDimensions(new_width, new_height);
+                for (std::vector<Camera*>::iterator c_it = texture_rendering_cameras.begin(); c_it != texture_rendering_cameras.end(); ++c_it) {
+                    Camera* camera = (*c_it);
+                    if (camera) camera->setScreenDimensions(window_width, window_height);
+                }
             }
         }
 };
