@@ -19,8 +19,9 @@ void Init() {
 
     // enable depth test.
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+    // TODO re-enable but fix Object3D initialization
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_FRONT);
 }
 
 // gets called for every frame.
