@@ -13,8 +13,8 @@ class Terrain: public Grid {
 
         void LoadShaders() {
             // compile the shaders.
-            program_id_ = icg_helper::LoadShaders("grid_vshader.glsl",
-                                                  "grid_fshader.glsl");
+            program_id_ = icg_helper::LoadShaders("terrain_vshader.glsl",
+                                                  "terrain_fshader.glsl");
         }
 
         void FinalOperations() {
