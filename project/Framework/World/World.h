@@ -10,8 +10,9 @@ class World {
         std::vector<Object3D*> uninitialized;
         std::vector<Object3D*> objects;
         std::vector<Camera*> texture_rendering_cameras;
-        Camera* main_camera;
-        DirectionalLight* main_light;
+
+        Camera* main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+        DirectionalLight* main_light = instantiate(new DirectionalLight());
 
         Time world_time;
         bool are_objects_uninitialized;
@@ -126,27 +127,29 @@ class World {
           * Usage:       destroy(obj_ptr)
           */
         void destroy(Object3D* target_object) {
-            std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
-            for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
-                Object3D* object = (*it);
-                if (object) {
-                    object->Cleanup();
-                    delete object;
+            if (target_object != main_camera && target_object != main_light) {
+                std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
+                for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
+                    Object3D* object = (*it);
+                    if (object) {
+                        object->Cleanup();
+                        delete object;
+                    }
                 }
-            }
-            uninitialized.erase(uninitialized_delete_index, uninitialized.end());
+                uninitialized.erase(uninitialized_delete_index, uninitialized.end());
 
-            std::vector<Object3D*>::iterator objects_delete_index = std::remove(objects.begin(), objects.end(), target_object);
-            for (std::vector<Object3D*>::iterator it = objects_delete_index; it != objects.end(); ++it) {
-                Object3D* object = (*it);
-                if (object) {
-                    object->Cleanup();
-                    delete object;
+                std::vector<Object3D*>::iterator objects_delete_index = std::remove(objects.begin(), objects.end(), target_object);
+                for (std::vector<Object3D*>::iterator it = objects_delete_index; it != objects.end(); ++it) {
+                    Object3D* object = (*it);
+                    if (object) {
+                        object->Cleanup();
+                        delete object;
+                    }
                 }
-            }
-            objects.erase(objects_delete_index, objects.end());
+                objects.erase(objects_delete_index, objects.end());
 
-            if (uninitialized.empty()) are_objects_uninitialized = false;
+                if (uninitialized.empty()) are_objects_uninitialized = false;
+            }
         }
 
         /** Method called to set the main camera
