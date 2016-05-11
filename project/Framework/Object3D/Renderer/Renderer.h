@@ -24,7 +24,7 @@ class Renderer {
             material = new_material;
         }
 
-        Material getMaterial() {
-            return material;
+        Material* getMaterial() {
+            return &material;
         }
 };
