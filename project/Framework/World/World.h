@@ -32,13 +32,14 @@ class World {
             Reporter::println("All objects initialized", "World");
         }
 
-        void drawObjects() {
-            glViewport(0, 0, window_width, window_height);
-            for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                Object3D* object = (*it);
-                if(object && main_camera) {
-                    if (object->getRenderer()->getState()) {
-                        object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+        void drawObjects(Camera* camera) {
+            if (camera) {
+                for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+                    Object3D* object = (*it);
+                    if(object) {
+                        if (object->getRenderer()->getState()) {
+                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
+                        }
                     }
                 }
             }
@@ -49,14 +50,7 @@ class World {
                 Camera* camera = (*c_it);
                 if (camera) {
                     camera->bindRenderBuffer();
-                    for (std::vector<Object3D*>::iterator o_it = objects.begin(); o_it != objects.end(); ++o_it) {
-                        Object3D* object = (*o_it);
-                        if(object) {
-                            if (object->getRenderer()->getState()) {
-                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
-                            }
-                        }
-                    }
+                    drawObjects(camera);
                     camera->unbindRenderBuffer();
                 }
             }
@@ -257,7 +251,8 @@ class World {
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
             drawRenderTextures();
-            drawObjects();
+            glViewport(0, 0, window_width, window_height);
+            drawObjects(main_camera);
             world_time.Update();
             Update();
         }
