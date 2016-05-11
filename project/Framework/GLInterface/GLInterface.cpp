@@ -7,8 +7,8 @@
 #include "../framework.h"
 
 WorldInstance world;
-int window_width = 800;
-int window_height = 600;
+int window_width = 600;
+int window_height = 400;
 
 using namespace glm;
 
