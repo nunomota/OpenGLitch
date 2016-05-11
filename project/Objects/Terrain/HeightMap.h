@@ -180,18 +180,14 @@ class HeightMap {
         void Draw() {
             glUseProgram(program_id_);
             glBindVertexArray(vertex_array_id_);
-        check_error_gl();
             glUniform1f(glGetUniformLocation(program_id_, "num_tiles"), num_of_tiles);
             glUniform1f(glGetUniformLocation(program_id_, "H"), amplitude);
             glUniform1i(glGetUniformLocation(program_id_, "octaves"), octaves);
             glUniform1f(glGetUniformLocation(program_id_, "gain"), gain);
             glUniform1f(glGetUniformLocation(program_id_, "offset"), offset);
             glUniform1i(glGetUniformLocation(program_id_, "fractal_algorithm"), fractal_algo);
-        check_error_gl();
             glActiveTexture(GL_TEXTURE0);
-        check_error_gl();
             //glBindTexture(GL_TEXTURE_1D, texture_1_id_);
-        check_error_gl();
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
             glBindVertexArray(0);
