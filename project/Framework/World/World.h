@@ -11,8 +11,8 @@ class World {
         std::vector<Object3D*> objects;
         std::vector<Camera*> texture_rendering_cameras;
 
-        Camera* main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
-        DirectionalLight* main_light = instantiate(new DirectionalLight());
+        Camera* main_camera;
+        DirectionalLight* main_light;
 
         Time world_time;
         bool are_objects_uninitialized;
@@ -243,8 +243,13 @@ class World {
     public:
         void Init() {
             are_objects_uninitialized = false;
+
             window_width = 600;
             window_height = 400;
+
+            main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            main_light = instantiate(new DirectionalLight());
+
             world_time.Init();
             Start();
         }
