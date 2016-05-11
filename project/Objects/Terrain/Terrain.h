@@ -14,7 +14,7 @@ class Terrain: public Grid {
             // Draw the heightmap and store id
             framebuffer.Bind();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            HeightMap.Draw();
+            height_map.Draw();
             framebuffer.Unbind();
         }
 
