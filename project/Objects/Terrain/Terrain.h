@@ -20,8 +20,8 @@ class Terrain: public Grid {
 
         void LoadShaders() {
             // compile the shaders.
-            program_id_ = icg_helper::LoadShaders("water_vshader.glsl",
-                                                  "water_fshader.glsl");
+            program_id_ = icg_helper::LoadShaders("terrain_vshader.glsl",
+                                                  "terrain_fshader.glsl");
         }
 
         void SetupUniforms() {
