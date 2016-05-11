@@ -32,6 +32,7 @@ class World {
         }
 
         void drawObjects() {
+            glViewport(0, 0, window_width, window_height);
             for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                 Object3D* object = (*it);
                 if(object && main_camera) {

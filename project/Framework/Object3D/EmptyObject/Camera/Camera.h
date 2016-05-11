@@ -6,6 +6,8 @@
 
 class Camera: public EmptyObject {
     private:
+        static const int default_width = 600;
+
         const float default_fovy = 45.0f;
         const float default_aspect = 1.0f;
         const float default_far_distance = 10.0f;
@@ -56,6 +58,8 @@ class Camera: public EmptyObject {
             far_ = (far > near)? far : near + default_far_distance;
             recalculateProjectionMatrix();
 
+            width_ = default_width;
+            height_ = (float)width_ / aspect;
             render_texture_id = framebuffer.Init(width_, height_);
         }
 

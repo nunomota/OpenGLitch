@@ -68,10 +68,18 @@ class FrameBuffer {
                                        0 /*level*/);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                                           GL_RENDERBUFFER, depth_render_buffer_id_);
-
+                glDrawBuffer(GL_COLOR_ATTACHMENT0);
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) !=
                     GL_FRAMEBUFFER_COMPLETE) {
-                    cerr << "!!!ERROR: Framebuffer not OK :(" << endl;
+                    cerr << "!!!ERROR: Framebuffer not OK :( " << glCheckFramebufferStatus(GL_FRAMEBUFFER) << endl;
+                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT)
+                        cerr << "incomplete attachment" << endl;
+                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT)
+                        cerr << "missing attachment" << endl;
+                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_UNSUPPORTED)
+                        cerr << "unsupported" << endl;
+
+
                 }
                 glBindFramebuffer(GL_FRAMEBUFFER, 0); // avoid pollution
             }
