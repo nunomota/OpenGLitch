@@ -1,22 +1,16 @@
 #version 330
 #define M_PI 3.14f
 
-in vec2 position;
-uniform sampler2D tex_height;
+in vec3 position;
+uniform sampler2D tex0;
 
 out vec2 uv;
+out vec3 pos_3d;
 
 uniform mat4 MVP;
 
 void main() {
-    uv = (position + vec2(1.0, 1.0)) * 0.5;
-
-    // convert the 2D position into 3D positions that all lay in a horizontal
-    // plane.p
-    // TODO 6: animate the height of the grid points as a sine function of the
-    // 'time' and the position ('uv') within the grid.
-    //to be use if we want to animate the water.
-    //float height = 0.05 * (sin((position.x + time) * M_PI * 2.0f) * sin((position.y + time) * M_PI * 2.0f));
+    uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
 
     //Find displacement of vertex
     float height = texture(tex_height, uv).x;
@@ -41,7 +35,7 @@ void main() {
     }
     average_height /= max_i*max_j;
 
-    vec3 pos_3d = vec3(position.x, average_height, -position.y);
+    pos_3d = vec3(position.x, average_height, -position.y);
 
     gl_Position = MVP * vec4(pos_3d, 1.0);
 }
