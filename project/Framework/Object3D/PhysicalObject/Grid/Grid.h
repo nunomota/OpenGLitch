@@ -4,7 +4,7 @@
 
 class Grid: public PhysicalObject {
     private:
-        const int grid_dim = 512;
+        int grid_dim = 512;
         std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;
 
@@ -17,6 +17,14 @@ class Grid: public PhysicalObject {
         }
 
     protected:
+        void setDimension(int new_dim) {
+            if (new_dim > 0) grid_dim = new_dim;
+        }
+
+        void getDimension() {
+            return grid_dim;
+        }
+
         void InitialCalculations() {
             setDrawMode(1);
             float step = 2.0f / (float)grid_dim;
