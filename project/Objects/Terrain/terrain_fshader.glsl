@@ -23,11 +23,11 @@ void main() {
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
 
-    if(n.z > 0.10f){
+    if(n.y > 0.10f){
          //white
         Ld = vec3(1.0f, 1.0f, 1.0f);
         kd = vec3(1.0f, 1.0f, 1.0f);
-    }else if(n.z > 0.01f){
+    }else if(n.y > 0.01f){
         //yellow
         Ld = vec3(0.0f, 1.0f, 0.0f);
         kd = vec3(0.0f, 1.0f, 0.0f);
