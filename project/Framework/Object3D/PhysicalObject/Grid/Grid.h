@@ -21,7 +21,7 @@ class Grid: public PhysicalObject {
             if (new_dim > 0) grid_dim = new_dim;
         }
 
-        void getDimension() {
+        int getDimension() {
             return grid_dim;
         }
 

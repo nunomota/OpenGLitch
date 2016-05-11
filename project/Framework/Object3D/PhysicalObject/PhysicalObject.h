@@ -13,6 +13,7 @@ class PhysicalObject: public Object3D {
         virtual void SetupIndexBuffer() {};       // Called once, to setup the vertices' indices
         virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
+        virtual void FinalOperations() {};        // Called once, when the object is being cleaned up and destroyed
 
         /** Called to set the drawing mode to either:
           * 0     - GL_TRIANGLES
@@ -129,5 +130,6 @@ class PhysicalObject: public Object3D {
                 GLuint cur_id = *it;
                 glDeleteTextures(1, &cur_id);
             }
+            FinalOperations();
         }
 };
