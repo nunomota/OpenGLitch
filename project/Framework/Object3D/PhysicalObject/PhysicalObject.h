@@ -77,6 +77,7 @@ class PhysicalObject: public Object3D {
             // other uniforms
             MVP_id_ = glGetUniformLocation(program_id_, "MVP");
             renderer.getMaterial()->setUniforms(program_id_);
+            
             SetupUniforms();
 
             // to avoid the current object being polluted
