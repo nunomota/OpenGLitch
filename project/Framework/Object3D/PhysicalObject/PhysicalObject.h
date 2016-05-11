@@ -5,6 +5,7 @@
 class PhysicalObject: public Object3D {
     private:
         GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
+        GLuint Ma_id_, Md_id_, Ms_id_, alpha_id_;
 
     protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
@@ -76,6 +77,9 @@ class PhysicalObject: public Object3D {
 
             // other uniforms
             MVP_id_ = glGetUniformLocation(program_id_, "MVP");
+            Ma_id_ = glGetUniformLocation(program_id_, "Ma");
+            Md_id_ = glGetUniformLocation(program_id_, "Md");
+            Ms_id_ = glGetUniformLocation(program_id_, "Ms");
             SetupUniforms();
 
             // to avoid the current object being polluted
@@ -102,6 +106,14 @@ class PhysicalObject: public Object3D {
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
+
+                // setup Material uniforms
+                // TODO carefull, mayve getMaterial will have to return a pointer
+                Material material = renderer.getMaterial();
+                glUniform3fv(Ma_id_, ONE, glm::value_ptr(material.getAmbienceColor()));
+                glUniform3fv(Md_id_, ONE, glm::value_ptr(material.getDiffuseColor()));
+                glUniform3fv(Ms_id_, ONE, glm::value_ptr(material.getSpecularColor()));
+                glUniform1f(alpha_id_, material.getAlpha());
 
                 UpdateUniforms();
 
