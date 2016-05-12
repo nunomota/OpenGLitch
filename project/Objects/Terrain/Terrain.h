@@ -25,7 +25,7 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
-            addTexture(height_map_id_);
+            addTexture(Loader::loadTexture("perlin.png"));
         }
 
         void FinalOperations() {

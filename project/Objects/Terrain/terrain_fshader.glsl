@@ -2,6 +2,7 @@
 
 in vec2 uv;
 in vec3 pos_3d;
+in float height;
 uniform sampler2D tex0;
 
 out vec3 color;
@@ -23,12 +24,16 @@ void main() {
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
 
-    if(n.y > 0.10f){
-         //white
+    if (height > 0.66f) {
+        //white
         Ld = vec3(1.0f, 1.0f, 1.0f);
         kd = vec3(1.0f, 1.0f, 1.0f);
-    }else if(n.y > 0.01f){
-        //yellow
+    } else if (height > 0.33f) {
+       //white
+        Ld = vec3(0.7f, 0.7f, 0.7f);
+        kd = vec3(0.7f, 0.7f, 0.7f);
+    } else if(height > 0.0f){
+        //green
         Ld = vec3(0.0f, 1.0f, 0.0f);
         kd = vec3(0.0f, 1.0f, 0.0f);
     }
