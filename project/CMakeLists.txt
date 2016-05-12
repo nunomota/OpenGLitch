@@ -7,7 +7,7 @@ file(GLOB_RECURSE HEADERS "*.h")
 file(GLOB TEXTURES
     Resources/Textures/grid_texture.tga
     Resources/Textures/water.tga
-    Resources/Textures/perlin.png)
+    Resources/Textures/perlin.jpg)
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime
