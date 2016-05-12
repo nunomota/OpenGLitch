@@ -4,15 +4,21 @@
 
 using namespace glm;
 
+typedef struct {
+    Terrain* terrain;
+    Water* water;
+} Chunk;
+
 class WorldInstance: public World {
     private:
         Camera* camera;
         Camera* camera2;
+
+        Minimap* minimapBg;
+        LiveViewer* minimap;
+
         Terrain* terrain;
         Water* water;
-        Minimap* minimapBg;
-
-        LiveViewer* minimap;
 
     protected:
 
@@ -22,15 +28,15 @@ class WorldInstance: public World {
             camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
 
-            terrain = instantiate(new Terrain());
-            water = instantiate(new Water());
-
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 0.0f, -3.0f));
+
+            terrain = instantiate(new Terrain());
+            water = instantiate(new Water());
 
             setupMinimap();
         }
