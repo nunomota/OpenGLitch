@@ -10,6 +10,7 @@ class WorldInstance: public World {
         Camera* camera2;
         Terrain* terrain;
         Water* water;
+        Minimap* minimapBg;
 
         LiveViewer* minimap;
 
@@ -20,11 +21,9 @@ class WorldInstance: public World {
             Reporter::println("Start method called");
             camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
-            enableLiveRenderer(camera2);
 
             terrain = instantiate(new Terrain());
             water = instantiate(new Water());
-            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -33,9 +32,7 @@ class WorldInstance: public World {
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 0.0f, -3.0f));
 
-            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimap->translate(vec3(-0.8f, 0.8f, 0.0f));
-            minimap->scale(vec3(-0.8f, 0.0f, -0.8f));
+            setupMinimap();
         }
 
         // method called every frame
@@ -63,6 +60,20 @@ class WorldInstance: public World {
 
             // make minimap camera follow the main camera
             vec3 camera_pos = camera->getTransform()->getPosition();
-            camera2->getTransform()->setPosition(vec3(camera_pos.x, camera_pos.z, camera_pos.y + 3.0f));
-        }    
+            camera2->getTransform()->setPosition(vec3(camera_pos.x, -camera_pos.z, camera_pos.y + 3.0f));
+        }
+
+        void setupMinimap() {
+            enableLiveRenderer(camera2);
+            minimapBg = instantiate2D(new Minimap());
+            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
+
+            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimap->translate(vec3(-0.75f, 0.75f, 0.0f));
+            minimap->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            minimapBg->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimapBg->translate(vec3(-0.75f, 0.75f, 0.1f));
+            minimapBg->scale(vec3(-0.75f, 0.0f, -0.75f));
+        }
 };
