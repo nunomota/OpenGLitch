@@ -24,17 +24,18 @@ class WorldInstance: public World {
 
             terrain = instantiate(new Terrain());
             water = instantiate(new Water());
-            minimap = instantiate(new LiveViewer(camera2->getRenderTextureID()));
+            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
-            camera2->translate(vec3(0.0f, 0.0f, 3.0f));
+            camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
+            camera2->translate(vec3(0.0f, 0.0f, -3.0f));
 
             minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimap->translate(vec3(0.0f, 0.0f, 6.0f));
-            minimap->scale(vec3(0.0f, 0.5f, 0.0f));
+            minimap->translate(vec3(-0.8f, -0.8f, 0.0f));
+            minimap->scale(vec3(-0.8f, 0.0f, -0.8f));
         }
 
         // method called every frame
@@ -60,8 +61,7 @@ class WorldInstance: public World {
                 getCamera()->translate(vec3(0.0f, -1.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
-            if (getKeyPressed(Keyboard::Z)) {
-                setCamera(camera2);
-            }
+            vec3 camera_pos = camera->getTransform()->getPosition();
+            camera2->getTransform()->setPosition(vec3(camera_pos.x, camera_pos.z, camera_pos.y + 3.0f));
         }    
 };

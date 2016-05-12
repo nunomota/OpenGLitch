@@ -8,7 +8,9 @@ class World {
         Keyboard keyboard;
 
         std::vector<Object3D*> uninitialized;
+        std::vector<Object3D*> uninitialized2D;
         std::vector<Object3D*> objects;
+        std::vector<Object3D*> objects2D;
         std::vector<Camera*> texture_rendering_cameras;
 
         Camera* main_camera;
@@ -28,17 +30,36 @@ class World {
                 }
             }
             uninitialized.clear();
+            for (std::vector<Object3D*>::iterator it = uninitialized2D.begin(); it != uninitialized2D.end(); ++it) {
+                Object3D* object = (*it);
+                if(object) {
+                    object->Init();
+                    objects2D.push_back(object);
+                }
+            }
+            uninitialized2D.clear();
             are_objects_uninitialized = false;
             Reporter::println("All objects initialized", "World");
         }
 
-        void drawObjects(Camera* camera) {
+        void drawObjects(Camera* camera, bool only_3d = true) {
             if (camera) {
                 for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                     Object3D* object = (*it);
                     if(object) {
                         if (object->getRenderer()->getState()) {
                             object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
+                        }
+                    }
+                }
+
+                if (!only_3d) {
+                    for (std::vector<Object3D*>::iterator it = objects2D.begin(); it != objects2D.end(); ++it) {
+                        Object3D* object = (*it);
+                        if(object) {
+                            if (object->getRenderer()->getState()) {
+                                object->Draw();
+                            }
                         }
                     }
                 }
@@ -81,6 +102,21 @@ class World {
             }
             uninitialized.clear();
             objects.clear();
+            for (std::vector<Object3D*>::iterator it = uninitialized2D.begin(); it != uninitialized2D.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    delete object;
+                }
+            }
+            for (std::vector<Object3D*>::iterator it = objects2D.begin(); it != objects2D.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    object->Cleanup();
+                    delete object;
+                }
+            }
+            uninitialized2D.clear();
+            objects2D.clear();
             texture_rendering_cameras.clear();
             are_objects_uninitialized = false;
             Reporter::println("All objects cleaned up", "World");
@@ -102,6 +138,15 @@ class World {
         Object* instantiate(Object* new_object) {
             if (new_object) {
                 uninitialized.push_back(new_object);
+                are_objects_uninitialized = true;
+            }
+            return new_object;
+        }
+
+        template <typename Object>
+        Object* instantiate2D(Object* new_object) {
+            if (new_object) {
+                uninitialized2D.push_back(new_object);
                 are_objects_uninitialized = true;
             }
             return new_object;
@@ -254,7 +299,7 @@ class World {
             if (are_objects_uninitialized) initializeObjects();
             drawRenderTextures();
             glViewport(0, 0, window_width, window_height);
-            drawObjects(main_camera);
+            drawObjects(main_camera, false);
             world_time.Update();
             Update();
         }
