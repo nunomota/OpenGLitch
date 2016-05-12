@@ -34,7 +34,7 @@ class WorldInstance: public World {
             camera2->translate(vec3(0.0f, 0.0f, -3.0f));
 
             minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimap->translate(vec3(-0.8f, -0.8f, 0.0f));
+            minimap->translate(vec3(-0.8f, 0.8f, 0.0f));
             minimap->scale(vec3(-0.8f, 0.0f, -0.8f));
         }
 
@@ -61,6 +61,7 @@ class WorldInstance: public World {
                 getCamera()->translate(vec3(0.0f, -1.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
+            // make minimap camera follow the main camera
             vec3 camera_pos = camera->getTransform()->getPosition();
             camera2->getTransform()->setPosition(vec3(camera_pos.x, camera_pos.z, camera_pos.y + 3.0f));
         }    
