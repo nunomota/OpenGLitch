@@ -37,27 +37,28 @@ class WorldInstance: public World {
 
         // method called every frame
         void Update() {
-            // forward/backward camera movement
+            // upward/downward camera turn
             if (getKeyDown(Keyboard::W)) {
-                getCamera()->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::S)) {
+                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // sideways camera turn
+            if (getKeyDown(Keyboard::D)) {
+                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::A)) {
+                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // front/back camera movement
+            if (getKeyDown(Keyboard::P)) {
+                getCamera()->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::L)) {
                 getCamera()->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
             }
 
-            // sideways camera movement
-            if (getKeyDown(Keyboard::D)) {
-                getCamera()->translate(vec3(1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::A)) {
-                getCamera()->translate(vec3(-1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // upwards/downwards camera movement
-            if (getKeyDown(Keyboard::P)) {
-                getCamera()->translate(vec3(0.0f, 1.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::L)) {
-                getCamera()->translate(vec3(0.0f, -1.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
+            // TODO fix camera movement to world coordinates
             // make minimap camera follow the main camera
             vec3 camera_pos = camera->getTransform()->getPosition();
             camera2->getTransform()->setPosition(vec3(camera_pos.x, -camera_pos.z, camera_pos.y + 3.0f));
