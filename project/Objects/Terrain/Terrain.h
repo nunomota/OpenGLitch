@@ -16,6 +16,11 @@ class Terrain: public Grid {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             height_map.Draw();
             framebuffer.Unbind();
+
+            int pixel[4];
+            std::cout << "(0, 0) " << pixel[0] << std::endl;
+            glReadPixels(0.5f, 0.5f, 1, 1, GL_RGB, GL_INT, &pixel[0]);
+            std::cout << "(0, 0) " << pixel[0] << ", " << pixel[1] << ", " << pixel[2] << ", " << pixel[3] << std::endl;
         }
 
         void LoadShaders() {

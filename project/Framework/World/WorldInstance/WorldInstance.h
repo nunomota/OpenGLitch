@@ -23,8 +23,8 @@ class WorldInstance: public World {
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
-            terrain->rotate(vec3(90.0f, 0.0f, 0.0f));
-            water->translate(vec3(0.5f, 0.0f, 0.0f));
+            //terrain->rotate(vec3(90.0f, 0.0f, 0.0f));
+            //water->translate(vec3(0.5f, 0.0f, 0.0f));
             water->rotate(vec3(90.0f, 0.0f, 0.0f));
         }
 
