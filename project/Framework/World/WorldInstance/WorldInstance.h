@@ -4,11 +4,6 @@
 
 using namespace glm;
 
-typedef struct {
-    Terrain* terrain;
-    Water* water;
-} Chunk;
-
 /** The index of a chunk in the array
   * also represents its relative
   * position according to all others:
@@ -171,20 +166,28 @@ class WorldInstance: public World {
 
             if (mov_vector.x == 1) {
                 // right
+                infinite_terrain.chunks[0].translate(vec3(infinite_terrain.chunk_width*2.0f, 0.0f, 0.0f));
+                infinite_terrain.chunks[2].translate(vec3(infinite_terrain.chunk_width*2.0f, 0.0f, 0.0f));
                 chunkSwap(0, 1);
                 chunkSwap(2, 3);
             } else if (mov_vector.x == -1) {
                 // left
+                infinite_terrain.chunks[1].translate(vec3(infinite_terrain.chunk_width*-2.0f, 0.0f, 0.0f));
+                infinite_terrain.chunks[3].translate(vec3(infinite_terrain.chunk_width*-2.0f, 0.0f, 0.0f));
                 chunkSwap(0, 1);
                 chunkSwap(2, 3);
             }
 
             if (mov_vector.y == 1) {
                 // up
+                infinite_terrain.chunks[0].translate(vec3(0.0f, 0.0f, infinite_terrain.chunk_width*-2.0f));
+                infinite_terrain.chunks[1].translate(vec3(0.0f, 0.0f, infinite_terrain.chunk_width*-2.0f));
                 chunkSwap(0, 2);
                 chunkSwap(1, 3);
             } else if (mov_vector.y == -1) {
                 // down
+                infinite_terrain.chunks[2].translate(vec3(0.0f, 0.0f, infinite_terrain.chunk_width*2.0f));
+                infinite_terrain.chunks[3].translate(vec3(0.0f, 0.0f, infinite_terrain.chunk_width*2.0f));
                 chunkSwap(0, 2);
                 chunkSwap(1, 3);
             }
