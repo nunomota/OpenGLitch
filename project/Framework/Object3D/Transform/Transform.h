@@ -142,5 +142,5 @@ class Transform {
         }
 };
 const glm::vec3 Transform::world_up_vector      = glm::vec3(0.0f, 1.0f, 0.0f);
-const glm::vec3 Transform::world_forward_vector = glm::vec3(0.0f, 0.0f, 1.0f);
+const glm::vec3 Transform::world_forward_vector = glm::vec3(0.0f, 0.0f, -1.0f);
 const glm::vec3 Transform::world_right_vector   = glm::vec3(1.0f, 0.0f, 0.0f);
