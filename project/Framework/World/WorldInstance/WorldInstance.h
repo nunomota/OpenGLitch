@@ -41,7 +41,7 @@ class WorldInstance: public World {
             camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
 
-            camera->translate(vec3(0.0f, 0.0f, 8.0f));
+            camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
