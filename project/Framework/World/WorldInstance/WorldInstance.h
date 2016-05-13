@@ -45,16 +45,16 @@ class WorldInstance: public World {
         void Update() {
             // upward/downward camera turn
             if (getKeyDown(Keyboard::W)) {
-                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::S)) {
                 getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::S)) {
+                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
             // sideways camera turn
             if (getKeyDown(Keyboard::D)) {
-                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::A)) {
                 getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::A)) {
+                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
             // front/back camera movement
@@ -65,8 +65,11 @@ class WorldInstance: public World {
             }
 
             // make minimap camera follow the main camera
-            vec3 camera_pos = camera->getTransform()->getPosition();
-            camera2->getTransform()->setPosition(camera_pos + vec3(0.0f, 3.0f, 0.0f));
+            Transform* camera_transform = camera->getTransform();
+            Transform* camera2_transform = camera2->getTransform();
+            vec3 camera2_rotation = camera2_transform->getRotation();
+            camera2_transform->setPosition(camera_transform->getPosition() + vec3(0.0f, 3.0f, 0.0f));
+            camera2_transform->setRotation(vec3(camera2_rotation.x, camera2_rotation.y, camera_transform->getRotation().y));
         }
 
         void setupMinimap() {
