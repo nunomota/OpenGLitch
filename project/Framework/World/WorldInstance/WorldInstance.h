@@ -33,7 +33,7 @@ class WorldInstance: public World {
             
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
-            camera2->translate(vec3(0.0f, 0.0f, -3.0f));
+            camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
             terrain = instantiate(new Terrain());
             water = instantiate(new Water());
@@ -64,10 +64,9 @@ class WorldInstance: public World {
                 getCamera()->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
             }
 
-            // TODO fix camera movement to world coordinates
             // make minimap camera follow the main camera
             vec3 camera_pos = camera->getTransform()->getPosition();
-            camera2->getTransform()->setPosition(vec3(camera_pos.x, -camera_pos.z, camera_pos.y + 3.0f));
+            camera2->getTransform()->setPosition(camera_pos + vec3(0.0f, 3.0f, 0.0f));
         }
 
         void setupMinimap() {
