@@ -167,22 +167,18 @@ class WorldInstance: public World {
         }
 
         void regroupChunks(int last, int current) {
-            if ((last == 0 && current == 2) || (last == 1 && current == 3)) {
-                // TODO up movement
-            } else if ((last == 2 && current == 0) || (last == 3 && current == 1)) {
-                // TODO down movement
-            } else if ((last == 0 && current == 1) || (last == 2 && current == 3)) {
-                // TODO right movememnt
-            } else if ((last == 1 && current == 0) || (last == 3 && current == 2)) {
-                // TODO left movement
-            } else if (last == 0 && current == 3) {
-                // TODO diagonal up-right movement
-            } else if (last == 1 && current == 2) {
-                // TODO diagonal up-left movement
-            } else if (last == 3 && current == 0) {
-                // TODO diagonal down-left movement
-            } else if (last == 2 && current == 1) {
-                // TODO diagonal down-right movement
+            vec2 mov_vector = (quadToCoords(current) - quadToCoords(last));
+        }
+
+        vec2 quadToCoords(int quadrant) {
+            if (quadrant == 0) {
+                return vec2(0, 0);
+            } else if (quadrant == 1) {
+                return vec2(1, 0);
+            } else if (quadrant == 2) {
+                return vec2(0, 1);
+            } else {
+                return vec2(1, 1);
             }
         }
 };
