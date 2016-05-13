@@ -22,7 +22,7 @@ typedef struct {
 struct {
     float chunk_width = 2.0f;
     Chunk chunks[4];
-    Chunk* visible_chunk;
+    int visible_chunk;
 } infinite_terrain;
 
 class WorldInstance: public World {
@@ -75,6 +75,8 @@ class WorldInstance: public World {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
 
+            updateInfiniteTerrain();
+
             // make minimap camera follow the main camera
             Transform* camera_transform = camera->getTransform();
             Transform* camera2_transform = camera2->getTransform();
@@ -118,6 +120,41 @@ class WorldInstance: public World {
                     infinite_terrain.chunks[i*2 + j].water   = new_water;
                 }
             }
-            infinite_terrain.visible_chunk = &infinite_terrain.chunks[0];
+            infinite_terrain.visible_chunk = 0;
+        }
+
+        void updateInfiniteTerrain() {
+            // TODO check quadrant
+            cout << getQuadrant() << endl;
+            // TODO check visible chunk
+        }
+
+        int getQuadrant() {
+            float chunk_width = infinite_terrain.chunk_width;
+            vec3 camera_position = camera->getTransform()->getPosition();
+            vec3 chunk_position  = infinite_terrain.chunks[infinite_terrain.visible_chunk].terrain->getTransform()->getPosition();
+            
+            if (inBounds(camera_position.x, chunk_position.x, chunk_position.x + chunk_width/2.0f) &&
+                inBounds(camera_position.z, chunk_position.z, chunk_position.z + chunk_width/2.0f)) {
+                return 1;
+            } else if (inBounds(camera_position.x, chunk_position.x - chunk_width/2.0f, chunk_position.x) &&
+                       inBounds(camera_position.z, chunk_position.z, chunk_position.z + chunk_width/2.0f)) {
+                return 0;
+            } else if (inBounds(camera_position.x, chunk_position.x, chunk_position.x + chunk_width/2.0f) &&
+                       inBounds(camera_position.z, chunk_position.z - chunk_width/2.0f, chunk_position.z)) {
+                return 3;
+            } else if (inBounds(camera_position.x, chunk_position.x - chunk_width/2.0f, chunk_position.x) &&
+                       inBounds(camera_position.z, chunk_position.z - chunk_width/2.0f, chunk_position.z)) {
+                return 2;
+            } else {
+                return -1;
+            }
+        }
+
+        bool inBounds(float target, float min, float max) {
+            if (target >= min && target <= max) {
+                return true;
+            }
+            return false;
         }
 };
