@@ -168,6 +168,40 @@ class WorldInstance: public World {
 
         void regroupChunks(int last, int current) {
             vec2 mov_vector = (quadToCoords(current) - quadToCoords(last));
+
+            if (mov_vector.x == 1) {
+                // right
+                chunkSwap(0, 1);
+                chunkSwap(2, 3);
+            } else if (mov_vector.x == -1) {
+                // left
+                chunkSwap(0, 1);
+                chunkSwap(2, 3);
+            }
+
+            if (mov_vector.y == 1) {
+                // up
+                chunkSwap(0, 2);
+                chunkSwap(1, 3);
+            } else if (mov_vector.y == -1) {
+                // down
+                chunkSwap(0, 2);
+                chunkSwap(1, 3);
+            }
+        }
+
+        void chunkSwap(int index1, int index2) {
+            // save pointers at index1
+            Terrain* temp_terrain = infinite_terrain.chunks[index1].terrain;
+            Water* temp_water     = infinite_terrain.chunks[index1].water;
+
+            // overwrite pointers at index1
+            infinite_terrain.chunks[index1].terrain = infinite_terrain.chunks[index2].terrain;
+            infinite_terrain.chunks[index1].water   = infinite_terrain.chunks[index2].water;
+
+            // write pointers to index2
+            infinite_terrain.chunks[index2].terrain = temp_terrain;
+            infinite_terrain.chunks[index2].water   = temp_water;
         }
 
         vec2 quadToCoords(int quadrant) {
