@@ -9,6 +9,22 @@ typedef struct {
     Water* water;
 } Chunk;
 
+/** The index of a chunk in the array
+  * also represents its relative
+  * position according to all others:
+  *
+  *    [2, 3]
+  *    [0, 1]
+  *
+  * This means that their indexes will 
+  * change based on camera movement.
+  */
+struct {
+    float chunk_width = 2.0f;
+    Chunk chunks[4];
+    Chunk* visible_chunk;
+} infinite_terrain;
+
 class WorldInstance: public World {
     private:
         Camera* camera;
@@ -16,9 +32,6 @@ class WorldInstance: public World {
 
         Minimap* minimapBg;
         LiveViewer* minimap;
-
-        Terrain* terrain;
-        Water* water;
 
     protected:
 
@@ -35,10 +48,8 @@ class WorldInstance: public World {
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
-            terrain = instantiate(new Terrain());
-            water = instantiate(new Water());
-
             setupMinimap();
+            setupInfiniteTerrain();
         }
 
         // method called every frame
@@ -84,5 +95,29 @@ class WorldInstance: public World {
             minimapBg->rotate(vec3(90.0f, 0.0f, 0.0f));
             minimapBg->translate(vec3(-0.75f, 0.75f, 0.1f));
             minimapBg->scale(vec3(-0.75f, 0.0f, -0.75f));
+        }
+
+        void setupInfiniteTerrain() {
+
+            vec3 camera_position = camera->getTransform()->getPosition();
+            vec3 bl_chunk_position = vec3(camera_position.x, 0.0f, camera_position.z);
+            vec3 forward_vector = vec3(0.0f, 0.0f, -1.0f) * infinite_terrain.chunk_width;
+            vec3 right_vector = vec3(1.0f, 0.0f, 0.0f) * infinite_terrain.chunk_width;
+
+            // instantiate all chunks
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    Terrain* new_terrain = instantiate(new Terrain());
+                    Transform* terrain_transform = new_terrain->getTransform();
+                    Water* new_water = instantiate(new Water());
+
+                    terrain_transform->setPosition(bl_chunk_position + (float)i*forward_vector + (float)j*right_vector);
+                    new_water->getTransform()->setPosition(terrain_transform->getPosition());
+
+                    infinite_terrain.chunks[i*2 + j].terrain = new_terrain;
+                    infinite_terrain.chunks[i*2 + j].water   = new_water;
+                }
+            }
+            infinite_terrain.visible_chunk = &infinite_terrain.chunks[0];
         }
 };
