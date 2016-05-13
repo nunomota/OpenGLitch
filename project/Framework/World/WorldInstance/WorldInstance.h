@@ -59,9 +59,9 @@ class WorldInstance: public World {
 
             // front/back camera movement
             if (getKeyDown(Keyboard::P)) {
-                getCamera()->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+                getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::L)) {
-                getCamera()->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
+                getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
 
             // make minimap camera follow the main camera
