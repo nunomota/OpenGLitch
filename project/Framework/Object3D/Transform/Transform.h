@@ -21,21 +21,16 @@ class Transform {
 
         void calculateTranslation() {
             model_ = glm::translate(model_, position_);
-            inverted_model_ = glm::translate(inverted_model_, -position_);
         }
 
         void calculateRotation() {
             model_ = glm::rotate(model_, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, glm::radians(rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
             model_ = glm::rotate(model_, glm::radians(rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
-            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
-            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
-            inverted_model_ = glm::rotate(inverted_model_, glm::radians(-rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
         }
 
         void calculateScale() {
             model_ = glm::scale(model_, scale_);
-            inverted_model_ = glm::scale(inverted_model_, scale_); // TODO contrain scale to be > 0 and use 1/scale instead of scale
         }
 
         void recalculateModelMatrix() {
@@ -46,6 +41,8 @@ class Transform {
             calculateTranslation();
             calculateRotation();
             calculateScale();
+            // TODO maybe calculate the inverse matrix step-by-step instead?
+            inverted_model_ = inverse(model_);
         }
 
     public:
