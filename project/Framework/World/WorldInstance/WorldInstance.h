@@ -12,7 +12,7 @@ class WorldInstance: public World {
         Minimap* minimapBg;
         LiveViewer* minimap;
 
-        InfiniteTerrain infinite_terrain = InfiniteTerrain(camera);
+        InfiniteTerrain infinite_terrain;
 
     protected:
 
@@ -21,6 +21,8 @@ class WorldInstance: public World {
             Reporter::println("Start method called");
             camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+
+            infinite_terrain.setTarget(camera);
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));

@@ -73,33 +73,43 @@ class InfiniteTerrain {
 
         void regroupChunks(int last, int current) {
             vec2 mov_vector = (quadToCoords(current) - quadToCoords(last));
-
+            GlmStrings glm_strings;
+            cout << glm_strings.create(vec3(mov_vector, 0.0f)) << endl;
+            
             if (mov_vector.x == 1) {
                 // right
-                chunks[0].translate(vec3(chunk_width*2.0f, 0.0f, 0.0f));
-                chunks[2].translate(vec3(chunk_width*2.0f, 0.0f, 0.0f));
-                chunkSwap(0, 1);
-                chunkSwap(2, 3);
+                if (visible_chunk == 1 || visible_chunk == 3) {
+                    chunks[0].translate(vec3(chunk_width*2.0f, 0.0f, 0.0f));
+                    chunks[2].translate(vec3(chunk_width*2.0f, 0.0f, 0.0f));
+                    chunkSwap(0, 1);
+                    chunkSwap(2, 3);
+                }
             } else if (mov_vector.x == -1) {
                 // left
-                chunks[1].translate(vec3(chunk_width*-2.0f, 0.0f, 0.0f));
-                chunks[3].translate(vec3(chunk_width*-2.0f, 0.0f, 0.0f));
-                chunkSwap(0, 1);
-                chunkSwap(2, 3);
+                if (visible_chunk == 0 || visible_chunk == 2) {
+                    chunks[1].translate(vec3(chunk_width*-2.0f, 0.0f, 0.0f));
+                    chunks[3].translate(vec3(chunk_width*-2.0f, 0.0f, 0.0f));
+                    chunkSwap(0, 1);
+                    chunkSwap(2, 3);
+                }
             }
 
             if (mov_vector.y == 1) {
                 // up
-                chunks[0].translate(vec3(0.0f, 0.0f, chunk_width*-2.0f));
-                chunks[1].translate(vec3(0.0f, 0.0f, chunk_width*-2.0f));
-                chunkSwap(0, 2);
-                chunkSwap(1, 3);
+                if (visible_chunk == 2 || visible_chunk == 3) {
+                    chunks[0].translate(vec3(0.0f, 0.0f, chunk_width*-2.0f));
+                    chunks[1].translate(vec3(0.0f, 0.0f, chunk_width*-2.0f));
+                    chunkSwap(0, 2);
+                    chunkSwap(1, 3);
+                }
             } else if (mov_vector.y == -1) {
                 // down
-                chunks[2].translate(vec3(0.0f, 0.0f, chunk_width*2.0f));
-                chunks[3].translate(vec3(0.0f, 0.0f, chunk_width*2.0f));
-                chunkSwap(0, 2);
-                chunkSwap(1, 3);
+                if (visible_chunk == 0 || visible_chunk == 1) {
+                    chunks[2].translate(vec3(0.0f, 0.0f, chunk_width*2.0f));
+                    chunks[3].translate(vec3(0.0f, 0.0f, chunk_width*2.0f));
+                    chunkSwap(0, 2);
+                    chunkSwap(1, 3);
+                }
             }
         }
 
@@ -115,6 +125,9 @@ class InfiniteTerrain {
             // write pointers to index2
             chunks[index2].terrain = temp_terrain;
             chunks[index2].water   = temp_water;
+
+            if (visible_chunk == index1) visible_chunk = index2;
+            else if (visible_chunk == index2) visible_chunk = index1;
         }
 
         vec2 quadToCoords(int quadrant) {
@@ -130,9 +143,12 @@ class InfiniteTerrain {
         }
 
     public:
-        InfiniteTerrain(Camera* target_camera) {
-            camera = target_camera;
+        InfiniteTerrain() {
             chunk_width = 2.0f;
+        }
+
+        void setTarget(Camera* target) {
+            camera = target;
         }
 
         void setChunk(int index, Chunk chunk) {
@@ -141,17 +157,19 @@ class InfiniteTerrain {
 
         void initialize() {
             initializeChunks();
+            cout << "In quadrant " << last_quadrant << endl;
         }
 
         void update() {
             int cur_quadrant = getQuadrant();
-            if (cur_quadrant != -1) {
-                if (cur_quadrant != last_quadrant) {
+            if (cur_quadrant != last_quadrant) {
+                cout << "Changed to quadrant " << cur_quadrant << endl;
+                if (cur_quadrant == -1) {
+                    // TODO assign new visible chunk
+                } else {
                     regroupChunks(last_quadrant, cur_quadrant);
-                    last_quadrant = cur_quadrant;
                 }
-            } else {
-                // TODO assign new visible chunk
+                last_quadrant = cur_quadrant;
             }
         }
 };
