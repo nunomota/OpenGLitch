@@ -55,6 +55,11 @@
 #include "../Objects/Objects.h"
 
 /*--------------------
+| Auxiliary classes  |
+--------------------*/
+#include "../Auxiliary/Auxiliary.h"
+
+/*--------------------
 |    World class     |
 --------------------*/
 #include "World/World.h"
