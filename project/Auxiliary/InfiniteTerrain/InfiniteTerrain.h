@@ -113,6 +113,21 @@ class InfiniteTerrain {
             }
         }
 
+        void repickVisible() {
+            bool picked = false;
+            vec3 camera_position = camera->getTransform()->getPosition();
+            vec3 chunk_position;
+            for (int i = 0; i < 4 && !picked; i++) {
+                chunk_position = chunks[i].terrain->getTransform()->getPosition();
+                
+                if (inBounds(camera_position.x, chunk_position.x - chunk_width/2.0f, chunk_position.x + chunk_width/2.0f) &&
+                    inBounds(camera_position.z, chunk_position.z - chunk_width/2.0f, chunk_position.z + chunk_width/2.0f)) {
+                    visible_chunk = i;
+                    picked = true;
+                }
+            }
+        }
+
         void chunkSwap(int index1, int index2) {
             // save pointers at index1
             Terrain* temp_terrain = chunks[index1].terrain;
@@ -165,9 +180,9 @@ class InfiniteTerrain {
             if (cur_quadrant != last_quadrant) {
                 cout << "Changed to quadrant " << cur_quadrant << endl;
                 if (cur_quadrant == -1) {
-                    // TODO assign new visible chunk
+                    repickVisible();
                 } else {
-                    regroupChunks(last_quadrant, cur_quadrant);
+                    if (last_quadrant != -1) regroupChunks(last_quadrant, cur_quadrant);
                 }
                 last_quadrant = cur_quadrant;
             }
