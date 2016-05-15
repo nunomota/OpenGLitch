@@ -9,9 +9,7 @@ class WorldInstance: public World {
         Camera* camera;
         Camera* camera2;
 
-        Minimap* minimapBg;
-        LiveViewer* minimap;
-
+        MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;
 
     protected:
@@ -58,28 +56,16 @@ class WorldInstance: public World {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
 
+            minimap.update();
             infinite_terrain.update();
-
-            // make minimap camera follow the main camera
-            Transform* camera_transform = camera->getTransform();
-            Transform* camera2_transform = camera2->getTransform();
-            vec3 camera2_rotation = camera2_transform->getRotation();
-            camera2_transform->setPosition(camera_transform->getPosition() + vec3(0.0f, 3.0f, 0.0f));
-            camera2_transform->setRotation(vec3(camera2_rotation.x, camera2_rotation.y, camera_transform->getRotation().y));
         }
 
         void setupMinimap() {
             enableLiveRenderer(camera2);
-            minimapBg = instantiate2D(new Minimap());
-            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
-
-            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimap->translate(vec3(-0.75f, 0.75f, 0.0f));
-            minimap->scale(vec3(-0.79f, 0.0f, -0.79f));
-
-            minimapBg->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimapBg->translate(vec3(-0.75f, 0.75f, 0.1f));
-            minimapBg->scale(vec3(-0.75f, 0.0f, -0.75f));
+            minimap.setBackground(new Minimap());
+            minimap.setViewer(camera2, new LiveViewer(camera2->getRenderTextureID()));
+            minimap.setTargetCamera(camera);
+            minimap.setup();
         }
 
         void setupInfiniteTerrain() {
