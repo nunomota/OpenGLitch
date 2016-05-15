@@ -62,8 +62,8 @@ class WorldInstance: public World {
 
         void setupMinimap() {
             enableLiveRenderer(camera2);
-            minimap.setBackground(new Minimap());
-            minimap.setViewer(camera2, new LiveViewer(camera2->getRenderTextureID()));
+            minimap.setBackground(instantiate2D(new Minimap()));
+            minimap.setViewer(camera2, instantiate2D(new LiveViewer(camera2->getRenderTextureID())));
             minimap.setTargetCamera(camera);
             minimap.setup();
         }
