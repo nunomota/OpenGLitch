@@ -23,7 +23,9 @@ class Camera: public EmptyObject {
         glm::mat4 projection_;
 
         FrameBuffer framebuffer;
+        Shadowbuffer shadowbuffer;
         GLuint render_texture_id;
+        GLuint shadow_texture_id;
 
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
@@ -61,6 +63,7 @@ class Camera: public EmptyObject {
             width_ = default_width;
             height_ = (float)width_ / aspect;
             render_texture_id = framebuffer.Init(width_, height_);
+            shadow_texture_id = shadowbuffer.Init(width_, height_);
         }
 
         void setFov(float new_fov) {
@@ -101,6 +104,16 @@ class Camera: public EmptyObject {
             framebuffer.Unbind();
         }
 
+        void bindShadowBuffer() {
+            shadowbuffer.Bind();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
+
+        void unbindShadowBuffer() {
+            shadowbuffer.Unbind();
+        }
+
+
         glm::mat4 getViewMatrix() {
             // TODO maybe calculate this matrix from Transform.getModelMatrix()?
             return transform.getInvertedModelMatrix();
@@ -114,7 +127,12 @@ class Camera: public EmptyObject {
             return render_texture_id;
         }
 
+        GLuint getShadowTextureID() {
+            return shadow_texture_id;
+        }
+
         void Cleanup() {
             framebuffer.Cleanup();
+            shadowbuffer.Cleanup();
         }
 };

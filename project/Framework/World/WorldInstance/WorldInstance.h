@@ -60,6 +60,8 @@ class WorldInstance: public World {
             infinite_terrain.update();
         }
 
+        
+
         void setupMinimap() {
             enableLiveRenderer(camera2);
             minimap.setBackground(instantiate2D(new Minimap()));

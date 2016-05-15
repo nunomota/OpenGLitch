@@ -15,6 +15,7 @@ class World {
 
         Camera* main_camera;
         DirectionalLight* main_light;
+        Camera* shadow_camera;
 
         Time world_time;
         bool are_objects_uninitialized;
@@ -76,6 +77,17 @@ class World {
                     camera->unbindRenderBuffer();
                     camera->setScreenDimensions(window_width, window_height);
                 }
+            }
+        }
+
+        void drawShadowTexture(){
+            // create a camera and transform to lights position
+            if(shadow_camera){
+                shadow_camera->setScreenDimensions(window_width, window_height);
+                shadow_camera->bindShadowBuffer();
+                drawObjects(shadow_camera); // TODO need to pass a parameter to tell that this is supposed to do shadows.
+                shadow_camera->unbindShadowBuffer();
+                shadow_camera->setScreenDimensions(window_width, window_height);
             }
         }
 
@@ -290,6 +302,7 @@ class World {
 
             main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
             main_light = instantiate(new DirectionalLight());
+            shadow_camera = instantiate(new Camera(45.0f, 1.0f, 0.1, 100.f));
 
             world_time.Init();
             Start();
