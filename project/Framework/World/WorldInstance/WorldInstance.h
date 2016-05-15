@@ -20,14 +20,8 @@ class WorldInstance: public World {
             camera = getCamera();
             camera2 = instantiate(new Camera());
 
-            infinite_terrain.setTarget(camera);
-
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
-            
-            camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
-            camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
-            camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
             setupMinimap();
             setupInfiniteTerrain();
@@ -69,6 +63,7 @@ class WorldInstance: public World {
         }
 
         void setupInfiniteTerrain() {
+            infinite_terrain.setTarget(camera);
             for (int i = 0; i < 4; i++) {
                 infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water())));
             }
