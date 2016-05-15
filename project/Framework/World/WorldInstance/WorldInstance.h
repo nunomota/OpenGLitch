@@ -20,7 +20,7 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             camera = getCamera();
-            camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            camera2 = instantiate(new Camera());
 
             infinite_terrain.setTarget(camera);
 

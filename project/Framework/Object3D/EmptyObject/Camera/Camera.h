@@ -51,7 +51,7 @@ class Camera: public EmptyObject {
         }
 
     public:
-        Camera(float fovy, float aspect, float near, float far) {
+        Camera(float fovy = 45.0f, float aspect = 1.0f, float near = 0.1f, float far = 100.0f) {
             fovy_ = (fovy > 0)? fovy : default_fovy;
             aspect_ = (aspect > 0)? aspect : default_aspect;
             near_ = near;
