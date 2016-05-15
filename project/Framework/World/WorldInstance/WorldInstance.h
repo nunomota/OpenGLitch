@@ -7,7 +7,6 @@ using namespace glm;
 class WorldInstance: public World {
     private:
         Camera* camera;
-        Camera* camera2;
 
         MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;
@@ -18,7 +17,6 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             camera = getCamera();
-            camera2 = instantiate(new Camera());
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -55,9 +53,10 @@ class WorldInstance: public World {
         }
 
         void setupMinimap() {
-            enableLiveRenderer(camera2);
+            Camera* viewer_camera = instantiate(new Camera());
+            enableLiveRenderer(viewer_camera);
             minimap.setBackground(instantiate2D(new Minimap()));
-            minimap.setViewer(camera2, instantiate2D(new LiveViewer(camera2->getRenderTextureID())));
+            minimap.setViewer(viewer_camera, instantiate2D(new LiveViewer(viewer_camera->getRenderTextureID())));
             minimap.setTargetCamera(camera);
             minimap.setup();
         }
