@@ -38,7 +38,7 @@ class MinimapContainer {
             Transform* target_transform = target_camera->getTransform();
             Transform* viewer_transform = viewer_camera->getTransform();
             vec3 viewer_rotation = viewer_transform->getRotation();
-            viewer_rotation->setPosition(target_transform->getPosition() + vec3(0.0f, 3.0f, 0.0f));
-            viewer_rotation->setRotation(vec3(viewer_rotation.x, viewer_rotation.y, target_transform->getRotation().y));
+            viewer_transform->setPosition(target_transform->getPosition() + vec3(0.0f, 3.0f, 0.0f));
+            viewer_transform->setRotation(vec3(viewer_rotation.x, viewer_rotation.y, target_transform->getRotation().y));
         }
 };
