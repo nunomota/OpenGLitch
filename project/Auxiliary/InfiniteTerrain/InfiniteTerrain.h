@@ -73,8 +73,6 @@ class InfiniteTerrain {
 
         void regroupChunks(int last, int current) {
             vec2 mov_vector = (quadToCoords(current) - quadToCoords(last));
-            GlmStrings glm_strings;
-            cout << glm_strings.create(vec3(mov_vector, 0.0f)) << endl;
             
             if (mov_vector.x == 1) {
                 // right
@@ -172,13 +170,11 @@ class InfiniteTerrain {
 
         void initialize() {
             initializeChunks();
-            cout << "In quadrant " << last_quadrant << endl;
         }
 
         void update() {
             int cur_quadrant = getQuadrant();
             if (cur_quadrant != last_quadrant) {
-                cout << "Changed to quadrant " << cur_quadrant << endl;
                 if (cur_quadrant == -1) {
                     repickVisible();
                 } else {
