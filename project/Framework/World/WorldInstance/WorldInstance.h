@@ -8,69 +8,61 @@ class WorldInstance: public World {
     private:
         Camera* camera;
         Camera* camera2;
-        Cube* cube;
-        Cube* cube2;
-        Cube* cube3;
+        Terrain* terrain;
+        Water* water;
+
+        LiveViewer* minimap;
 
     protected:
 
         // method called only once
         void Start() {
             Reporter::println("Start method called");
-            camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
-            cube = instantiate(new Cube());
-            cube2 = instantiate(new Cube());
-            cube3 = instantiate(new Cube());
-            setCamera(camera);
+            enableLiveRenderer(camera2);
+
+            terrain = instantiate(new Terrain());
+            water = instantiate(new Water());
+            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
 
             camera->translate(vec3(0.0f, 0.0f, 8.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
+            
+            camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
+            camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
+            camera2->translate(vec3(0.0f, 0.0f, -3.0f));
 
-            camera2->translate(vec3(-2.0f, 0.0f, 8.0f));
-            camera2->rotate(vec3(0.0f, -45.0f, 0.0f));
-            camera2->scale(vec3(-0.2f, -0.2f, -0.2f));
-
-            cube->scale(vec3(-0.5f, -0.5f, -0.5f));
-            cube->translate(vec3(0.0f, 0.0f, -2.0f));
-            cube->rotate(vec3(45.0f, 45.0f, 0.0f));
-
-            cube2->scale(vec3(-0.5f, -0.5f, -0.5f));
-            cube2->translate(vec3(-2.0f, 0.0f, -2.0f));
-            cube2->rotate(vec3(-45.0f, 0.0f, 0.0f));
-
-            cube3->scale(vec3(-0.5f, -0.5f, -0.5f));
-            cube3->translate(vec3(2.0f, 0.0f, -2.0f));
-            cube3->rotate(vec3(45.0f, 0.0f, 0.0f));
+            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimap->translate(vec3(-0.8f, 0.8f, 0.0f));
+            minimap->scale(vec3(-0.8f, 0.0f, -0.8f));
         }
 
         // method called every frame
         void Update() {
-            if (getKeyDown(Keyboard::A)) {
-                Reporter::println("A is being held down");
-                //setCamera(camera);
+            // forward/backward camera movement
+            if (getKeyDown(Keyboard::W)) {
+                getCamera()->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::S)) {
+                getCamera()->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
             }
 
-            if (getKeyPressed(Keyboard::B)) {
-                Reporter::println("B was pressed");
-                //setCamera(camera2);
+            // sideways camera movement
+            if (getKeyDown(Keyboard::D)) {
+                getCamera()->translate(vec3(1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::A)) {
+                getCamera()->translate(vec3(-1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
-            if (getMouseButtonPressed(Mouse::RIGHT)) {
-                Reporter::println("Mouse right was pressed");
+            // upwards/downwards camera movement
+            if (getKeyDown(Keyboard::P)) {
+                getCamera()->translate(vec3(0.0f, 1.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::L)) {
+                getCamera()->translate(vec3(0.0f, -1.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
-            if (getMouseButtonPressed(Mouse::LEFT)) {
-                Reporter::println("Mouse left was pressed");
-            }
-
-            if (getKeyPressed(Keyboard::C)) {
-                Renderer* cube_renderer = cube->getRenderer();
-                cube_renderer->setState(!cube_renderer->getState());
-            }
-
-            cube->rotate(vec3(20.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            cube2->rotate(vec3(0.0f, 25.0f, 0.0f) * getTime()->getDeltaTime());
-            cube3->rotate(vec3(0.0f, 0.0f, 30.0f) * getTime()->getDeltaTime());
+            // make minimap camera follow the main camera
+            vec3 camera_pos = camera->getTransform()->getPosition();
+            camera2->getTransform()->setPosition(vec3(camera_pos.x, camera_pos.z, camera_pos.y + 3.0f));
         }    
 };

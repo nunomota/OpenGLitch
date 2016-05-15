@@ -6,6 +6,8 @@
 
 class Camera: public EmptyObject {
     private:
+        static const int default_width = 600;
+
         const float default_fovy = 45.0f;
         const float default_aspect = 1.0f;
         const float default_far_distance = 10.0f;
@@ -15,8 +17,13 @@ class Camera: public EmptyObject {
         float near_;
         float far_;
 
+        int width_, height_;
+
         glm::mat4 view_;
         glm::mat4 projection_;
+
+        FrameBuffer framebuffer;
+        GLuint render_texture_id;
 
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
@@ -35,6 +42,14 @@ class Camera: public EmptyObject {
             projection_[2][3] = -1.0f;
         }
 
+        void setAspect() {
+            float new_aspect = (float)width_/(float)height_;
+            if (new_aspect > 0) {
+                aspect_ = new_aspect;
+                recalculateProjectionMatrix();
+            }
+        }
+
     public:
         Camera(float fovy, float aspect, float near, float far) {
             fovy_ = (fovy > 0)? fovy : default_fovy;
@@ -42,6 +57,10 @@ class Camera: public EmptyObject {
             near_ = near;
             far_ = (far > near)? far : near + default_far_distance;
             recalculateProjectionMatrix();
+
+            width_ = default_width;
+            height_ = (float)width_ / aspect;
+            render_texture_id = framebuffer.Init(width_, height_);
         }
 
         void setFov(float new_fov) {
@@ -51,10 +70,11 @@ class Camera: public EmptyObject {
             }
         }
 
-        void setAspect(float new_aspect) {
-            if (new_aspect > 0) {
-                aspect_ = new_aspect;
-                recalculateProjectionMatrix();
+        void setScreenDimensions(int new_width, int new_height) {
+            if (new_width > 0 && new_height > 0) {
+                width_ = new_width;
+                height_ = new_height;
+                setAspect();
             }
         }
 
@@ -72,6 +92,15 @@ class Camera: public EmptyObject {
             }
         }
 
+        void bindRenderBuffer() {
+            framebuffer.Bind();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
+
+        void unbindRenderBuffer() {
+            framebuffer.Unbind();
+        }
+
         glm::mat4 getViewMatrix() {
             // TODO maybe calculate this matrix from Transform.getModelMatrix()?
             return transform.getInvertedModelMatrix();
@@ -79,5 +108,13 @@ class Camera: public EmptyObject {
 
         glm::mat4 getProjectionMatrix() {
             return projection_;
+        }
+
+        GLuint getRenderTextureID() {
+            return render_texture_id;
+        }
+
+        void Cleanup() {
+            framebuffer.Cleanup();
         }
 };

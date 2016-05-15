@@ -5,6 +5,16 @@
 #include "Debugging/Reporter/Reporter.h"
 
 /*--------------------
+|    Loader class    |
+--------------------*/
+#include "Loader/Loader.h"
+
+/*--------------------
+| Frame buffer class |
+--------------------*/
+#include "FrameBuffer/FrameBuffer.h"
+
+/*--------------------
 |     Time class     |
 --------------------*/
 #include "Time/Time.h"
@@ -25,15 +35,24 @@
 #include "Object3D/PhysicalObject/PhysicalObject.h"
 #include "Object3D/EmptyObject/EmptyObject.h"
 
+/*--------------------
+|    Core Objects    |
+--------------------*/
 // Physical objects
 #include "Object3D/PhysicalObject/Cube/Cube.h"
 #include "Object3D/PhysicalObject/Plane/Plane.h"
+#include "Object3D/PhysicalObject/Grid/Grid.h"
 
 // Empty objects
 #include "Object3D/EmptyObject/Camera/Camera.h"
 #include "Object3D/EmptyObject/Light/Light.h"
 #include "Object3D/EmptyObject/Light/PointLight/PointLight.h"
 #include "Object3D/EmptyObject/Light/DirectionalLight/DirectionalLight.h"
+
+/*--------------------
+|   Custom Objects   |
+--------------------*/
+#include "../Objects/Objects.h"
 
 /*--------------------
 |    World class     |

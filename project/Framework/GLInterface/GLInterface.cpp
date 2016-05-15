@@ -7,8 +7,8 @@
 #include "../framework.h"
 
 WorldInstance world;
-int window_width = 800;
-int window_height = 600;
+int window_width = 600;
+int window_height = 400;
 
 using namespace glm;
 
@@ -19,6 +19,9 @@ void Init() {
 
     // enable depth test.
     glEnable(GL_DEPTH_TEST);
+    // TODO re-enable but fix Object3D initialization
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_FRONT);
 }
 
 // gets called for every frame.
@@ -37,7 +40,7 @@ void SetupProjection(GLFWwindow* window, int width, int height) {
 
     Reporter::println("Window has been resized", "OpenGL");
 
-    world.setAspectRatio((float)window_width/(float)window_height);
+    world.setWindowDimensions(window_width, window_height);
     glViewport(0, 0, window_width, window_height);
 }
 

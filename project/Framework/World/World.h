@@ -8,13 +8,17 @@ class World {
         Keyboard keyboard;
 
         std::vector<Object3D*> uninitialized;
+        std::vector<Object3D*> uninitialized2D;
         std::vector<Object3D*> objects;
+        std::vector<Object3D*> objects2D;
+        std::vector<Camera*> texture_rendering_cameras;
+
         Camera* main_camera;
         DirectionalLight* main_light;
 
         Time world_time;
         bool are_objects_uninitialized;
-        float camera_aspect_ratio;
+        int window_width, window_height;
 
         void initializeObjects() {
             Reporter::println("Objects being initialized", "World");
@@ -26,21 +30,61 @@ class World {
                 }
             }
             uninitialized.clear();
+            for (std::vector<Object3D*>::iterator it = uninitialized2D.begin(); it != uninitialized2D.end(); ++it) {
+                Object3D* object = (*it);
+                if(object) {
+                    object->Init();
+                    objects2D.push_back(object);
+                }
+            }
+            uninitialized2D.clear();
             are_objects_uninitialized = false;
             Reporter::println("All objects initialized", "World");
         }
 
-        void drawObjects() {
-            for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
-                Object3D* object = (*it);
-                if(object && main_camera) {
-                    if (object->getRenderer()->getState()) {
-                        object->Draw(main_camera->getViewMatrix(), main_camera->getProjectionMatrix());
+        void drawObjects(Camera* camera, bool only_3d = true) {
+            if (camera) {
+                for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+                    Object3D* object = (*it);
+                    if(object) {
+                        if (object->getRenderer()->getState()) {
+                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
+                        }
+                    }
+                }
+
+                if (!only_3d) {
+                    for (std::vector<Object3D*>::iterator it = objects2D.begin(); it != objects2D.end(); ++it) {
+                        Object3D* object = (*it);
+                        if(object) {
+                            if (object->getRenderer()->getState()) {
+                                object->Draw();
+                            }
+                        }
                     }
                 }
             }
         }
 
+        void drawRenderTextures() {
+            for (std::vector<Camera*>::iterator c_it = texture_rendering_cameras.begin(); c_it != texture_rendering_cameras.end(); ++c_it) {
+                Camera* camera = (*c_it);
+                if (camera) {
+                    camera->setScreenDimensions(window_height, window_height);
+                    camera->bindRenderBuffer();
+                    drawObjects(camera);
+                    camera->unbindRenderBuffer();
+                    camera->setScreenDimensions(window_width, window_height);
+                }
+            }
+        }
+
+        /** WARNING!! This method does not eliminate the objects
+          * inside the 'texture_rendering_cameras' vector. If
+          * the cameras are instantiated like every other object
+          * (AS THEY SHOULD) they will also be inside the 'objects'
+          * vector and their memory will be freed.
+          */
         void cleanupObjects() {
             Reporter::println("Cleaning up objects", "World");
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
@@ -58,6 +102,22 @@ class World {
             }
             uninitialized.clear();
             objects.clear();
+            for (std::vector<Object3D*>::iterator it = uninitialized2D.begin(); it != uninitialized2D.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    delete object;
+                }
+            }
+            for (std::vector<Object3D*>::iterator it = objects2D.begin(); it != objects2D.end(); ++it) {
+                Object3D* object = (*it);
+                if (object) {
+                    object->Cleanup();
+                    delete object;
+                }
+            }
+            uninitialized2D.clear();
+            objects2D.clear();
+            texture_rendering_cameras.clear();
             are_objects_uninitialized = false;
             Reporter::println("All objects cleaned up", "World");
         }
@@ -83,33 +143,54 @@ class World {
             return new_object;
         }
 
+        template <typename Object>
+        Object* instantiate2D(Object* new_object) {
+            if (new_object) {
+                uninitialized2D.push_back(new_object);
+                are_objects_uninitialized = true;
+            }
+            return new_object;
+        }
+
+        /** Method called to start rendering a Camera's
+          * view to a live texture.
+          *
+          * Usage:       enableLiveRenderer(camera_ptr)
+          */
+        void enableLiveRenderer(Camera* camera) {
+            texture_rendering_cameras.push_back(camera);
+            camera->setScreenDimensions(window_width, window_height);
+        }
+
         /** Method called to destroy a previously instantiated
           * object in the current world instance.
           *
           * Usage:       destroy(obj_ptr)
           */
         void destroy(Object3D* target_object) {
-            std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
-            for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
-                Object3D* object = (*it);
-                if (object) {
-                    object->Cleanup();
-                    delete object;
+            if (target_object != main_camera && target_object != main_light) {
+                std::vector<Object3D*>::iterator uninitialized_delete_index = std::remove(uninitialized.begin(), uninitialized.end(), target_object);
+                for (std::vector<Object3D*>::iterator it = uninitialized_delete_index; it != uninitialized.end(); ++it) {
+                    Object3D* object = (*it);
+                    if (object) {
+                        object->Cleanup();
+                        delete object;
+                    }
                 }
-            }
-            uninitialized.erase(uninitialized_delete_index, uninitialized.end());
+                uninitialized.erase(uninitialized_delete_index, uninitialized.end());
 
-            std::vector<Object3D*>::iterator objects_delete_index = std::remove(objects.begin(), objects.end(), target_object);
-            for (std::vector<Object3D*>::iterator it = objects_delete_index; it != objects.end(); ++it) {
-                Object3D* object = (*it);
-                if (object) {
-                    object->Cleanup();
-                    delete object;
+                std::vector<Object3D*>::iterator objects_delete_index = std::remove(objects.begin(), objects.end(), target_object);
+                for (std::vector<Object3D*>::iterator it = objects_delete_index; it != objects.end(); ++it) {
+                    Object3D* object = (*it);
+                    if (object) {
+                        object->Cleanup();
+                        delete object;
+                    }
                 }
-            }
-            objects.erase(objects_delete_index, objects.end());
+                objects.erase(objects_delete_index, objects.end());
 
-            if (uninitialized.empty()) are_objects_uninitialized = false;
+                if (uninitialized.empty()) are_objects_uninitialized = false;
+            }
         }
 
         /** Method called to set the main camera
@@ -120,7 +201,7 @@ class World {
         void setCamera(Camera* camera) {
             if (camera) {
                 main_camera = camera;
-                main_camera->setAspect(camera_aspect_ratio);
+                main_camera->setScreenDimensions(window_width, window_height);
             }
         }
 
@@ -203,14 +284,22 @@ class World {
     public:
         void Init() {
             are_objects_uninitialized = false;
-            camera_aspect_ratio = 1.0f;
+
+            window_width = 600;
+            window_height = 400;
+
+            main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            main_light = instantiate(new DirectionalLight());
+
             world_time.Init();
             Start();
         }
 
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
-            drawObjects();
+            drawRenderTextures();
+            glViewport(0, 0, window_width, window_height);
+            drawObjects(main_camera, false);
             world_time.Update();
             Update();
         }
@@ -227,10 +316,16 @@ class World {
             mouse.setState(key, state);
         }
 
-        void setAspectRatio(float new_aspect) {
-            if (new_aspect > 0.0f) {
-                camera_aspect_ratio = new_aspect;
-                if (main_camera) main_camera->setAspect(new_aspect);
+        void setWindowDimensions(int new_width, int new_height) {
+            float new_aspect = (float)new_width / (float)new_height;
+            if (new_width > 0 && new_height > 0) {
+                window_width = new_width;
+                window_height = new_height;
+                if (main_camera) main_camera->setScreenDimensions(new_width, new_height);
+                for (std::vector<Camera*>::iterator c_it = texture_rendering_cameras.begin(); c_it != texture_rendering_cameras.end(); ++c_it) {
+                    Camera* camera = (*c_it);
+                    if (camera) camera->setScreenDimensions(window_width, window_height);
+                }
             }
         }
 };

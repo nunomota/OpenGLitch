@@ -10,12 +10,14 @@ class Object3D {
     protected:
         Reporter reporter_;
 
-        GLuint vertex_array_id_;                // vertex array object
-        GLuint vertex_buffer_object_position_;  // memory buffer for positions
-        GLuint vertex_buffer_object_index_;     // memory buffer for indices
-        GLuint program_id_;                     // GLSL shader program ID
-        GLuint num_indices_;                    // number of vertices to render
-        GLuint MVP_id_;                         // model, view, proj matrix ID
+        GLuint vertex_array_id_;                  // vertex array object
+        GLuint vertex_buffer_object_position_;    // memory buffer for positions
+        GLuint vertex_buffer_object_index_;       // memory buffer for indices
+        GLuint program_id_;                       // GLSL shader program ID
+        GLuint num_indices_;                      // number of vertices to render
+        GLuint MVP_id_;                           // model, view, proj matrix ID
+
+        std::vector<GLuint> texture_ids_;         // Optional texture IDs
 
         bool is_initialized_ = false;
 

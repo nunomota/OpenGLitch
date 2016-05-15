@@ -7,6 +7,8 @@ class Material {
         static const glm::vec3 default_color;
         static const float default_alpha;
 
+        GLuint Ma_id_, Md_id_, Ms_id_, alpha_id_;
+
         glm::vec3 ambience_color;
         glm::vec3 diffuse_color;
         glm::vec3 specular_color;
@@ -39,6 +41,17 @@ class Material {
 
         void setAlpha(float new_alpha) {
             alpha = new_alpha;
+        }
+
+        void setUniforms(GLuint program_id_) {
+            Ma_id_ = glGetUniformLocation(program_id_, "Ma");
+            Md_id_ = glGetUniformLocation(program_id_, "Md");
+            Ms_id_ = glGetUniformLocation(program_id_, "Ms");
+
+            glUniform3fv(Ma_id_, ONE, glm::value_ptr(ambience_color));
+            glUniform3fv(Md_id_, ONE, glm::value_ptr(diffuse_color));
+            glUniform3fv(Ms_id_, ONE, glm::value_ptr(specular_color));
+            glUniform1f(alpha_id_, alpha);
         }
 
         glm::vec3 getAmbienceColor() {
