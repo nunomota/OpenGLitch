@@ -1,5 +1,7 @@
 #pragma once
 
+using namespace glm;
+
 class MinimapContainer {
     private:
         Minimap* minimap_bg;
