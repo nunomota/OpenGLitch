@@ -8,10 +8,11 @@ class WorldInstance: public World {
     private:
         Camera* camera;
         Camera* camera2;
-        Terrain* terrain;
-        Water* water;
 
+        Minimap* minimapBg;
         LiveViewer* minimap;
+
+        InfiniteTerrain infinite_terrain;
 
     protected:
 
@@ -20,49 +21,71 @@ class WorldInstance: public World {
             Reporter::println("Start method called");
             camera = getCamera();
             camera2 = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
-            enableLiveRenderer(camera2);
 
-            terrain = instantiate(new Terrain());
-            water = instantiate(new Water());
-            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
+            infinite_terrain.setTarget(camera);
 
-            camera->translate(vec3(0.0f, 0.0f, 8.0f));
+            camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
-            camera2->translate(vec3(0.0f, 0.0f, -3.0f));
+            camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
-            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimap->translate(vec3(-0.8f, 0.8f, 0.0f));
-            minimap->scale(vec3(-0.8f, 0.0f, -0.8f));
+            setupMinimap();
+            setupInfiniteTerrain();
         }
 
         // method called every frame
         void Update() {
-            // forward/backward camera movement
+            // upward/downward camera turn
             if (getKeyDown(Keyboard::W)) {
-                getCamera()->translate(vec3(0.0f, 0.0f, -1.0f) * getTime()->getDeltaTime());
+                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::S)) {
-                getCamera()->translate(vec3(0.0f, 0.0f, 1.0f) * getTime()->getDeltaTime());
+                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
-            // sideways camera movement
+            // sideways camera turn
             if (getKeyDown(Keyboard::D)) {
-                getCamera()->translate(vec3(1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::A)) {
-                getCamera()->translate(vec3(-1.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
             }
 
-            // upwards/downwards camera movement
+            // front/back camera movement
             if (getKeyDown(Keyboard::P)) {
-                getCamera()->translate(vec3(0.0f, 1.0f, 0.0f) * getTime()->getDeltaTime());
+                getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::L)) {
-                getCamera()->translate(vec3(0.0f, -1.0f, 0.0f) * getTime()->getDeltaTime());
+                getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
+
+            infinite_terrain.update();
 
             // make minimap camera follow the main camera
-            vec3 camera_pos = camera->getTransform()->getPosition();
-            camera2->getTransform()->setPosition(vec3(camera_pos.x, camera_pos.z, camera_pos.y + 3.0f));
-        }    
+            Transform* camera_transform = camera->getTransform();
+            Transform* camera2_transform = camera2->getTransform();
+            vec3 camera2_rotation = camera2_transform->getRotation();
+            camera2_transform->setPosition(camera_transform->getPosition() + vec3(0.0f, 3.0f, 0.0f));
+            camera2_transform->setRotation(vec3(camera2_rotation.x, camera2_rotation.y, camera_transform->getRotation().y));
+        }
+
+        void setupMinimap() {
+            enableLiveRenderer(camera2);
+            minimapBg = instantiate2D(new Minimap());
+            minimap = instantiate2D(new LiveViewer(camera2->getRenderTextureID()));
+
+            minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimap->translate(vec3(-0.75f, 0.75f, 0.0f));
+            minimap->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            minimapBg->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimapBg->translate(vec3(-0.75f, 0.75f, 0.1f));
+            minimapBg->scale(vec3(-0.75f, 0.0f, -0.75f));
+        }
+
+        void setupInfiniteTerrain() {
+            for (int i = 0; i < 4; i++) {
+                infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water())));
+            }
+            infinite_terrain.initialize();
+        }
 };
