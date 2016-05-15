@@ -10,8 +10,8 @@ class MinimapContainer {
         Camera* target_camera;
 
     public:
-        void setBackground(Minimap* minimap) {
-            minimap_bg = minimap;
+        void setBackground(Minimap* new_bg) {
+            minimap_bg = new_bg;
         }
 
         void setViewer(Camera* new_viewer, LiveViewer* new_viewer_texture) {
@@ -28,9 +28,9 @@ class MinimapContainer {
             minimap->translate(vec3(-0.75f, 0.75f, 0.0f));
             minimap->scale(vec3(-0.79f, 0.0f, -0.79f));
 
-            minimapBg->rotate(vec3(90.0f, 0.0f, 0.0f));
-            minimapBg->translate(vec3(-0.75f, 0.75f, 0.1f));
-            minimapBg->scale(vec3(-0.75f, 0.0f, -0.75f));
+            minimap_bg->rotate(vec3(90.0f, 0.0f, 0.0f));
+            minimap_bg->translate(vec3(-0.75f, 0.75f, 0.1f));
+            minimap_bg->scale(vec3(-0.75f, 0.0f, -0.75f));
         }
 
         void update() {
