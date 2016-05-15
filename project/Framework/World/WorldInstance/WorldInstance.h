@@ -18,7 +18,7 @@ class WorldInstance: public World {
             Reporter::println("Start method called");
             camera = getCamera();
 
-            camera->translate(vec3(0.0f, 1.0f, 0.0f));
+            camera->translate(vec3(0.0f, 0.5f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
             setupMinimap();
@@ -27,13 +27,6 @@ class WorldInstance: public World {
 
         // method called every frame
         void Update() {
-            // upward/downward camera turn
-            if (getKeyDown(Keyboard::W)) {
-                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::S)) {
-                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
             // sideways camera turn
             if (getKeyDown(Keyboard::D)) {
                 getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
