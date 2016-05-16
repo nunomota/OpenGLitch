@@ -37,12 +37,11 @@ class DirectionalLight: public Light {
                 glm::mat4 view = shadow_camera->getViewMatrix();
                 glm::mat4 projection = shadow_camera->getProjectionMatrix();
                 glm::mat4 model = getTransform()->getModelMatrix();
-
-                return view * projection * model;
+                return projection * view * model;
             } else{
                 return IDENTITY_MATRIX; 
             }
-
         }
+
 
 };

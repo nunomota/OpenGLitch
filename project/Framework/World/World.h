@@ -54,7 +54,12 @@ class World {
                     Object3D* object = (*it);
                     if(object) {
                         if (object->getRenderer()->getState()) {
-                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), pass);
+
+                            if(main_light) {
+                                object->Draw(camera->getViewMatrix, camera->getProjectionMatrix(), pass, main_light->getDepthMVP());
+                            }else {
+                                object->Draw(camera->getViewMatrix, camera->getProjectionMatrix(), pass);
+                            }
                         }
                     }
                 }
