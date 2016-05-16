@@ -8,6 +8,7 @@ class WorldInstance: public World {
     private:
         Camera* camera;
         Camera* camera2;
+        Light* light;
 
         MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;
@@ -18,17 +19,19 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             camera = getCamera();
+            light = getLight();
             camera2 = instantiate(new Camera());
 
             infinite_terrain.setTarget(camera);
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
-            
+
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
+            setupShadow();
             setupMinimap();
             setupInfiniteTerrain();
         }
@@ -55,12 +58,18 @@ class WorldInstance: public World {
             } else if (getKeyDown(Keyboard::L)) {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
-
+            updateShadow();
             minimap.update();
             infinite_terrain.update();
         }
 
-        
+        void setupShadow() {
+            Camera* shadow_camera = instantiate(new Camera());
+            Transform* shadow_camera_transform =  shadow_camera->getTransform();
+            shadow_camera_transform->setPosition(light->getTransform()->getPosition());
+            shadow_camera_transform->setRotation(light->getTransform()->getRotation());
+            light->setShadowCamera(shadow_camera);
+        }
 
         void setupMinimap() {
             enableLiveRenderer(camera2);
@@ -76,4 +85,12 @@ class WorldInstance: public World {
             }
             infinite_terrain.initialize();
         }
+
+        void updateShadow() {
+            Camera* shadow_camera = light->getShadowCamera();
+            Transform* shadow_camera_transform =  shadow_camera->getTransform();
+            shadow_camera_transform->setPosition(light->getTransform()->getPosition());
+            shadow_camera_transform->setRotation(light->getTransform()->getRotation());
+        }
+
 };

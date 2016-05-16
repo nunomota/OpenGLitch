@@ -48,14 +48,13 @@ class World {
           * pass = 1 - shadows
           * pass = 2 - mirroring
           */
-
         void drawObjects(Camera* camera, bool only_3d = true, int pass = 0) {
             if (camera) {
                 for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                     Object3D* object = (*it);
                     if(object) {
                         if (object->getRenderer()->getState()) {
-                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
+                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), pass);
                         }
                     }
                 }
@@ -91,7 +90,7 @@ class World {
             if(shadow_camera){
                 shadow_camera->setScreenDimensions(window_width, window_height);
                 shadow_camera->bindShadowBuffer();
-                drawObjects(shadow_camera); // TODO need to pass a parameter to tell that this is supposed to do shadows.
+                drawObjects(shadow_camera, true, 1); // 1 - shadows
                 shadow_camera->unbindShadowBuffer();
                 shadow_camera->setScreenDimensions(window_width, window_height);
             }

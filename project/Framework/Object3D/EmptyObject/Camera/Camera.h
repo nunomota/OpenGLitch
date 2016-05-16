@@ -113,7 +113,6 @@ class Camera: public EmptyObject {
             shadowbuffer.Unbind();
         }
 
-
         glm::mat4 getViewMatrix() {
             // TODO maybe calculate this matrix from Transform.getModelMatrix()?
             return transform.getInvertedModelMatrix();
