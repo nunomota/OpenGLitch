@@ -5,6 +5,7 @@
 class PhysicalObject: public Object3D {
     private:
         GLenum draw_mode_ = GL_TRIANGLE_STRIP;    // used after as the 1st parameter of glDrawElements
+        GLuint pass_id_;
 
     protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
@@ -79,6 +80,9 @@ class PhysicalObject: public Object3D {
             MVP_id_ = glGetUniformLocation(program_id_, "MVP");
             renderer.getMaterial()->setUniforms(program_id_);
             
+            pass_id_ = glGetUniformLocation(program_id_, "PASS");
+
+
             SetupUniforms();
 
             // to avoid the current object being polluted
@@ -89,7 +93,7 @@ class PhysicalObject: public Object3D {
         }
 
         void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
-                  const glm::mat4 &projection = IDENTITY_MATRIX) {
+                  const glm::mat4 &projection = IDENTITY_MATRIX, int pass = 0) {
             if (is_initialized_) {
                 glUseProgram(program_id_);
                 glBindVertexArray(vertex_array_id_);
@@ -105,6 +109,8 @@ class PhysicalObject: public Object3D {
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
+
+                glUniform1i(pass_id_, pass);
 
                 UpdateUniforms();
 

@@ -43,7 +43,13 @@ class World {
             Reporter::println("All objects initialized", "World");
         }
 
-        void drawObjects(Camera* camera, bool only_3d = true) {
+        /** 
+          * pass = 0 - normal render 
+          * pass = 1 - shadows
+          * pass = 2 - mirroring
+          */
+
+        void drawObjects(Camera* camera, bool only_3d = true, int pass = 0) {
             if (camera) {
                 for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                     Object3D* object = (*it);
@@ -311,6 +317,7 @@ class World {
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
             drawRenderTextures();
+            // TODO draw shadow textures
             glViewport(0, 0, window_width, window_height);
             drawObjects(main_camera, false);
             world_time.Update();
