@@ -9,7 +9,7 @@ class Mirror {
 
     public:
         void setup() {
-            mirror_camera->enableClipping(vec4(0.0f, 1.0f, 0.0f, 0.0f));
+            mirror_camera->enableClipping(vec4(0.0f, 1.0f, 0.0f, 0.1f));
         }
 
         void update() {
@@ -20,7 +20,7 @@ class Mirror {
             vec3 target_camera_rotation = target_camera_transform->getRotation();
 
             mirror_camera_transform->setPosition(vec3(target_camera_position.x, -target_camera_position.y, target_camera_position.z));
-            mirror_camera_transform->setRotation(vec3(-target_camera_rotation.x, target_camera_rotation.y, target_camera_rotation.z));
+            mirror_camera_transform->setRotation(vec3(-target_camera_rotation.x + 180.0f, target_camera_rotation.y, target_camera_rotation.z));
         }
 
         void setTargetCamera(Camera* new_target_camera) {
