@@ -9,9 +9,10 @@ class PhysicalObject: public Object3D {
         GLuint pass_id_;
         GLuint depthMVP_id_;
         GLuint depthBiasMVP_id_;
+        GLuint tex_id_;
 
         // matrix to translate from depth to texture coords 
-        glm::mat4 biasMatrix(
+        glm::mat4 biasMatrix = glm::mat4(
             0.5, 0.0, 0.0, 0.0,
             0.0, 0.5, 0.0, 0.0,
             0.0, 0.0, 0.5, 0.0,
@@ -51,8 +52,8 @@ class PhysicalObject: public Object3D {
             std::ostringstream tex_name;
             tex_name << "tex" << texture_ids_.size();
 
-            GLuint tex_id = glGetUniformLocation(program_id_, tex_name.str().c_str());
-            glUniform1i(tex_id, texture_ids_.size());
+            tex_id_ = glGetUniformLocation(program_id_, tex_name.str().c_str());
+            glUniform1i(tex_id_, texture_ids_.size() + 1);
 
             texture_ids_.push_back(texture_id);
         }
@@ -95,6 +96,8 @@ class PhysicalObject: public Object3D {
             depthMVP_id_ = glGetUniformLocation(program_id_, "depthMVP");
             depthBiasMVP_id_ = glGetUniformLocation(program_id_, "depthBiasMVP");
 
+            depth_texture_uniform_id_ = glGetUniformLocation(program_id_, "depthTex");
+            glUniform1i(tex_id_, 0 /* location 0 */);
 
             SetupUniforms();
 

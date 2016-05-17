@@ -3,6 +3,7 @@
 
 in vec3 position;
 uniform sampler2D tex0;
+uniform sampler2D depthTex;
 uniform int PASS;
 
 out vec4 shadow_coord;
@@ -17,7 +18,7 @@ uniform mat4 depthBiasMVP;
 void main() {
     uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
 
-    height = texture(tex0, uv).x * 2.0f - 1.0f;
+    height = texture(depthTex, uv).x * 2.0f - 1.0f;
     
     // TODO pass in the plane's normal, multiply by the height and then add to position vector.
     pos_3d = vec3(position.x, position.y+height, position.z);
@@ -28,4 +29,5 @@ void main() {
     }else{
 	    gl_Position = depthMVP * vec4(pos_3d, 1.0);
     }
+
 }

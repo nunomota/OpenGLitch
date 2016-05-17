@@ -16,6 +16,9 @@ class Object3D {
         GLuint program_id_;                       // GLSL shader program ID
         GLuint num_indices_;                      // number of vertices to render
         GLuint MVP_id_;                           // model, view, proj matrix ID
+        GLuint depth_texture_uniform_id_;
+
+        GLuint depth_texture_id_;
 
         std::vector<GLuint> texture_ids_;         // Optional texture IDs
 
@@ -47,6 +50,10 @@ class Object3D {
         void scale(glm::vec3 scaling_vector) {
             glm::vec3 current_scale = transform.getScale();
             transform.setScale(current_scale + scaling_vector);
+        }
+
+        void setDepthTexture(GLuint new_depth_texture_id) {
+            depth_texture_id_ = new_depth_texture_id;
         }
 
         Transform* getTransform() {

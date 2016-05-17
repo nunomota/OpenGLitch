@@ -23,9 +23,14 @@ class World {
 
         void initializeObjects() {
             Reporter::println("Objects being initialized", "World");
+
+            GLuint tex_id = -1;
+            if (shadow_camera) tex_id = shadow_camera->getShadowTextureID();
+
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
                 Object3D* object = (*it);
                 if(object) {
+                    if (shadow_camera) object->setDepthTexture(tex_id);
                     object->Init();
                     objects.push_back(object);
                 }
@@ -323,6 +328,7 @@ class World {
             if (are_objects_uninitialized) initializeObjects();
             drawRenderTextures();
             // TODO draw shadow textures
+            drawShadowTexture();
             glViewport(0, 0, window_width, window_height);
             drawObjects(main_camera, false);
             world_time.Update();
