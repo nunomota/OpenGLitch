@@ -6,6 +6,7 @@ class Water: public Grid {
 
     protected:
         void InitialCalculations() {
+            Grid::InitialCalculations();
             setTag(1);
         }
 

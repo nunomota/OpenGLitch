@@ -23,7 +23,7 @@ class Object3D {
 
         Transform transform;    // Object-specific Transform
         Renderer renderer;      // Object-specific Renderer
-        int tag = 0;
+        int tag = 0;            // default tag for every object
 
     public:
         // constructor
