@@ -19,8 +19,8 @@ class Mirror {
             vec3 target_camera_position = target_camera_transform->getPosition();
             vec3 target_camera_rotation = target_camera_transform->getRotation();
 
-            mirror_camera_transform->setPosition(target_camera_position.x, -target_camera_position.y, target_camera_position.z);
-            mirror_camera_transform->setRotation(-target_camera_rotation.x, target_camera_rotation.y, target_camera_rotation.z);
+            mirror_camera_transform->setPosition(vec3(target_camera_position.x, -target_camera_position.y, target_camera_position.z));
+            mirror_camera_transform->setRotation(vec3(-target_camera_rotation.x, target_camera_rotation.y, target_camera_rotation.z));
         }
 
         void setTargetCamera(Camera* new_target_camera) {
