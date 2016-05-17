@@ -30,4 +30,8 @@ class Mirror {
         void setMirrorCamera(Camera* new_mirror_camera) {
             mirror_camera = new_mirror_camera;
         }
+
+        GLuint getMirrorTextureID() {
+            return mirror_camera->getRenderTextureID();
+        }
 };

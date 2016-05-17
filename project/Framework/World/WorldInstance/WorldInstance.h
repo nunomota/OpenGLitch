@@ -8,6 +8,7 @@ class WorldInstance: public World {
     private:
         Camera* camera;
 
+        Mirror mirror;
         MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;
 
@@ -21,6 +22,7 @@ class WorldInstance: public World {
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
+            setupMirror();
             setupMinimap();
             setupInfiniteTerrain();
         }
@@ -41,8 +43,17 @@ class WorldInstance: public World {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
 
+            mirror.update();
             minimap.update();
             infinite_terrain.update();
+        }
+
+        void setupMirror() {
+            Camera* mirror_camera = instantiate(new Camera());
+            enableLiveRenderer(mirror_camera);
+            mirror.setMirrorCamera(mirror_camera);
+            mirror.setTargetCamera(camera);
+            mirror.setup();
         }
 
         void setupMinimap() {
