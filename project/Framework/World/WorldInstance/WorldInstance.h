@@ -66,9 +66,10 @@ class WorldInstance: public World {
         }
 
         void setupInfiniteTerrain() {
+            GLuint mirror_texture_id = mirror.getMirrorTextureID();
             infinite_terrain.setTarget(camera);
             for (int i = 0; i < 4; i++) {
-                infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water())));
+                infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water(mirror_texture_id))));
             }
             infinite_terrain.initialize();
         }
