@@ -45,7 +45,7 @@ class World {
         void drawObjects(Camera* camera, bool only_3d = true) {
             if (camera) {
                 if (camera->getClippingState()) {
-                    glClipPlanef(GL_CLIP_PLANE0, glm::value_ptr(camera->getClipPlane()));
+                    //glClipPlanef(GL_CLIP_PLANE0, glm::value_ptr(camera->getClipPlane()));
                     glEnable(GL_CLIP_PLANE0);
                 }
                 for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {

@@ -21,6 +21,7 @@ class WorldInstance: public World {
 
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
+            camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
             setupMirror();
             setupMinimap();
