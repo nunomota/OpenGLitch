@@ -12,7 +12,8 @@
 /*--------------------
 | Frame buffer class |
 --------------------*/
-#include "FrameBuffer/FrameBuffer.h"
+#include "Buffers/FrameBuffer.h"
+#include "Buffers/ShadowBuffer.h"
 
 /*--------------------
 |     Time class     |
@@ -32,22 +33,23 @@
 #include "Object3D/Renderer/Renderer.h"
 #include "Object3D/Transform/Transform.h"
 #include "Object3D/Object3D.h"
-#include "Object3D/PhysicalObject/PhysicalObject.h"
-#include "Object3D/EmptyObject/EmptyObject.h"
 
 /*--------------------
-|    Core Objects    |
+|   Empty Objects    |
 --------------------*/
-// Physical objects
-#include "Object3D/PhysicalObject/Cube/Cube.h"
-#include "Object3D/PhysicalObject/Plane/Plane.h"
-#include "Object3D/PhysicalObject/Grid/Grid.h"
-
-// Empty objects
+#include "Object3D/EmptyObject/EmptyObject.h"
 #include "Object3D/EmptyObject/Camera/Camera.h"
 #include "Object3D/EmptyObject/Light/Light.h"
 #include "Object3D/EmptyObject/Light/PointLight/PointLight.h"
 #include "Object3D/EmptyObject/Light/DirectionalLight/DirectionalLight.h"
+
+/*--------------------
+|  Physical Objects  |
+--------------------*/
+#include "Object3D/PhysicalObject/PhysicalObject.h"
+#include "Object3D/PhysicalObject/Cube/Cube.h"
+#include "Object3D/PhysicalObject/Plane/Plane.h"
+#include "Object3D/PhysicalObject/Grid/Grid.h"
 
 /*--------------------
 |   Custom Objects   |

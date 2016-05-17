@@ -8,7 +8,7 @@ class WorldInstance: public World {
     private:
         Camera* camera;
         Camera* camera2;
-        Light* light;
+        DirectionalLight* light;
 
         MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;

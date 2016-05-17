@@ -5,17 +5,15 @@ class ShadowBuffer {
 
     private:
         bool init_;
+
         int width_;
         int height_;
+
         GLuint frame_buffer_object_;
         GLuint depth_texture_;
         GLint previous_viewport_[4];
 
     public:
-        ShadowBuffer(int image_width = 512, int image_height = 512){
-            this->width_ = image_width;
-            this->height_ = image_height;
-        }
         
         // warning: overrides viewport !!
         void Bind() {
@@ -35,9 +33,12 @@ class ShadowBuffer {
         // TODO: Analyze this function to understand how to create an FBO
         //       with only a depth attachment and without writing to any
         //       color buffer.
-        int Init() {
+        int Init(GLuint width, GLuint height) {
             // create color attachment
             {
+                width_ = width;
+                height_ = height;
+
                 glActiveTexture(GL_TEXTURE1);
                 glGenTextures(1, &depth_texture_);
                 glBindTexture(GL_TEXTURE_2D, depth_texture_);

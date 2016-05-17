@@ -14,7 +14,6 @@ class Object3D {
         GLuint vertex_buffer_object_position_;    // memory buffer for positions
         GLuint vertex_buffer_object_index_;       // memory buffer for indices
         GLuint program_id_;                       // GLSL shader program ID
-        GLuint shadow_pid_;
         GLuint num_indices_;                      // number of vertices to render
         GLuint MVP_id_;                           // model, view, proj matrix ID
 
@@ -61,7 +60,7 @@ class Object3D {
         virtual void Init() {}
 
         virtual void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
-                          const glm::mat4 &projection = IDENTITY_MATRIX) {}
+                          const glm::mat4 &projection = IDENTITY_MATRIX,const glm::mat4 &depthMVP = IDENTITY_MATRIX , int pass = 0) {}
 
         virtual void Cleanup() {}
 };

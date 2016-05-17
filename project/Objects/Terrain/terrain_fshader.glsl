@@ -3,6 +3,7 @@
 in vec2 uv;
 in vec3 pos_3d;
 in float height;
+in vec4 shadowcoord;
 uniform sampler2D tex0;
 
 out vec3 color;
@@ -40,4 +41,7 @@ void main() {
 
     vec3 diffuse = kd * nl * Ld;
     color = diffuse.xyz;
+
+    color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);
+
 }

@@ -56,10 +56,11 @@ class World {
                         if (object->getRenderer()->getState()) {
 
                             if(main_light) {
-                                object->Draw(camera->getViewMatrix, camera->getProjectionMatrix(), pass, main_light->getDepthMVP());
-                            }else {
-                                object->Draw(camera->getViewMatrix, camera->getProjectionMatrix(), pass);
+                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), main_light->getDepthMVP());
+                            }else{
+                                Reporter::println("No light set", "World");
                             }
+
                         }
                     }
                 }
