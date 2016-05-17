@@ -48,9 +48,10 @@ class World {
                     glClipPlanef(GL_CLIP_PLANE0, glm::value_ptr(camera->getClipPlane()));
                     glEnable(GL_CLIP_PLANE0);
                 }
+
                 for (std::vector<Object3D*>::iterator it = objects.begin(); it != objects.end(); ++it) {
                     Object3D* object = (*it);
-                    if(object) {
+                    if(object && object->getTag() != camera->getIgnoreTag()) {
                         if (object->getRenderer()->getState()) {
                             object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
                         }
@@ -60,13 +61,14 @@ class World {
                 if (!only_3d) {
                     for (std::vector<Object3D*>::iterator it = objects2D.begin(); it != objects2D.end(); ++it) {
                         Object3D* object = (*it);
-                        if(object) {
+                        if(object && object->getTag() != camera->getIgnoreTag()) {
                             if (object->getRenderer()->getState()) {
                                 object->Draw();
                             }
                         }
                     }
                 }
+
                 if (camera->getClippingState()) {
                     glDisable(GL_CLIP_PLANE0);
                 }

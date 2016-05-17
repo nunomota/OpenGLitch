@@ -135,7 +135,7 @@ class Camera: public EmptyObject {
             return is_clipping_enabled;
         }
 
-        int getIngoreTag() {
+        int getIgnoreTag() {
             return ignore_tag;
         }
 
