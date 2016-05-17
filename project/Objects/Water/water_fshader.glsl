@@ -15,5 +15,5 @@ void main() {
     float _v = (gl_FragCoord.y - 0.5f) / window_size.y;
 
     color = mix(texture(tex0, uv).rgb, texture(tex1, vec2(_u, _v)).rgb, vec3(0.15));
-    color = texture(tex0, uv).rgb;
+    color = texture(tex1, vec2(_u, _v)).rgb;
 }

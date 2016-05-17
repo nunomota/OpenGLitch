@@ -10,7 +10,11 @@ class WorldInstance: public World {
 
         Mirror mirror;
         MinimapContainer minimap;
-        InfiniteTerrain infinite_terrain;
+        //InfiniteTerrain infinite_terrain;
+
+        Terrain* terrain;
+        Water* water;
+        LiveViewer* reflection;
 
     protected:
 
@@ -25,7 +29,15 @@ class WorldInstance: public World {
 
             setupMirror();
             setupMinimap();
-            setupInfiniteTerrain();
+            //setupInfiniteTerrain();
+
+            terrain = instantiate(new Terrain());
+            water = instantiate(new Water(mirror.getMirrorTextureID()));
+
+            reflection = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
+            reflection->rotate(vec3(90.0f, 0.0f, 0.0f));
+            reflection->translate(vec3(0.75f, 0.75f, 0.0f));
+            reflection->scale(vec3(-0.79f, 0.0f, -0.79f));
         }
 
         // method called every frame
@@ -46,7 +58,7 @@ class WorldInstance: public World {
 
             mirror.update();
             minimap.update();
-            infinite_terrain.update();
+            //infinite_terrain.update();
         }
 
         void setupMirror() {
@@ -65,7 +77,7 @@ class WorldInstance: public World {
             minimap.setTargetCamera(camera);
             minimap.setup();
         }
-
+        /*
         void setupInfiniteTerrain() {
             GLuint mirror_texture_id = mirror.getMirrorTextureID();
             infinite_terrain.setTarget(camera);
@@ -73,5 +85,5 @@ class WorldInstance: public World {
                 infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water(mirror_texture_id))));
             }
             infinite_terrain.initialize();
-        }
+        }*/
 };
