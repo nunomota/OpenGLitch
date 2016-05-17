@@ -27,6 +27,7 @@ class Camera: public EmptyObject {
 
         bool is_clipping_enabled = false;
         glm::vec4 clip_plane;
+        int ignore_tag = -1;
 
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
@@ -95,6 +96,10 @@ class Camera: public EmptyObject {
             }
         }
 
+        void setIgnoreTag(int new_ignore_tag) {
+            ignore_tag = new_ignore_tag;
+        }
+
         void enableClipping(glm::vec4 new_clip_plane) {
             clip_plane = new_clip_plane;
             is_clipping_enabled = true;
@@ -128,6 +133,10 @@ class Camera: public EmptyObject {
 
         bool getClippingState() {
             return is_clipping_enabled;
+        }
+
+        int getIngoreTag() {
+            return ignore_tag;
         }
 
         void Cleanup() {

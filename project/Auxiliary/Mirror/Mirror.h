@@ -22,6 +22,7 @@ class Mirror {
     public:
         void setup() {
             mirror_camera->enableClipping(vec4(0.0f, -1.0f, 0.0f, 0.1f));
+            mirror_camera->setIgnoreTag(1); // ignore water tag
             mirrorTargetTransform();
             cout << target_camera->getTransform()->to_string() << endl;
             cout << mirror_camera->getTransform()->to_string() << endl;

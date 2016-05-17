@@ -5,6 +5,10 @@ class Water: public Grid {
         GLuint reflection_texture_id;
 
     protected:
+        void InitialCalculations() {
+            setTag(1);
+        }
+
         void LoadShaders() {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("water_vshader.glsl",

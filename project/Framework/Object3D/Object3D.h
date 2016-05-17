@@ -23,6 +23,7 @@ class Object3D {
 
         Transform transform;    // Object-specific Transform
         Renderer renderer;      // Object-specific Renderer
+        int tag = 0;
 
     public:
         // constructor
@@ -47,6 +48,14 @@ class Object3D {
         void scale(glm::vec3 scaling_vector) {
             glm::vec3 current_scale = transform.getScale();
             transform.setScale(current_scale + scaling_vector);
+        }
+
+        void setTag(int new_tag) {
+            tag = new_tag;
+        }
+
+        int getTag() {
+            return tag;
         }
 
         Transform* getTransform() {
