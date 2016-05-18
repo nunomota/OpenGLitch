@@ -62,7 +62,6 @@ class Terrain: public Grid {
 			addTexture(Loader::loadTexture("grass.jpg"));
 			addTexture(Loader::loadTexture("rock.jpg"));
 			addTexture(Loader::loadTexture("snow.jpg"));
-
         }
 
         void FinalOperations() {

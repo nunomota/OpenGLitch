@@ -14,6 +14,7 @@ uniform vec3 cameraPosition;
 uniform vec3 La, Ld, Ls;
 uniform vec3 Ma, Md, Ms;
 
+
 out vec3 color;
 
 float shineDumper = 2.0f;
@@ -62,3 +63,4 @@ void main() {
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
+
