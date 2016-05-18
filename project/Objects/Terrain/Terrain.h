@@ -37,6 +37,7 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
+
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
             time_id = glGetUniformLocation(program_id_, "time");
