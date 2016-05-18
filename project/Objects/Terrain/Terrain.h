@@ -64,7 +64,7 @@ class Terrain: public Grid {
 			addTexture(Loader::loadTexture("rock.jpg"));
 			addTexture(Loader::loadTexture("snow.jpg"));
         }
-
+		
         void FinalOperations() {
             heightbuffer.Cleanup();
         }

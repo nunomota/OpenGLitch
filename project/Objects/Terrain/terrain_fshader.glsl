@@ -1,8 +1,10 @@
 #version 330
 
 in vec2 uv;
+in vec2 uv2;
 in vec3 pos_3d;
 in float height;
+
 uniform sampler2D tex0; // perlin texture
 uniform sampler2D tex1; // perlin normalmap
 uniform sampler2D tex2; // water lighting
@@ -14,11 +16,22 @@ uniform vec3 cameraPosition;
 uniform vec3 La, Ld, Ls;
 uniform vec3 Ma, Md, Ms;
 
+uniform sampler2D tex0;
+uniform sampler2D sand;
+
+
 
 out vec3 color;
 
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
+
+// WARNING: dirty variables should be uniforms
+//yellow for the bottom part of the terrain
+//sand
+//vec3 Ld = vec3(0.9f, 0.9f, 0.0f);
+//vec3 kd = vec3(0.9f, 0.9f, 0.0f);
+
 
 void main() {
 
@@ -63,4 +76,5 @@ void main() {
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
+
 

@@ -1,18 +1,22 @@
 #version 330
 #define M_PI 3.14f
 
+in vec2 vtexcoord;
 in vec3 position;
 uniform sampler2D tex0;
+uniform sampler2D sand;
 
 out vec2 uv;
 out vec3 pos_3d;
 out float height;
+out vec2 uv2;
+
 
 uniform mat4 MVP;
 
 void main() {
     uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
-
+	uv2 = vtexcoord;
     height = texture(tex0, uv).x * 2.0f - 1.0f;
     
     // TODO pass in the plane's normal, multiply by the height and then add to position vector.
