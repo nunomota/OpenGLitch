@@ -1,7 +1,6 @@
 #version 330
 
 in vec2 uv;
-in vec2 uv2;
 in vec3 pos_3d;
 in float height;
 
@@ -17,7 +16,8 @@ uniform vec3 La, Ld, Ls;
 uniform vec3 Ma, Md, Ms;
 
 uniform sampler2D tex0;
-uniform sampler2D sand;
+uniform sampler2D tex1;
+uniform sampler2D tex2;
 
 
 
@@ -76,5 +76,3 @@ void main() {
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
-
-

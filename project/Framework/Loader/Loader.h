@@ -31,7 +31,10 @@ class Loader {
                     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
                                  GL_RGBA, GL_UNSIGNED_BYTE, image);
                 }
-
+				
+				
+				
+				
                 // cleanup
                 glBindTexture(GL_TEXTURE_2D, 0);
                 stbi_image_free(image);
