@@ -43,6 +43,13 @@ class WorldInstance: public World {
         // method called every frame
         void Update() {
             // sideways camera turn
+            if (getKeyDown(Keyboard::W)) {
+                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::S)) {
+                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // sideways camera turn
             if (getKeyDown(Keyboard::D)) {
                 getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::A)) {

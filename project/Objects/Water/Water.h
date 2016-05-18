@@ -7,6 +7,7 @@ class Water: public Grid {
     protected:
         void InitialCalculations() {
             Grid::InitialCalculations();
+            setDimension(16);
             setTag(1);
         }
 

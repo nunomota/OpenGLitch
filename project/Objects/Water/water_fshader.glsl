@@ -1,7 +1,7 @@
 #version 330
 
 in vec2 uv;
-in vec4 gl_FragCoord;
+in vec4 clipSpace;
 
 out vec3 color;
 
@@ -9,11 +9,10 @@ uniform sampler2D tex0;
 uniform sampler2D tex1;
 
 void main() {
-    ivec2 window_size = textureSize(tex1, 0);
+    vec2 ndc = (clipSpace.xz/clipSpace.w)/2.0f + 0.5f;
 
-    float _u = (gl_FragCoord.x - 0.5f) / window_size.x;
-    float _v = (gl_FragCoord.y - 0.5f) / window_size.y;
+    vec2 reflectTexCoords = vec2(ndc.x, -ndc.y);
 
-    color = mix(texture(tex0, uv).rgb, texture(tex1, vec2(_u, _v)).rgb, vec3(0.15));
-    color = texture(tex1, vec2(_u, _v)).rgb;
+    //color = mix(texture(tex0, uv).rgb, texture(tex1, vec2(_u, _v)).rgb, vec3(0.15));
+    color = mix(texture(tex1, reflectTexCoords).rgb, texture(tex0, uv).rgb, vec3(0.5));
 }
