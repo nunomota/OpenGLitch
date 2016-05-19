@@ -18,7 +18,7 @@ class Water: public Grid {
         }
 
         void SetupUniforms() {
-            GLuint texture = Loader::loadTexture("water.tga");
+            GLuint texture = Loader::loadTexture("waterDUDV.png");
             addTexture(texture);
             addTexture(reflection_texture_id);
             // TODO setup time for animation
