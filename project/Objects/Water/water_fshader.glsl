@@ -8,8 +8,9 @@ out vec3 color;
 
 uniform sampler2D tex0;
 uniform sampler2D tex1;
+uniform float time;
 
-float waveStrength = 0.05f;
+float waveStrength = 0.1f;
 
 void main() {
     ivec2 window_size = textureSize(tex1, 0);
@@ -20,9 +21,9 @@ void main() {
     float _u = ((pos_3d.x/pos_3d.w + 1.0f)/2.0f);
     float _v = ((pos_3d.y/pos_3d.w + 1.0f)/2.0f);
 
-    vec2 distortion = (texture(tex0, uv).rg * 2.0f - 1.0f) * waveStrength;
+    vec2 distortion = (texture(tex0, uv + time/200.0f).rg * 2.0f - 1.0f) * waveStrength;
 
-    color = mix(texture(tex0, uv).rgb, texture(tex1, vec2(_u, _v)).rgb, vec3(0.15));
-    color = mix(texture(tex1, vec2(_u, 1.0f-_v) + distortion).rgb, vec3(0.0f, 0.0f, 1.0f), vec3(0.15));
-    //color = texture(tex0, uv).rgb;
+    vec2 reflectTexCoords = vec2(_u, 1.0f-_v) + distortion;
+
+    color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.0f, 1.0f), vec3(0.15));
 }
