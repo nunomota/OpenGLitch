@@ -20,6 +20,8 @@ file(GLOB TEXTURES
     Resources/Textures/miramar_up.tga)
     Resources/Textures/sand.jpg
     Resources/Textures/grass.jpg
+    Resources/Textures/grass2.jpg
+    Resources/Textures/grass3.jpg
     Resources/Textures/rock.jpg
     Resources/Textures/snow.jpg
     Resources/Textures/minimap.png)

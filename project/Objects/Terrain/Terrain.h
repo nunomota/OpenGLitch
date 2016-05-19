@@ -60,7 +60,7 @@ class Terrain: public Grid {
         void UpdateUniforms() {
             glUniform1f(time_id, time->getCurrentTime());
 			addTexture(Loader::loadTexture("sand.jpg"));
-			addTexture(Loader::loadTexture("grass.jpg"));
+			addTexture(Loader::loadTexture("grass3.jpg"));
 			addTexture(Loader::loadTexture("rock.jpg"));
 			addTexture(Loader::loadTexture("snow.jpg"));
         }
