@@ -16,6 +16,8 @@ class WorldInstance: public World {
         Water* water;
         LiveViewer* reflection;
 
+        //Cube* cube;
+
     protected:
 
         // method called only once
@@ -38,6 +40,13 @@ class WorldInstance: public World {
             reflection->rotate(vec3(90.0f, 0.0f, 0.0f));
             reflection->translate(vec3(0.75f, 0.75f, 0.0f));
             reflection->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
+            camera->translate(vec3(0.0f, 2.0f, 0.0f));
+            camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
+
+            //cube = instantiate(new Cube());
+            //cube->getTransform()->setScale(vec3(-0.5f, -0.5f, -0.5f));
         }
 
         // method called every frame

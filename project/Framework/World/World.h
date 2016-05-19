@@ -79,11 +79,11 @@ class World {
             for (std::vector<Camera*>::iterator c_it = texture_rendering_cameras.begin(); c_it != texture_rendering_cameras.end(); ++c_it) {
                 Camera* camera = (*c_it);
                 if (camera) {
-                    camera->setScreenDimensions(window_height, window_height);
+                    //camera->setScreenDimensions(window_height, window_height);
                     camera->bindRenderBuffer();
                     drawObjects(camera);
                     camera->unbindRenderBuffer();
-                    camera->setScreenDimensions(window_width, window_height);
+                    //camera->setScreenDimensions(window_width, window_height);
                 }
             }
         }
