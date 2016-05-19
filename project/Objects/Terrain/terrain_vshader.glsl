@@ -3,8 +3,6 @@
 
 in vec3 position;
 uniform sampler2D tex0;
-uniform sampler2D tex1;
-uniform sampler2D tex2;
 out vec2 uv;
 out vec3 pos_3d;
 out float height;

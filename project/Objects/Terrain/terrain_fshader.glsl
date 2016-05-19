@@ -70,3 +70,4 @@ void main() {
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
+
