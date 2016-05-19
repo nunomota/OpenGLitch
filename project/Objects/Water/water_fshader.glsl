@@ -13,10 +13,6 @@ uniform float time;
 float waveStrength = 0.1f;
 
 void main() {
-    ivec2 window_size = textureSize(tex1, 0);
-
-    //float _u = (gl_FragCoord.x - 0.5f) / window_size.x;
-    //float _v = (gl_FragCoord.y - 0.5f) / window_size.y;
 
     float _u = ((pos_3d.x/pos_3d.w + 1.0f)/2.0f);
     float _v = ((pos_3d.y/pos_3d.w + 1.0f)/2.0f);
