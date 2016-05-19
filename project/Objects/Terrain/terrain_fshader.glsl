@@ -15,12 +15,6 @@ uniform vec3 cameraPosition;
 uniform vec3 La, Ld, Ls;
 uniform vec3 Ma, Md, Ms;
 
-uniform sampler2D tex0;
-uniform sampler2D tex1;
-uniform sampler2D tex2;
-
-
-
 out vec3 color;
 
 float shineDumper = 2.0f;
