@@ -34,7 +34,7 @@ class WorldInstance: public World {
             //setupInfiniteTerrain();
 
             terrain = instantiate(new Terrain());
-            water = instantiate(new Water(mirror.getMirrorTextureID(), getTime()));
+            water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight()));
 
             reflection = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             reflection->rotate(vec3(90.0f, 0.0f, 0.0f));

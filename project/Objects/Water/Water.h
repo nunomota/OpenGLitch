@@ -41,11 +41,11 @@ class Water: public Grid {
             light_d_id = glGetUniformLocation(program_id_, "Ld");
             light_s_id = glGetUniformLocation(program_id_, "Ls");
 
-            glUniform3f(light_dir_id, light->getDirection());
-            glUniform3f(light_pos_id, light->getTransform()->getPosition());
-            glUniform3f(light_a_id, light->getAmbienceColor());
-            glUniform3f(light_d_id, light->getDiffuseColor());
-            glUniform3f(light_s_id, light->getSpecularColor());
+            glUniform3fv(light_dir_id, 1, glm::value_ptr(light->getDirection()));
+            glUniform3fv(light_pos_id, 1, glm::value_ptr(light->getTransform()->getPosition()));
+            glUniform3fv(light_a_id, 1, glm::value_ptr(light->getAmbienceColor()));
+            glUniform3fv(light_d_id, 1, glm::value_ptr(light->getDiffuseColor()));
+            glUniform3fv(light_s_id, 1, glm::value_ptr(light->getSpecularColor()));
             // TODO setup time for animation
         }
 

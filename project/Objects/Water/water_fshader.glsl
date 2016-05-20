@@ -26,5 +26,5 @@ void main() {
 
     vec2 reflectTexCoords = vec2(_u, 1.0f-_v) + distortion;
 
-    color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.0f, 1.0f), vec3(0.15));
+    color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.3f, 0.8f), vec3(0.15));
 }
