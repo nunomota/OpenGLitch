@@ -17,7 +17,7 @@ uniform vec3 cameraPosition;
 uniform vec3 La, Ld, Ls;
 
 float waveStrength = 0.1f;
-float shineDumper = 10.0f;
+float shineDumper = 20.0f;
 float reflectivity = 0.6;
 
 void main() {
@@ -38,6 +38,5 @@ void main() {
     specular = pow(specular, shineDumper);
     vec3 specularHighlights = Ls * specular * reflectivity;
 
-    color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.3f, 0.8f), vec3(0.15));
-    color = mix(color, specularHighlights, vec3(0.15));
+    color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.3f, 0.8f), vec3(0.15)) + specularHighlights;
 }
