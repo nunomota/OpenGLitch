@@ -31,7 +31,7 @@ class WorldInstance: public World {
             setupMinimap();
             //setupInfiniteTerrain();
 
-            terrain = instantiate(new Terrain(getLight(), getCamera()));
+            terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
             water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());

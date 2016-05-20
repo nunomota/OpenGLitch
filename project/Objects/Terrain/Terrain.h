@@ -8,7 +8,9 @@ class Terrain: public Grid {
 
         DirectionalLight* light;
         Camera* camera;
+        Time* time;
 
+        GLuint time_id;
         GLuint light_dir_id;
         GLuint light_pos_id;
         GLuint light_a_id;
@@ -37,6 +39,8 @@ class Terrain: public Grid {
         void SetupUniforms() {
             addTexture(Loader::loadTexture("perlin.jpg"));
             addTexture(Loader::loadTexture("perlinNormal.png"));
+            addTexture(Loader::loadTexture("waterNormal.png"));
+            time_id = glGetUniformLocation(program_id_, "time");
 
             light_dir_id = glGetUniformLocation(program_id_, "lightDirection");
             light_pos_id = glGetUniformLocation(program_id_, "lightPosition");
@@ -53,12 +57,17 @@ class Terrain: public Grid {
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
         }
 
+        void UpdateUniforms() {
+            glUniform1f(time_id, time->getCurrentTime());
+        }
+
         void FinalOperations() {
             heightbuffer.Cleanup();
         }
 
     public:
-        Terrain(DirectionalLight* new_light, Camera* new_camera) {
+        Terrain(Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
+            time = new_time;
             light = new_light;
             camera = new_camera;
         }
