@@ -14,9 +14,6 @@ class WorldInstance: public World {
 
         Terrain* terrain;
         Water* water;
-        LiveViewer* reflection;
-
-        //Cube* cube;
 
     protected:
 
@@ -37,17 +34,9 @@ class WorldInstance: public World {
             terrain = instantiate(new Terrain());
             water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
-            reflection = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
-            reflection->rotate(vec3(90.0f, 0.0f, 0.0f));
-            reflection->translate(vec3(0.75f, 0.75f, 0.0f));
-            reflection->scale(vec3(-0.79f, 0.0f, -0.79f));
-
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
             camera->translate(vec3(0.0f, 2.0f, 0.0f));
             camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
-
-            //cube = instantiate(new Cube());
-            //cube->getTransform()->setScale(vec3(-0.5f, -0.5f, -0.5f));
         }
 
         // method called every frame
