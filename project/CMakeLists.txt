@@ -9,7 +9,8 @@ file(GLOB TEXTURES
     Resources/Textures/water.tga
     Resources/Textures/perlin.jpg
     Resources/Textures/minimap.png
-    Resources/Textures/waterDUDV.png)
+    Resources/Textures/waterDUDV.png
+    Resources/Textures/waterNormal.png)
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime

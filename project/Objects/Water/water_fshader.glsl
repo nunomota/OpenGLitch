@@ -13,9 +13,12 @@ uniform float time;
 
 uniform vec3 lightDirection;
 uniform vec3 lightPosition;
+uniform vec3 cameraPosition;
 uniform vec3 La, Ld, Ls;
 
 float waveStrength = 0.1f;
+float shineDumper = 10.0f;
+float reflectivity = 0.6;
 
 void main() {
 
@@ -23,8 +26,18 @@ void main() {
     float _v = ((pos_3d.y/pos_3d.w + 1.0f)/2.0f);
 
     vec2 distortion = (texture(tex0, uv + time/200.0f).rg * 2.0f - 1.0f) * waveStrength;
+    vec4 normalMapColor = texture(tex2, uv + time/200.0f);
+    vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
+    normal = normalize(normal);
 
     vec2 reflectTexCoords = vec2(_u, 1.0f-_v) + distortion;
 
+    // specular calculation
+    vec3 reflectedLight = reflect(normalize(pos_3d.xyz - lightPosition), normal);
+    float specular = max(dot(reflectedLight, pos_3d.xyz - cameraPosition), 0.0f);
+    specular = pow(specular, shineDumper);
+    vec3 specularHighlights = Ls * specular * reflectivity;
+
     color = mix(texture(tex1, reflectTexCoords).rgb, vec3(0.0f, 0.3f, 0.8f), vec3(0.15));
+    color = mix(color, specularHighlights, vec3(0.15));
 }

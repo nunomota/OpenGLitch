@@ -7,12 +7,14 @@ class Water: public Grid {
 
         Time* time;
         DirectionalLight* light;
+        Camera* camera;
 
         GLuint light_dir_id;
         GLuint light_pos_id;
         GLuint light_a_id;
         GLuint light_d_id;
         GLuint light_s_id;
+        GLuint camera_pos_id;
 
     protected:
         void InitialCalculations() {
@@ -40,12 +42,14 @@ class Water: public Grid {
             light_a_id = glGetUniformLocation(program_id_, "La");
             light_d_id = glGetUniformLocation(program_id_, "Ld");
             light_s_id = glGetUniformLocation(program_id_, "Ls");
+            camera_pos_id = glGetUniformLocation(program_id_, "cameraPosition");
 
             glUniform3fv(light_dir_id, 1, glm::value_ptr(light->getDirection()));
             glUniform3fv(light_pos_id, 1, glm::value_ptr(light->getTransform()->getPosition()));
             glUniform3fv(light_a_id, 1, glm::value_ptr(light->getAmbienceColor()));
             glUniform3fv(light_d_id, 1, glm::value_ptr(light->getDiffuseColor()));
             glUniform3fv(light_s_id, 1, glm::value_ptr(light->getSpecularColor()));
+            glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
             // TODO setup time for animation
         }
 
@@ -55,9 +59,10 @@ class Water: public Grid {
             //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
     public:
-        Water(GLuint mirror_texture_id, Time* new_time, DirectionalLight* new_light) {
+        Water(GLuint mirror_texture_id, Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
             reflection_texture_id = mirror_texture_id;
             time = new_time;
             light = new_light;
+            camera = new_camera;
         }
 };

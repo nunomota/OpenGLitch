@@ -24,6 +24,7 @@ class WorldInstance: public World {
         void Start() {
             Reporter::println("Start method called");
             camera = getCamera();
+            getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -34,7 +35,7 @@ class WorldInstance: public World {
             //setupInfiniteTerrain();
 
             terrain = instantiate(new Terrain());
-            water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight()));
+            water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
             reflection = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             reflection->rotate(vec3(90.0f, 0.0f, 0.0f));
