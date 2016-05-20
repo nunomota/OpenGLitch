@@ -18,16 +18,15 @@ uniform mat4 depthBiasMVP;
 void main() {
     uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
 
-    height = texture(depthTex, uv).x * 2.0f - 1.0f;
+    height = texture(tex0, uv).x * 2.0f - 1.0f;
     
     // TODO pass in the plane's normal, multiply by the height and then add to position vector.
     pos_3d = vec3(position.x, position.y+height, position.z);
 
-    if(PASS == 0){
+    if(PASS == 20){ 
+        shadow_coord = depthBiasMVP * vec4(pos_3d, 1.0);
 	    gl_Position = MVP * vec4(pos_3d, 1.0);
-	    shadow_coord = depthBiasMVP * vec4(pos_3d, 1.0);
     }else{
 	    gl_Position = depthMVP * vec4(pos_3d, 1.0);
     }
-
 }

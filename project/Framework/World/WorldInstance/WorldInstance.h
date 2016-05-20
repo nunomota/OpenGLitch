@@ -24,12 +24,16 @@ class WorldInstance: public World {
 
             infinite_terrain.setTarget(camera);
 
+            light->translate(vec3(0.0f,0.0f,10.0f));
+
+
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 3.0f, 0.0f));
+
 
             setupShadow();
             setupMinimap();

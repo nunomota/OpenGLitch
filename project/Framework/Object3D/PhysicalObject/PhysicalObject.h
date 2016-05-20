@@ -53,10 +53,13 @@ class PhysicalObject: public Object3D {
             tex_name << "tex" << texture_ids_.size();
 
             tex_id_ = glGetUniformLocation(program_id_, tex_name.str().c_str());
+
+
             glUniform1i(tex_id_, texture_ids_.size() + 1);
 
             texture_ids_.push_back(texture_id);
         }
+
 
     public:
         void Init() {
@@ -115,10 +118,12 @@ class PhysicalObject: public Object3D {
                 glBindVertexArray(vertex_array_id_);
 
                 // bind textures
+                int counter = 1;
                 for(std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
                     GLuint cur_id = *it;
-                    glActiveTexture(GL_TEXTURE0);
+                    glActiveTexture(GL_TEXTURE0 + counter);
                     glBindTexture(GL_TEXTURE_2D, cur_id);
+                    counter++;
                 }
 
                 // setup MVP

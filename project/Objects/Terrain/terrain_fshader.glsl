@@ -18,10 +18,10 @@ const vec3 CAMERA_POSITION = vec3(4,4,2);
 
 void main() {
 
-    if(PASS == 0){
+    if(PASS == 20){
         float visibility = 1.0;
         if ( texture( depthTex, shadow_coord.xy ).z  <  shadow_coord.z){
-           visibility = 0.3;
+           visibility = 0.5;
         }
 
         vec3 n = normalize(pos_3d);
@@ -52,9 +52,13 @@ void main() {
         diffuse = diffuse * visibility;
         color = diffuse.xyz;
 
+        color = vec3(0.7f,0.7f,0.7f) * visibility;
+
     }else {
     
         color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);
     
     }
+
+
 }
