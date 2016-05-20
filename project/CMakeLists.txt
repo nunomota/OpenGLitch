@@ -8,6 +8,7 @@ file(GLOB TEXTURES
     Resources/Textures/grid_texture.tga
     Resources/Textures/water.tga
     Resources/Textures/perlin.jpg
+    Resources/Textures/perlinNormal.png
     Resources/Textures/minimap.png
     Resources/Textures/waterDUDV.png
     Resources/Textures/waterNormal.png)
