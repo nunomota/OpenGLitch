@@ -45,7 +45,7 @@ void main() {
         height_color = vec3(0.0f, 1.0f, 0.0f);
     } else {
         //yellow
-        height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), -0.001f);
+        height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
 
         vec4 normalMapColor = texture(tex2, uv + time/200.0f);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
@@ -56,7 +56,7 @@ void main() {
         specular = pow(specular, shineDumper);
         vec3 specularHighlights = Ls * specular * reflectivity;
 
-        underwater_fix = specularHighlights * (1.0f-gl_FragCoord.z);
+        underwater_fix = mix(height_color, specularHighlights * (1.0f-gl_FragCoord.z), vec3(0.35));
     }
 
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
