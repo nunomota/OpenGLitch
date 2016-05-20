@@ -6,9 +6,14 @@ in vec4 pos_3d;
 
 out vec3 color;
 
-uniform sampler2D tex0;
-uniform sampler2D tex1;
+uniform sampler2D tex0;    // DUDV map
+uniform sampler2D tex1;    // reflection texture
+uniform sampler2D tex2;    // normal map
 uniform float time;
+
+uniform vec3 lightDirection;
+uniform vec3 lightPosition;
+uniform vec3 La, Ld, Ls;
 
 float waveStrength = 0.1f;
 
