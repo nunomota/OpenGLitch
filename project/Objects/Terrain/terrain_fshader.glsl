@@ -16,7 +16,8 @@ out vec3 color;
 
 void main() {
 
-    vec3 height_color = vec3(0.9f, 0.9f, 0.0f);
+    vec3 height_color;
+    float underwater_fix = 1.0f;
 
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv);
@@ -37,8 +38,12 @@ void main() {
     } else if(height > 0.0f){
         //green
         height_color = vec3(0.0f, 1.0f, 0.0f);
+    } else {
+        //yellow
+        height_color = vec3(0.9f, 0.9f, 0.0f);
+        underwater_fix = 1.0f-gl_FragCoord.z;
     }
 
-    vec3 diffuse = Md * nl * Ld * height_color;
+    vec3 diffuse = Md * nl * Ld * height_color * underwater_fix;
     color = diffuse.xyz;
 }
