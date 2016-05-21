@@ -15,6 +15,8 @@ class WorldInstance: public World {
         Terrain* terrain;
         Water* water;
 
+        Controller controller;
+
     protected:
 
         // method called only once
@@ -27,6 +29,7 @@ class WorldInstance: public World {
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
+            setupController();
             setupMirror();
             setupMinimap();
             //setupInfiniteTerrain();
@@ -41,30 +44,16 @@ class WorldInstance: public World {
 
         // method called every frame
         void Update() {
-            // sideways camera turn
-            if (getKeyDown(Keyboard::W)) {
-                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::S)) {
-                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // sideways camera turn
-            if (getKeyDown(Keyboard::D)) {
-                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::A)) {
-                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // front/back camera movement
-            if (getKeyDown(Keyboard::P)) {
-                getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::L)) {
-                getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
-            }
-
+            move();
             mirror.update();
             minimap.update();
+            controller.update();
             //infinite_terrain.update();
+        }
+
+        void setupController() {
+            controller.setTarget(camera->getTransform());
+            controller.setTime(getTime());
         }
 
         void setupMirror() {
@@ -92,4 +81,30 @@ class WorldInstance: public World {
             }
             infinite_terrain.initialize();
         }*/
+
+        void move() {
+            // sideways camera turn
+            if (getKeyDown(Keyboard::W)) {
+                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::S)) {
+                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // sideways camera turn
+            if (getKeyDown(Keyboard::D)) {
+                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::A)) {
+                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // front/back camera movement
+            if (getKeyDown(Keyboard::P)) {
+                controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+                //getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::L)) {
+                controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
+            } else {
+                controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
+            }
+        }
 };
