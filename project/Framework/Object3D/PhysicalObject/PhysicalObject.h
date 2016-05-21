@@ -95,10 +95,12 @@ class PhysicalObject: public Object3D {
                 glBindVertexArray(vertex_array_id_);
 
                 // bind textures
+                int counter = 0;
                 for(std::vector<GLuint>::iterator it = texture_ids_.begin(); it != texture_ids_.end(); ++it) {
                     GLuint cur_id = *it;
-                    glActiveTexture(GL_TEXTURE0);
+                    glActiveTexture(GL_TEXTURE0 + counter);
                     glBindTexture(GL_TEXTURE_2D, cur_id);
+                    counter++;
                 }
 
                 // setup MVP

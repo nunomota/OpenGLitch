@@ -46,8 +46,8 @@ class Grid: public PhysicalObject {
 
         void LoadShaders() {
             // compile the shaders.
-            program_id_ = icg_helper::LoadShaders("grid_vshader.glsl",
-                                                  "grid_fshader.glsl");
+            program_id_ = icg_helper::LoadShaders("plain_vshader.glsl",
+                                                  "plain_fshader.glsl");
         }
 
         void SetupVertices() {

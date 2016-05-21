@@ -33,8 +33,8 @@ class Transform {
         }
 
         void calculateRotation() {
-            model_ = glm::rotate(model_, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, glm::radians(rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            model_ = glm::rotate(model_, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model_ = glm::rotate(model_, glm::radians(rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
         }
 
@@ -62,8 +62,8 @@ class Transform {
             glm::vec4 rotated_right_vector   = glm::vec4(world_right_vector, 0.0f);
             glm::mat4 rotaion_matrix         = IDENTITY_MATRIX;
 
-            rotaion_matrix = glm::rotate(rotaion_matrix, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
             rotaion_matrix = glm::rotate(rotaion_matrix, glm::radians(rotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            rotaion_matrix = glm::rotate(rotaion_matrix, glm::radians(rotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
             rotaion_matrix = glm::rotate(rotaion_matrix, glm::radians(rotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
             rotated_up_vector      = rotaion_matrix * rotated_up_vector;

@@ -25,6 +25,10 @@ class Camera: public EmptyObject {
         FrameBuffer framebuffer;
         GLuint render_texture_id;
 
+        bool is_clipping_enabled = false;
+        glm::vec4 clip_plane;
+        int ignore_tag = -1;
+
         void recalculateProjectionMatrix() {
             float top = near_ * tan((PI/180.0f) * (fovy_/2.0f));
             float bottom = -top;
@@ -92,6 +96,15 @@ class Camera: public EmptyObject {
             }
         }
 
+        void setIgnoreTag(int new_ignore_tag) {
+            ignore_tag = new_ignore_tag;
+        }
+
+        void enableClipping(glm::vec4 new_clip_plane) {
+            clip_plane = new_clip_plane;
+            is_clipping_enabled = true;
+        }
+
         void bindRenderBuffer() {
             framebuffer.Bind();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -112,6 +125,18 @@ class Camera: public EmptyObject {
 
         GLuint getRenderTextureID() {
             return render_texture_id;
+        }
+
+        glm::vec4 getClipPlane() {
+            return clip_plane;
+        }
+
+        bool getClippingState() {
+            return is_clipping_enabled;
+        }
+
+        int getIgnoreTag() {
+            return ignore_tag;
         }
 
         void Cleanup() {

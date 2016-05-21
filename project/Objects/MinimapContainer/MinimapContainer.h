@@ -24,6 +24,10 @@ class MinimapContainer {
         }
 
         void setup() {
+            viewer_camera->rotate(vec3(-90.0f, 0.0f, 0.0f));
+            viewer_camera->getTransform()->setPosition(target_camera->getTransform()->getPosition());
+            viewer_camera->translate(vec3(0.0f, 3.0f, 0.0f));
+            
             minimap->rotate(vec3(90.0f, 0.0f, 0.0f));
             minimap->translate(vec3(-0.75f, 0.75f, 0.0f));
             minimap->scale(vec3(-0.79f, 0.0f, -0.79f));
