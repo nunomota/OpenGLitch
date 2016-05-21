@@ -11,6 +11,7 @@ class WorldInstance: public World {
 
         MinimapContainer minimap;
         InfiniteTerrain infinite_terrain;
+        Sky sky;
 
     protected:
 
@@ -21,6 +22,9 @@ class WorldInstance: public World {
             camera2 = instantiate(new Camera());
 
             infinite_terrain.setTarget(camera);
+
+            sky.Init();
+            sky.scale(vec3(90.0f,90.0f,90.0f));
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));

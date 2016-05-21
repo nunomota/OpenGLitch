@@ -25,7 +25,9 @@ file(GLOB SHADERS
   Objects/Terrain/terrain_vshader.glsl
   Objects/Terrain/terrain_fshader.glsl
   Objects/Terrain/height_vshader.glsl
-  Objects/Terrain/height_fshader.glsl)
+  Objects/Terrain/height_fshader.glsl
+  Objects/Sky/sky_vshader.glsl
+  Objects/Sky/sky_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
 
 add_executable(${EXERCISENAME} ${SOURCES} ${HEADERS} ${SHADERS})
