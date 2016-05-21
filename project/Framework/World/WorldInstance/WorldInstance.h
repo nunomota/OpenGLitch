@@ -49,6 +49,7 @@ class WorldInstance: public World {
         void setupController() {
             controller.setTarget(camera->getTransform());
             controller.setTime(getTime());
+            controller.setTerrain(terrain);
         }
 
         void setupMirror() {

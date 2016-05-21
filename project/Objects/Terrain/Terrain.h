@@ -71,4 +71,8 @@ class Terrain: public Grid {
             light = new_light;
             camera = new_camera;
         }
+
+        GLuint getHeightMapID() {
+            return height_map_id_;
+        }
 };

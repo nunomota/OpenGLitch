@@ -6,6 +6,7 @@ class Controller {
     private:
         Transform* target_transform;
         Time* time;
+        Terrain* terrain;
 
         float velocity = 2.0f;
         vec3 movement_vector = vec3(0.0f);
@@ -26,6 +27,16 @@ class Controller {
             else if (drifts.z > drift_max) drifts.z = drift_max;
         }
 
+        bool isGrounded() {
+            // TODO get terrain texture at (x, z)
+            // TODO if height <= texture height, return true and height = 0
+            // TODO if height > texture height, return false
+            vec3 target_position = target_transform->getPosition();
+            if (target_position.y > 0.0f) return false;
+            target_transform->setPosition(vec3(target_position.x, 0.0f, target_position.z));
+            return true;
+        }
+
     public:
         void setTarget(Transform* new_target_transform) {
             target_transform = new_target_transform;
@@ -35,17 +46,25 @@ class Controller {
             time = new_time;
         }
 
+        void setTerrain(Terrain* new_terrain) {
+            terrain = new_terrain;
+        }
+
         void translate(vec3 movement_vector, bool moving) {
             vec3 cur_mov_vector = normalize(movement_vector);
             updateDrifts(cur_mov_vector, moving);
         }
 
         void update() {
-            GlmStrings glmString;
             vec3 cur_position = target_transform->getPosition();
             vec3 mov_vector = drifts * velocity * time->getDeltaTime();
             vec3 next_position = cur_position + mov_vector;
             target_transform->setPosition(next_position);
+            if (!isGrounded()) {
+                translate(vec3(0.0f, -1.0f, 0.0f), true);
+            }
+            GlmStrings glmStrings;
+            cout << glmStrings.create(drifts) << endl;
         }
 
         void setVelocity(float new_velocity) {
