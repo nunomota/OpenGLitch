@@ -23,12 +23,12 @@ class Sky: public Cube {
             int nb_component;
 
             vector<string> textures_faces;
-            textures_faces.push_back("miramar_rt.tga");
-            textures_faces.push_back("miramar_lf.tga");
-            textures_faces.push_back("miramar_up.tga");
-            textures_faces.push_back("miramar_dn.tga");
             textures_faces.push_back("miramar_ft.tga");
             textures_faces.push_back("miramar_bk.tga");
+            textures_faces.push_back("miramar_dn.tga");
+            textures_faces.push_back("miramar_up.tga");
+            textures_faces.push_back("miramar_rt.tga"); // front  - rt
+            textures_faces.push_back("miramar_lf.tga"); // back - lf
 
             int width,height;
             unsigned char* image;  
