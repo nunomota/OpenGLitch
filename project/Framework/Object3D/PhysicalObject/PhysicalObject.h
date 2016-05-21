@@ -45,7 +45,6 @@ class PhysicalObject: public Object3D {
             texture_ids_.push_back(texture_id);
         }
 
-  
 
     public:
         void Init() {

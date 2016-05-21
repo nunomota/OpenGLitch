@@ -60,51 +60,12 @@ class Sky: public Cube {
             GLuint tex_id = glGetUniformLocation(program_id_, "tex");
             glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
 
-            //check_error_gl();
             glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
         }
 
         void UpdateUniforms(){
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id_);
-            //GLuint tex_id = glGetUniformLocation(program_id_, "tex");
-
-            //glUniform1i(tex_id, 0 /*GL_TEXTURE0*/);
         }
-
-        /*
-        
-        void InitialCalculations() {
-            Grid::InitialCalculations();
-            height_map_id_ = heightbuffer.Init(getDimension(), getDimension());
-
-            // Draw the heightmap and store id
-            heightbuffer.Bind();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            height_map.Draw();
-            heightbuffer.Unbind();
-        }
-
-        void LoadShaders() {
-            // compile the shaders.
-            program_id_ = icg_helper::LoadShaders("sky_vshader.glsl",
-                                                  "sky_fshader.glsl");
-        }
-
-        void SetupUniforms() {
-
-            addTexture(Loader::loadTexture("perlin.jpg"));
-            addCubeTexture()
-
-        }
-
-        void FinalOperations() {
-            heightbuffer.Cleanup();
-        }
-
-        */
-
-
-
 
 };
