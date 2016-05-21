@@ -10,10 +10,11 @@ class WorldInstance: public World {
 
         Mirror mirror;
         MinimapContainer minimap;
-        //InfiniteTerrain infinite_terrain;
 
         Terrain* terrain;
         Water* water;
+        InfiniteTerrain infinite_terrain;
+        Sky sky;
 
     protected:
 
@@ -23,7 +24,12 @@ class WorldInstance: public World {
             camera = getCamera();
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
+
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
+            sky.Init();
+            sky.scale(vec3(90.0f,90.0f,90.0f));
+
+            camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
             camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
