@@ -25,10 +25,6 @@ class WorldInstance: public World {
             camera = getCamera();
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
-            camera->translate(vec3(0.0f, 0.5f, 0.0f));
-            camera->scale(vec3(-0.2f, -0.2f, -0.2f));
-            camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
-
             setupController();
             setupMirror();
             setupMinimap();
@@ -38,8 +34,7 @@ class WorldInstance: public World {
             water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
-            camera->translate(vec3(0.0f, 2.0f, 0.0f));
-            camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
+            camera->translate(vec3(0.0f, 0.5f, 0.0f));
         }
 
         // method called every frame
@@ -83,11 +78,13 @@ class WorldInstance: public World {
         }*/
 
         void move() {
-            // sideways camera turn
-            if (getKeyDown(Keyboard::W)) {
-                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::S)) {
-                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            // pitch up/down
+            if (getKeyDown(Keyboard::Q)) {
+                controller.translate(vec3(0.0f, 1.0f, 0.0f), true);
+            } else if (getKeyDown(Keyboard::E)) {
+                controller.translate(vec3(0.0f, -1.0f, 0.0f), true);
+            } else {
+                controller.translate(vec3(0.0f, 1.0f, 0.0f), false);
             }
 
             // sideways camera turn
@@ -98,10 +95,10 @@ class WorldInstance: public World {
             }
 
             // front/back camera movement
-            if (getKeyDown(Keyboard::P)) {
+            if (getKeyDown(Keyboard::W)) {
                 controller.translate(getCamera()->getTransform()->getForwardVector(), true);
                 //getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::L)) {
+            } else if (getKeyDown(Keyboard::S)) {
                 controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
             } else {
                 controller.translate(getCamera()->getTransform()->getForwardVector(), false);   

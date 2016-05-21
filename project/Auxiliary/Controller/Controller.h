@@ -10,20 +10,20 @@ class Controller {
         float velocity = 2.0f;
         vec3 movement_vector = vec3(0.0f);
 
-        float drift_max = 2.0f;
+        float drift_max = 1.0f;
         vec3 drifts = vec3(0.0f);
 
         void updateDrifts(vec3 update_vector, bool increment) {
             if (increment) drifts = drifts + update_vector*time->getDeltaTime();
-            else drifts = drifts - update_vector*time->getDeltaTime();
+            else drifts = drifts + (vec3(0.0f) - drifts) * time->getDeltaTime();
 
             // constrain drift values
-            if (drifts.x < 0.0f) drifts.x = 0.0f;
-            else if (drifts.x > 2.0f) drifts.x = drift_max;
-            if (drifts.y < 0.0f) drifts.y = 0.0f;
-            else if (drifts.y > 2.0f) drifts.y = drift_max;
-            if (drifts.z < 0.0f) drifts.z = 0.0f;
-            else if (drifts.z > 2.0f) drifts.z = drift_max;
+            if (drifts.x < -drift_max) drifts.x = -drift_max;
+            else if (drifts.x > drift_max) drifts.x = drift_max;
+            if (drifts.y < -drift_max) drifts.y = -drift_max;
+            else if (drifts.y > drift_max) drifts.y = drift_max;
+            if (drifts.z < -drift_max) drifts.z = -drift_max;
+            else if (drifts.z > drift_max) drifts.z = drift_max;
         }
 
     public:
@@ -41,6 +41,7 @@ class Controller {
         }
 
         void update() {
+            GlmStrings glmString;
             vec3 cur_position = target_transform->getPosition();
             vec3 mov_vector = drifts * velocity * time->getDeltaTime();
             vec3 next_position = cur_position + mov_vector;
