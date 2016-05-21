@@ -8,7 +8,15 @@ file(GLOB TEXTURES
     Resources/Textures/grid_texture.tga
     Resources/Textures/water.tga
     Resources/Textures/perlin.jpg
-    Resources/Textures/minimap.png)
+    Resources/Textures/minimap.png
+    Resources/Textures/miramar_bk.tga
+    Resources/Textures/miramar_dn.tga
+    Resources/Textures/miramar_ft.tga
+    Resources/Textures/miramar_lf.tga
+    Resources/Textures/miramar_rt.tga
+    Resources/Textures/miramar_up.tga
+)
+
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime
