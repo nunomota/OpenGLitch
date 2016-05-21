@@ -41,7 +41,10 @@ class Controller {
         }
 
         void update() {
-            target_transform->translate(drifts * velocity * time->getDeltaTime());
+            vec3 cur_position = target_transform->getPosition();
+            vec3 mov_vector = drifts * velocity * time->getDeltaTime();
+            vec3 next_position = cur_position + mov_vector;
+            target_transform->setPosition(next_position);
         }
 
         void setVelocity(float new_velocity) {
