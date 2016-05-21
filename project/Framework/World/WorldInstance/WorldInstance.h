@@ -31,8 +31,8 @@ class WorldInstance: public World {
 
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));
-            sky->scale(vec3(30.0f,30.0f,30.0f));
-            sky->translate(vec3(0.0f,1.0f,0.0f));
+            sky->scale(vec3(40.0f,40.0f,40.0f));
+            sky->translate(vec3(0.0f,-1.0f,0.0f));
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));

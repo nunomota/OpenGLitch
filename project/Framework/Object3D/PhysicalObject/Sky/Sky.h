@@ -30,8 +30,8 @@ class Sky: public Cube {
             vector<string> textures_faces;
             textures_faces.push_back("miramar_rt.tga");
             textures_faces.push_back("miramar_lf.tga");
-            textures_faces.push_back("miramar_dn.tga");
             textures_faces.push_back("miramar_up.tga");
+            textures_faces.push_back("miramar_dn.tga");
             textures_faces.push_back("miramar_ft.tga");
             textures_faces.push_back("miramar_bk.tga");
 
