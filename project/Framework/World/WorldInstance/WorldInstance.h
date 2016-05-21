@@ -14,7 +14,7 @@ class WorldInstance: public World {
         Terrain* terrain;
         Water* water;
         InfiniteTerrain infinite_terrain;
-        Sky sky;
+        Sky* sky;
 
     protected:
 
@@ -28,6 +28,11 @@ class WorldInstance: public World {
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
             sky.Init();
             sky.scale(vec3(90.0f,90.0f,90.0f));
+
+            sky = instantiate(new Sky());
+            sky->rotate(vec3(180.0f,0.0f,0.0f));
+            sky->scale(vec3(30.0f,30.0f,30.0f));
+            sky->translate(vec3(0.0f,1.0f,0.0f));
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));

@@ -7,6 +7,11 @@ class Sky: public Cube {
         GLuint texture_id_;
 
     protected:
+
+        void InitialCalculations() {
+            Cube::InitialCalculations();
+        }
+
         void LoadShaders() {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("sky_vshader.glsl",
@@ -25,8 +30,8 @@ class Sky: public Cube {
             vector<string> textures_faces;
             textures_faces.push_back("miramar_rt.tga");
             textures_faces.push_back("miramar_lf.tga");
-            textures_faces.push_back("miramar_up.tga");
             textures_faces.push_back("miramar_dn.tga");
+            textures_faces.push_back("miramar_up.tga");
             textures_faces.push_back("miramar_ft.tga");
             textures_faces.push_back("miramar_bk.tga");
 
