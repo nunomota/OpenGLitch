@@ -8,22 +8,18 @@ file(GLOB TEXTURES
     Resources/Textures/grid_texture.tga
     Resources/Textures/water.tga
     Resources/Textures/perlin.jpg
-<<<<<<< HEAD
     Resources/Textures/perlinNormal.png
     Resources/Textures/minimap.png
     Resources/Textures/waterDUDV.png
-    Resources/Textures/waterNormal.png)
-=======
-    Resources/Textures/minimap.png
+    Resources/Textures/waterNormal.png
     Resources/Textures/miramar_bk.tga
     Resources/Textures/miramar_dn.tga
     Resources/Textures/miramar_ft.tga
     Resources/Textures/miramar_lf.tga
     Resources/Textures/miramar_rt.tga
-    Resources/Textures/miramar_up.tga
-)
+    Resources/Textures/miramar_up.tga)
 
->>>>>>> cubemap is being loaded
+
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime

@@ -26,9 +26,7 @@ class WorldInstance: public World {
 
 
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
-            sky.Init();
-            sky.scale(vec3(90.0f,90.0f,90.0f));
-
+            
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));
             sky->scale(vec3(40.0f,40.0f,40.0f));
