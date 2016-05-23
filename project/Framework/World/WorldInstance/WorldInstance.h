@@ -73,7 +73,10 @@ class WorldInstance: public World {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
 
+
             mirror.update();
+            // update sky box
+
             minimap.update();
             //infinite_terrain.update();
         }
