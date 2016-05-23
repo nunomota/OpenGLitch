@@ -1,4 +1,4 @@
-1#version 330
+#version 330
 
 in vec3 TexCoords;
 out vec3 color;

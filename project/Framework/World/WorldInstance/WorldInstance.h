@@ -26,7 +26,7 @@ class WorldInstance: public World {
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));
             sky->scale(vec3(40.0f,40.0f,40.0f));
-            sky->translate(vec3(0.0f,-1.0f,0.0f));
+            sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -63,6 +63,7 @@ class WorldInstance: public World {
             }
 
             // update sky box
+            sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 
             minimap.update();
             infinite_terrain.update();
