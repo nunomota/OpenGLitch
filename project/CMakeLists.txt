@@ -19,7 +19,6 @@ file(GLOB TEXTURES
     Resources/Textures/miramar_rt.tga
     Resources/Textures/miramar_up.tga)
 
-
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime
