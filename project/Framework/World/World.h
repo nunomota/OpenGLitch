@@ -98,6 +98,7 @@ class World {
 
         void drawShadowTexture(){
             // create a camera and transform to lights position
+            shadow_camera = main_light->getShadowCamera();
             if(shadow_camera){
                 shadow_camera->setScreenDimensions(window_width, window_height);
                 shadow_camera->bindShadowBuffer();

@@ -25,7 +25,7 @@ class WorldInstance: public World {
             infinite_terrain.setTarget(camera);
 
             light->translate(vec3(0.0f,0.0f,10.0f));
-
+            light->getTransform()->setPosition(vec3(0.5f,0.5f,10.0f));
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
