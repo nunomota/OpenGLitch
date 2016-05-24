@@ -83,6 +83,10 @@ class WorldInstance: public World {
 
             minimap.update();
             //infinite_terrain.update();
+
+            vec3 camera_position = camera->getTransform()->getPosition();
+            terrain->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
+            water->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
         }
 
         void setupMirror() {

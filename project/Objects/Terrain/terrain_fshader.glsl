@@ -3,6 +3,7 @@
 in vec2 uv;
 in vec3 pos_3d;
 in float height;
+in vec2 displacement_vector;
 
 uniform sampler2D tex0; // perlin texture
 uniform sampler2D tex1; // perlin normalmap
@@ -38,10 +39,10 @@ void main() {
     vec3 color3;
     vec3 color12;
     //getting the textures
-    sand = texture(tex3, uv).rgb;
-    grass = texture(tex4, uv).rgb;
-    rock = texture(tex5, uv).rgb;
-    snow = texture(tex6, uv).rgb;
+    sand = texture(tex3, uv + displacement_vector).rgb;
+    grass = texture(tex4, uv + displacement_vector).rgb;
+    rock = texture(tex5, uv + displacement_vector).rgb;
+    snow = texture(tex6, uv + displacement_vector).rgb;
     
     //mix all the textures to have the blending
     color1 = mix(sand, grass, height);
@@ -50,7 +51,7 @@ void main() {
     color12 = mix(color2, color1, height);
     height_color = mix(color12, color3, height);
     // normal caculation according to normalmap
-    vec4 normalMapColor = texture(tex1, uv);
+    vec4 normalMapColor = texture(tex1, uv + displacement_vector);
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
 
     vec3 l = normalize(lightDirection);
@@ -62,7 +63,7 @@ void main() {
     if(height < 0.0f){   
         height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
 
-        vec4 normalMapColor = texture(tex2, uv + time/200.0f);
+        vec4 normalMapColor = texture(tex2, uv + displacement_vector + time/200.0f);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
 
