@@ -9,6 +9,7 @@ class WorldInstance: public World {
         Camera* camera;
 
         Mirror mirror;
+        Mirror refraction;
         MinimapContainer minimap;
 
         Terrain* terrain;
@@ -42,11 +43,12 @@ class WorldInstance: public World {
             camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
             setupMirror();
+            setupRefraction();
             setupMinimap();
             //setupInfiniteTerrain();
 
             terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
-            water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
+            water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
             camera->translate(vec3(0.0f, 2.0f, 0.0f));
@@ -90,7 +92,17 @@ class WorldInstance: public World {
             enableLiveRenderer(mirror_camera);
             mirror.setMirrorCamera(mirror_camera);
             mirror.setTargetCamera(camera);
+            mirror.setClipPlane(vec4(0.0f, 1.0f, 0.0f, 0.0f));
             mirror.setup();
+        }
+
+        void setupRefraction() {
+            Camera* refraction_camera = instantiate(new Camera());
+            enableLiveRenderer(mirror_camera);
+            refraction_camera.setMirrorCamera(refraction_camera);
+            refraction_camera.setTargetCamera(mirror.getMirrorCamera());
+            mirror.setClipPlane(vec4(0.0f, -1.0f, 0.0f, 0.0f));
+            refraction_camera.setup();
         }
 
         void setupMinimap() {
