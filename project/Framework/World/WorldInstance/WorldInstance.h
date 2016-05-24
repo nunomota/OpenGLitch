@@ -14,7 +14,6 @@ class WorldInstance: public World {
 
         Terrain* terrain;
         Water* water;
-        InfiniteTerrain infinite_terrain;
         Sky* sky;
 
         LiveViewer* reflection_texture;
@@ -28,7 +27,6 @@ class WorldInstance: public World {
             camera = getCamera();
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
-
             camera->translate(vec3(0.0f, 0.5f, 0.0f));
             
             sky = instantiate(new Sky());
@@ -36,19 +34,9 @@ class WorldInstance: public World {
             sky->scale(vec3(40.0f,40.0f,40.0f));
             sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 
-            sky = instantiate(new Sky());
-            sky->rotate(vec3(180.0f,0.0f,0.0f));
-            sky->scale(vec3(40.0f,40.0f,40.0f));
-            sky->getTransform()->setPosition(camera->getTransform()->getPosition());
-
-            camera->translate(vec3(0.0f, 1.0f, 0.0f));
-            camera->scale(vec3(-0.2f, -0.2f, -0.2f));
-            camera->rotate(vec3(-45.0f, 0.0f, 0.0f));
-
             setupMirror();
             setupRefraction();
             setupMinimap();
-            //setupInfiniteTerrain();
 
             terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
@@ -98,7 +86,6 @@ class WorldInstance: public World {
             sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 
             minimap.update();
-            //infinite_terrain.update();
 
             vec3 camera_position = camera->getTransform()->getPosition();
             terrain->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
@@ -131,13 +118,4 @@ class WorldInstance: public World {
             minimap.setTargetCamera(camera);
             minimap.setup();
         }
-        /*
-        void setupInfiniteTerrain() {
-            GLuint mirror_texture_id = mirror.getMirrorTextureID();
-            infinite_terrain.setTarget(camera);
-            for (int i = 0; i < 4; i++) {
-                infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water(mirror_texture_id))));
-            }
-            infinite_terrain.initialize();
-        }*/
 };
