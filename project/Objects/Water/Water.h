@@ -3,6 +3,7 @@
 class Water: public Grid {
     private:
         GLuint reflection_texture_id;
+        GLuint refraction_texture_id;
         GLuint time_id;
 
         Time* time;
@@ -35,6 +36,7 @@ class Water: public Grid {
             addTexture(texture_dudv);
             addTexture(reflection_texture_id);
             addTexture(texture_normalmap);
+            addTexture(refraction_texture_id);
             time_id = glGetUniformLocation(program_id_, "time");
 
             light_dir_id = glGetUniformLocation(program_id_, "lightDirection");
@@ -59,8 +61,9 @@ class Water: public Grid {
             //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
     public:
-        Water(GLuint mirror_texture_id, Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
+        Water(GLuint mirror_texture_id, GLuint new_refraction_texture_id, Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
             reflection_texture_id = mirror_texture_id;
+            refraction_texture_id = new_refraction_texture_id;
             time = new_time;
             light = new_light;
             camera = new_camera;
