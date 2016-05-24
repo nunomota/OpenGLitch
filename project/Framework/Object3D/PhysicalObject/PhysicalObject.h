@@ -90,7 +90,7 @@ class PhysicalObject: public Object3D {
             is_initialized_ = true;
         }
 
-        void Draw(glm::vec3 clipping_plane,
+        void Draw(glm::vec4 clipping_plane,
                   const glm::mat4 &view = IDENTITY_MATRIX,
                   const glm::mat4 &projection = IDENTITY_MATRIX) {
             if (is_initialized_) {
