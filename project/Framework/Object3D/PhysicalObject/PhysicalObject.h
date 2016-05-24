@@ -79,6 +79,7 @@ class PhysicalObject: public Object3D {
             // other uniforms
             MVP_id_ = glGetUniformLocation(program_id_, "MVP");
             renderer.getMaterial()->setUniforms(program_id_);
+            clip_plane_id_ = glGetUniformLocation(program_id_, "CLIP_PLANE");
             
             SetupUniforms();
 
@@ -89,7 +90,8 @@ class PhysicalObject: public Object3D {
             is_initialized_ = true;
         }
 
-        void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
+        void Draw(glm::vec3 clipping_plane,
+                  const glm::mat4 &view = IDENTITY_MATRIX,
                   const glm::mat4 &projection = IDENTITY_MATRIX) {
             if (is_initialized_) {
                 glUseProgram(program_id_);
@@ -108,6 +110,9 @@ class PhysicalObject: public Object3D {
                 glm::mat4 model = transform.getModelMatrix();
                 glm::mat4 MVP = projection*view*model;
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
+
+                // setup clipping plane
+                glUniform3fv(clip_plane_id_, 1, glm::value_ptr(clipping_plane));
 
                 UpdateUniforms();
 

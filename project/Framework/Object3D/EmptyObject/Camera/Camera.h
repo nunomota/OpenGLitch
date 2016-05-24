@@ -26,7 +26,7 @@ class Camera: public EmptyObject {
         GLuint render_texture_id;
 
         bool is_clipping_enabled = false;
-        glm::vec4 clip_plane;
+        glm::vec4 clip_plane = glm::vec4(0.0f);
         int ignore_tag = -1;
 
         void recalculateProjectionMatrix() {

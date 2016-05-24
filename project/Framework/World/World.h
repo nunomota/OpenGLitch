@@ -53,7 +53,7 @@ class World {
                     Object3D* object = (*it);
                     if(object && object->getTag() != camera->getIgnoreTag()) {
                         if (object->getRenderer()->getState()) {
-                            object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix());
+                            object->Draw(camera->getClipPlane(), camera->getViewMatrix(), camera->getProjectionMatrix());
                         }
                     }
                 }
@@ -63,7 +63,7 @@ class World {
                         Object3D* object = (*it);
                         if(object && object->getTag() != camera->getIgnoreTag()) {
                             if (object->getRenderer()->getState()) {
-                                object->Draw();
+                                object->Draw(camera->getClipPlane());
                             }
                         }
                     }
