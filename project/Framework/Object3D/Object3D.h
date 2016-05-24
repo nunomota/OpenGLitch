@@ -16,6 +16,7 @@ class Object3D {
         GLuint program_id_;                       // GLSL shader program ID
         GLuint num_indices_;                      // number of vertices to render
         GLuint MVP_id_;                           // model, view, proj matrix ID
+        GLuint clip_plane_id_;                    // clip plane ID
 
         std::vector<GLuint> texture_ids_;         // Optional texture IDs
 
@@ -68,7 +69,8 @@ class Object3D {
 
         virtual void Init() {}
 
-        virtual void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
+        virtual void Draw(const glm::vec4 &clipping_plane = glm::vec4(1.0f),
+                          const glm::mat4 &view = IDENTITY_MATRIX,
                           const glm::mat4 &projection = IDENTITY_MATRIX) {}
 
         virtual void Cleanup() {}
