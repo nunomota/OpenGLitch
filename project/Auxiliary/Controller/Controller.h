@@ -32,6 +32,22 @@ class Controller {
             // TODO if height <= texture height, return true and height = 0
             // TODO if height > texture height, return false
             vec3 target_position = target_transform->getPosition();
+
+            int nb_component;
+            int width,height; // 500x500
+
+            unsigned char* image; // 3rgb colors per pixel in this one dimensional array
+            string height_tex = "perlin.jpg"; 
+            image = stbi_load(height_tex.c_str(), &width, &height, &nb_component, 0);
+            printf("%d\n", image[3]);
+            // calculate index for x,z in 1 dim array image
+
+            int index_x = target_position.x * width;
+            int index_z = target_position.z * height;
+            printf("x: %d\n", index_x);
+            printf("z: %d\n", index_z);                        
+
+
             if (target_position.y > 0.0f) return false;
             target_transform->setPosition(vec3(target_position.x, 0.0f, target_position.z));
             return true;
