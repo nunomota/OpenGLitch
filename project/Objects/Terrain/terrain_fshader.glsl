@@ -67,7 +67,7 @@ void main() {
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
 
-        vec3 reflectedLight = reflect(normalize(pos_3d.xyz - lightPosition), normal);
+        vec3 reflectedLight = reflect(normalize(lightDirection), normal);
         float specular = max(dot(reflectedLight, pos_3d.xyz - cameraPosition), 0.0f);
         specular = pow(specular, shineDumper);
         vec3 specularHighlights = Ls * specular * reflectivity;
