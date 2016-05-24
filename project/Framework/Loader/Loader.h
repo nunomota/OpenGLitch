@@ -23,7 +23,7 @@ class Loader {
                 glBindTexture(GL_TEXTURE_2D, texture_id);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glEnable(GL_BLEND);
+                glEnable(GL_BLEND);
 
                 if(nb_component == 3) {
                     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,

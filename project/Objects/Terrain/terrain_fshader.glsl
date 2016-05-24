@@ -7,6 +7,11 @@ in float height;
 uniform sampler2D tex0; // perlin texture
 uniform sampler2D tex1; // perlin normalmap
 uniform sampler2D tex2; // water lighting
+uniform sampler2D tex3; // sand 
+uniform sampler2D tex4; // grass
+uniform sampler2D tex5; // rock
+uniform sampler2D tex6; // snow
+
 
 uniform float time;
 uniform vec3 lightDirection;
@@ -20,18 +25,28 @@ out vec3 color;
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
 
-// WARNING: dirty variables should be uniforms
-//yellow for the bottom part of the terrain
-//sand
-//vec3 Ld = vec3(0.9f, 0.9f, 0.0f);
-//vec3 kd = vec3(0.9f, 0.9f, 0.0f);
-
-
-
 void main() {
-
+    
     vec3 height_color;
     vec3 underwater_fix = vec3(0.0f);
+    vec3 sand;
+    vec3 grass;
+    vec3 rock;
+    vec3 snow;
+    vec3 color1;
+    vec3 color12;
+    vec3 color2;
+    vec3 color3;
+    sand = texture(tex3, uv).rgb;
+    grass = texture(tex4, uv).rgb;
+    rock = texture(tex5, uv).rgb;
+    snow = texture(tex6, uv).rgb;
+    
+    color1 = mix(sand, grass, height*5);
+    color2 = mix(grass, rock, height*5);
+    color3 = mix(rock, snow, height*5);
+    color12 = mix(color2, color1, height*5);
+    height_color = mix(color12, color3, height*5);
 
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv);
@@ -42,19 +57,9 @@ void main() {
     //Now we do the difuse shading
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
-
-    if (height > 0.66f) {
-        //white
-        height_color = vec3(1.0f, 1.0f, 1.0f);
-    } else if (height > 0.33f) {
-        //white
-        height_color = vec3(0.7f, 0.7f, 0.7f);
-    } else if(height > 0.0f){
-        //green
-        height_color = vec3(0.0f, 1.0f, 0.0f);
-    } else {
-        //yellow
-        height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
+        
+    if(height < 0.0f){   
+    //height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
 
         vec4 normalMapColor = texture(tex2, uv + time/200.0f);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
@@ -67,8 +72,8 @@ void main() {
 
         underwater_fix = mix(height_color, specularHighlights * (1.0f-gl_FragCoord.z), vec3(0.35));
     }
-
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
+
 

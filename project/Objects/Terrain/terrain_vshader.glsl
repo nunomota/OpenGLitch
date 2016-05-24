@@ -6,9 +6,6 @@ uniform sampler2D tex0;
 out vec2 uv;
 out vec3 pos_3d;
 out float height;
-out vec2 uv2;
-
-
 uniform mat4 MVP;
 
 void main() {

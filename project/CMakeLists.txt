@@ -17,8 +17,9 @@ file(GLOB TEXTURES
     Resources/Textures/miramar_ft.tga
     Resources/Textures/miramar_lf.tga
     Resources/Textures/miramar_rt.tga
-    Resources/Textures/miramar_up.tga)
+    Resources/Textures/miramar_up.tga
     Resources/Textures/sand.jpg
+    Resources/Textures/sand2.jpg
     Resources/Textures/grass.jpg
     Resources/Textures/grass2.jpg
     Resources/Textures/grass3.jpg
