@@ -36,7 +36,7 @@ void main() {
 
     // specular calculation
     vec3 reflectedLight = reflect(normalize(pos_3d.xyz - lightPosition), normal);
-    float specular = max(dot(reflectedLight, pos_3d.xyz - cameraPosition), 0.0f);
+    float specular = max(dot(reflectedLight, normalize(pos_3d.xyz - cameraPosition)), 0.0f);
     specular = pow(specular, shineDumper);
     vec3 specularHighlights = Ls * specular * reflectivity;
 
