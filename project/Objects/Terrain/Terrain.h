@@ -37,10 +37,12 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
-
-
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
+            addTexture(Loader::loadTexture("sand2.jpg"));
+            addTexture(Loader::loadTexture("grass3.jpg"));
+            addTexture(Loader::loadTexture("rock.jpg"));
+            addTexture(Loader::loadTexture("snow.jpg"));
             time_id = glGetUniformLocation(program_id_, "time");
 
             light_dir_id = glGetUniformLocation(program_id_, "lightDirection");
@@ -60,10 +62,7 @@ class Terrain: public Grid {
 
         void UpdateUniforms() {
             glUniform1f(time_id, time->getCurrentTime());
-            addTexture(Loader::loadTexture("sand2.jpg"));
-            addTexture(Loader::loadTexture("grass3.jpg"));
-            addTexture(Loader::loadTexture("rock.jpg"));
-            addTexture(Loader::loadTexture("snow.jpg"));
+            
         }
 		
         void FinalOperations() {

@@ -34,19 +34,21 @@ void main() {
     vec3 rock;
     vec3 snow;
     vec3 color1;
-    vec3 color12;
     vec3 color2;
     vec3 color3;
+    vec3 color12;
+    //getting the textures
     sand = texture(tex3, uv).rgb;
     grass = texture(tex4, uv).rgb;
     rock = texture(tex5, uv).rgb;
     snow = texture(tex6, uv).rgb;
     
-    color1 = mix(sand, grass, height*5);
-    color2 = mix(grass, rock, height*5);
-    color3 = mix(rock, snow, height*5);
-    color12 = mix(color2, color1, height*5);
-    height_color = mix(color12, color3, height*5);
+    //mix all the textures to have the blending
+    height_color = mix(sand, grass, height);
+    //color2 = mix(grass, rock, height);
+    //color3 = mix(rock, snow, height);
+    //color12 = mix(color2, color1, height);
+    //height_color = mix(color12, color3, height);
 
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv);
@@ -59,7 +61,7 @@ void main() {
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
         
     if(height < 0.0f){   
-    //height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
+        height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
 
         vec4 normalMapColor = texture(tex2, uv + time/200.0f);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
