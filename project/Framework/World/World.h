@@ -45,7 +45,6 @@ class World {
         void drawObjects(Camera* camera, bool only_3d = true) {
             if (camera) {
                 if (camera->getClippingState()) {
-                    //glClipPlanef(GL_CLIP_PLANE0, glm::value_ptr(camera->getClipPlane()));
                     glEnable(GL_CLIP_PLANE0);
                 }
 
@@ -63,7 +62,7 @@ class World {
                         Object3D* object = (*it);
                         if(object && object->getTag() != camera->getIgnoreTag()) {
                             if (object->getRenderer()->getState()) {
-                                object->Draw(camera->getClipPlane());
+                                object->Draw();
                             }
                         }
                     }

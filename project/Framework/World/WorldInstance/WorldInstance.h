@@ -17,6 +17,9 @@ class WorldInstance: public World {
         InfiniteTerrain infinite_terrain;
         Sky* sky;
 
+        LiveViewer* reflection_texture;
+        LiveViewer* refraction_texture;
+
     protected:
 
         // method called only once
@@ -53,6 +56,16 @@ class WorldInstance: public World {
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
             camera->translate(vec3(0.0f, 2.0f, 0.0f));
             camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
+
+            reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
+            reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
+            reflection_texture->translate(vec3(0.75f, 0.75f, 0.0f));
+            reflection_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            refraction_texture = instantiate2D(new LiveViewer(refraction.getMirrorTextureID()));
+            refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
+            refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
+            refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
         }
 
         // method called every frame
@@ -80,6 +93,7 @@ class WorldInstance: public World {
 
 
             mirror.update();
+            refraction.update();
             // update sky box
             sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 

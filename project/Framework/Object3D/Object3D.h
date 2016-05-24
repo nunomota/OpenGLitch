@@ -69,7 +69,7 @@ class Object3D {
 
         virtual void Init() {}
 
-        virtual void Draw(glm::vec4 clipping_plane,
+        virtual void Draw(const glm::vec4 &clipping_plane = glm::vec4(1.0f),
                           const glm::mat4 &view = IDENTITY_MATRIX,
                           const glm::mat4 &projection = IDENTITY_MATRIX) {}
 
