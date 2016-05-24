@@ -3,16 +3,13 @@
 
 in vec3 position;
 uniform sampler2D tex0;
-
 out vec2 uv;
 out vec3 pos_3d;
 out float height;
-
 uniform mat4 MVP;
 
 void main() {
     uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
-
     height = texture(tex0, uv).x * 2.0f - 1.0f;
     
     // TODO pass in the plane's normal, multiply by the height and then add to position vector.
