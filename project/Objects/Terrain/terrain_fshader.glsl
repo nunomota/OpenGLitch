@@ -44,11 +44,11 @@ void main() {
     snow = texture(tex6, uv).rgb;
     
     //mix all the textures to have the blending
-    height_color = mix(sand, grass, height);
-    //color2 = mix(grass, rock, height);
-    //color3 = mix(rock, snow, height);
-    //color12 = mix(color2, color1, height);
-    //height_color = mix(color12, color3, height);
+    color1 = mix(sand, grass, height);
+    color2 = mix(grass, rock, height);
+    color3= mix(rock, snow, height);
+    color12 = mix(color2, color1, height);
+    height_color = mix(color12, color3, height);
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv);
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);

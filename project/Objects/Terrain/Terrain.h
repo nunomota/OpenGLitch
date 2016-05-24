@@ -37,6 +37,7 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
+            addTexture(Loader::loadTexture("perlin.jpg"));
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
             addTexture(Loader::loadTexture("sand2.jpg"));
