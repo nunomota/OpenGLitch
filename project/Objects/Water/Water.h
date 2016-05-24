@@ -57,6 +57,7 @@ class Water: public Grid {
             glUniform1f(time_id, time->getCurrentTime());
             // TODO update time for animation
             //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
         }
     public:
         Water(GLuint mirror_texture_id, Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
