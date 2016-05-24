@@ -98,11 +98,11 @@ class WorldInstance: public World {
 
         void setupRefraction() {
             Camera* refraction_camera = instantiate(new Camera());
-            enableLiveRenderer(mirror_camera);
-            refraction_camera.setMirrorCamera(refraction_camera);
-            refraction_camera.setTargetCamera(mirror.getMirrorCamera());
-            mirror.setClipPlane(vec4(0.0f, -1.0f, 0.0f, 0.0f));
-            refraction_camera.setup();
+            enableLiveRenderer(refraction_camera);
+            refraction.setMirrorCamera(refraction_camera);
+            refraction.setTargetCamera(mirror.getMirrorCamera());
+            refraction.setClipPlane(vec4(0.0f, -1.0f, 0.0f, 0.0f));
+            refraction.setup();
         }
 
         void setupMinimap() {
