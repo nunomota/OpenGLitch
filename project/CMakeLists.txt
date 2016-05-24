@@ -11,7 +11,14 @@ file(GLOB TEXTURES
     Resources/Textures/perlinNormal.png
     Resources/Textures/minimap.png
     Resources/Textures/waterDUDV.png
-    Resources/Textures/waterNormal.png)
+    Resources/Textures/waterNormal.png
+    Resources/Textures/miramar_bk.tga
+    Resources/Textures/miramar_dn.tga
+    Resources/Textures/miramar_ft.tga
+    Resources/Textures/miramar_lf.tga
+    Resources/Textures/miramar_rt.tga
+    Resources/Textures/miramar_up.tga)
+
 copy_files_once(${TEXTURES})
 
 # list all the files you want to copy everytime
@@ -29,7 +36,9 @@ file(GLOB SHADERS
   Objects/Terrain/terrain_vshader.glsl
   Objects/Terrain/terrain_fshader.glsl
   Objects/Terrain/height_vshader.glsl
-  Objects/Terrain/height_fshader.glsl)
+  Objects/Terrain/height_fshader.glsl
+  Objects/Sky/sky_vshader.glsl
+  Objects/Sky/sky_fshader.glsl)
 deploy_shaders_to_build_dir(${SHADERS})
 
 add_executable(${EXERCISENAME} ${SOURCES} ${HEADERS} ${SHADERS})
