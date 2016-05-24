@@ -27,6 +27,7 @@ float reflectivity = 0.6;
 //vec3 kd = vec3(0.9f, 0.9f, 0.0f);
 
 
+
 void main() {
 
     vec3 height_color;
