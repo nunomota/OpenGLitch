@@ -34,17 +34,16 @@ class Controller {
             vec3 target_position = target_transform->getPosition();
 
             int nb_component;
-            int width,height; // 500x500
+            int width,height;
 
             unsigned char* image; // 3rgb colors per pixel in this one dimensional array
-            string height_tex = "perlin.jpg"; 
+            string height_tex = "perlin.jpg"; // 500x500
             image = stbi_load(height_tex.c_str(), &width, &height, &nb_component, 0);
             printf("%d\n", image[4]);
-            // calculate index for x,z in 1 dim array image
 
+            // calculate index for x,z in 1 dim array image
             int index_x = target_position.x * width/2;
             int index_z = target_position.z * height/2;
-                     
 
             if(target_position.x < 0){
                 index_x = -target_position.x * width/2;
@@ -59,18 +58,15 @@ class Controller {
             }
             printf("x: %d\n", index_x);
             printf("z: %d\n", index_z);   
-
             int array_index = index_x * index_z * 3;
 
-
             float tex_height = 0.0f;
-            if (array_index < 750000){
+            if (array_index < width * height * 3){
                 printf("arr: %d\n", image[array_index]);            
-                tex_height = image[array_index]/255.0f;
+                tex_height = image[array_index]/255.0f; // normalize height value in image array
                 printf("tex: %f\n", tex_height);
                 printf("y: %f\n", target_position.y);
             }
-
 
             if (target_position.y > tex_height) return false;
             target_transform->setPosition(vec3(target_position.x, 0.0f, target_position.z));
