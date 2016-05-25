@@ -5,7 +5,7 @@ class Terrain: public Grid {
         HeightBuffer heightbuffer;
         HeightMap height_map;
         GLuint height_map_id_;
-
+        GLuint shadow_texture_id;
     protected:
         void InitialCalculations() {
             Grid::InitialCalculations();
@@ -26,9 +26,17 @@ class Terrain: public Grid {
 
         void SetupUniforms() {
             addTexture(Loader::loadTexture("perlin.jpg"));
+            addTexture(shadow_texture_id);
         }
 
         void FinalOperations() {
             heightbuffer.Cleanup();
         }
+
+    public:
+        Terrain(GLuint new_shadow_texture_id){
+            shadow_texture_id = new_shadow_texture_id;
+        }
+
+
 };

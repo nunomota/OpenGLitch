@@ -4,8 +4,9 @@ in vec2 uv;
 in vec3 pos_3d;
 in float height;
 in vec4 shadow_coord;
-uniform sampler2D tex0;
+uniform sampler2D tex0; // perlin noise
 uniform sampler2D depthTex;
+uniform sampler2D tex2; // shadow tex
 uniform int PASS;
 
 out vec3 color;
@@ -18,9 +19,9 @@ const vec3 CAMERA_POSITION = vec3(4,4,2);
 
 void main() {
 
-    if(PASS == 20){
+    if(PASS == 0){
         float visibility = 1.0;
-        if ( texture( depthTex, shadow_coord.xy ).z  <  shadow_coord.z){
+        if ( texture( tex2, shadow_coord.xy ).z  <  shadow_coord.z){
            visibility = 0.5;
         }
 
@@ -57,8 +58,6 @@ void main() {
     }else {
     
         color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);
-    
+
     }
-
-
 }

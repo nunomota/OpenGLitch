@@ -64,10 +64,13 @@ class Object3D {
             return &renderer;
         }
 
-        virtual void Init() {}
+        virtual void Init(GLuint shadow_texture_id = 0) {}
 
         virtual void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
-                          const glm::mat4 &projection = IDENTITY_MATRIX,const glm::mat4 &depthMVP = IDENTITY_MATRIX , int pass = 0) {}
+                          const glm::mat4 &projection = IDENTITY_MATRIX,
+                          const glm::mat4 &depthMVP = IDENTITY_MATRIX , 
+                          int pass = 0,
+                          GLuint shadow_texture_id = 0) {}
 
         virtual void Cleanup() {}
 };

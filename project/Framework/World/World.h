@@ -31,7 +31,7 @@ class World {
                 Object3D* object = (*it);
                 if(object) {
                     if (shadow_camera) object->setDepthTexture(tex_id);
-                    object->Init();
+                    object->Init(tex_id);
                     objects.push_back(object);
                 }
             }
@@ -61,7 +61,7 @@ class World {
                         if (object->getRenderer()->getState()) {
 
                             if(main_light) {
-                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), main_light->getDepthMVP());
+                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), main_light->getDepthMVP(), 0, main_light->getShadowCamera()->getShadowTextureID());
                             }else{
                                 Reporter::println("No light set", "World");
                             }

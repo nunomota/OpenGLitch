@@ -10,8 +10,14 @@ class WorldInstance: public World {
         Camera* camera2;
         DirectionalLight* light;
 
+        LiveViewer* live_viewer;
+        LiveViewer* live_viewer2;
+
+        Terrain* terra;
+        Water* water;
+
         MinimapContainer minimap;
-        InfiniteTerrain infinite_terrain;
+        //InfiniteTerrain infinite_terrain;
 
     protected:
 
@@ -22,10 +28,12 @@ class WorldInstance: public World {
             light = getLight();
             camera2 = instantiate(new Camera());
 
-            infinite_terrain.setTarget(camera);
+            light->translate(vec3(0.5f,0.0f,1.0f));
 
-            light->translate(vec3(0.0f,0.0f,10.0f));
-            light->getTransform()->setPosition(vec3(0.5f,0.5f,10.0f));
+            //infinite_terrain.setTarget(camera);
+            Camera* shadow_camera = light->getShadowCamera();
+            terra = instantiate(new Terrain(shadow_camera->getRenderTextureID())); 
+            water = instantiate(new Water());
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
             camera->scale(vec3(-0.2f, -0.2f, -0.2f));
@@ -34,10 +42,9 @@ class WorldInstance: public World {
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
-
             setupShadow();
             setupMinimap();
-            setupInfiniteTerrain();
+            //setupInfiniteTerrain();
         }
 
         // method called every frame
@@ -62,9 +69,13 @@ class WorldInstance: public World {
             } else if (getKeyDown(Keyboard::L)) {
                 getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             }
+
+            //light->translate(vec3(0.0f,0.0f,-0.2f) * getTime()->getDeltaTime());
+            vec3 ligth_position = light->getTransform()->getPosition();
+            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.0001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.01f));
             updateShadow();
             minimap.update();
-            infinite_terrain.update();
+            //infinite_terrain.update();
         }
 
         void setupShadow() {
@@ -73,6 +84,16 @@ class WorldInstance: public World {
             shadow_camera_transform->setPosition(light->getTransform()->getPosition());
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
             light->setShadowCamera(shadow_camera);
+            enableLiveRenderer(shadow_camera);
+            live_viewer = instantiate2D(new LiveViewer(shadow_camera->getRenderTextureID()));
+            live_viewer->rotate(vec3(90.0f, 0.0f, 0.0f));
+            live_viewer->translate(vec3(0.75f, 0.75f, 0.0f));
+            live_viewer->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            live_viewer2 = instantiate2D(new LiveViewer(shadow_camera->getShadowTextureID()));
+            live_viewer2->rotate(vec3(90.0f, 0.0f, 0.0f));
+            live_viewer2->translate(vec3(0.75f, 0.0f, 0.0f));
+            live_viewer2->scale(vec3(-0.79f, 0.0f, -0.79f));
         }
 
         void setupMinimap() {
@@ -81,13 +102,6 @@ class WorldInstance: public World {
             minimap.setViewer(camera2, instantiate2D(new LiveViewer(camera2->getRenderTextureID())));
             minimap.setTargetCamera(camera);
             minimap.setup();
-        }
-
-        void setupInfiniteTerrain() {
-            for (int i = 0; i < 4; i++) {
-                infinite_terrain.setChunk(i, Chunk(instantiate(new Terrain()), instantiate(new Water())));
-            }
-            infinite_terrain.initialize();
         }
 
         void updateShadow() {

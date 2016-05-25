@@ -62,7 +62,7 @@ class PhysicalObject: public Object3D {
 
 
     public:
-        void Init() {
+        void Init(GLuint shadow_texture_id = 0) {
             InitialCalculations();
 
             // call to the sub-class' method to get the shaders' name
@@ -99,10 +99,9 @@ class PhysicalObject: public Object3D {
             depthMVP_id_ = glGetUniformLocation(program_id_, "depthMVP");
             depthBiasMVP_id_ = glGetUniformLocation(program_id_, "depthBiasMVP");
 
-            depth_texture_uniform_id_ = glGetUniformLocation(program_id_, "depthTex");
-            glUniform1i(tex_id_, 0 /* location 0 */);
-
             SetupUniforms();
+
+            addTexture(shadow_texture_id);
 
             // to avoid the current object being polluted
             glBindVertexArray(0);
@@ -112,7 +111,7 @@ class PhysicalObject: public Object3D {
         }
 
         void Draw(const glm::mat4 &view = IDENTITY_MATRIX,
-                  const glm::mat4 &projection = IDENTITY_MATRIX, const glm::mat4 &depthMVP = IDENTITY_MATRIX, int pass = 0) {
+                  const glm::mat4 &projection = IDENTITY_MATRIX, const glm::mat4 &depthMVP = IDENTITY_MATRIX, int pass = 0, GLuint shadow_texture_id = 0) {
             if (is_initialized_) {
                 glUseProgram(program_id_);
                 glBindVertexArray(vertex_array_id_);
@@ -133,6 +132,9 @@ class PhysicalObject: public Object3D {
 
                 //glm::mat4 depthMVP = directional_light->getDepthMVP();
                 glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthMVP));
+
+                //GlmStrings astring;
+                //cout << astring.create(depthMVP) << "\n" << endl;
 
                 glm::mat4 depthBiasMVP = biasMatrix*depthMVP;
                 glUniformMatrix4fv(depthBiasMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthBiasMVP));
