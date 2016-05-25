@@ -319,7 +319,7 @@ class World {
 
             main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
             main_light = instantiate(new DirectionalLight());
-            shadow_camera = instantiate(new Camera(0.0f, 0.0f, 10.0, 100.f));
+            shadow_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.f));
 
             world_time.Init();
             Start();

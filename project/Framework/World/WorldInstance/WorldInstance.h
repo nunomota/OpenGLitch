@@ -32,7 +32,7 @@ class WorldInstance: public World {
 
             //infinite_terrain.setTarget(camera);
             Camera* shadow_camera = light->getShadowCamera();
-            terra = instantiate(new Terrain(shadow_camera->getRenderTextureID())); 
+            terra = instantiate(new Terrain(shadow_camera->getShadowTextureID())); 
             water = instantiate(new Water());
 
             camera->translate(vec3(0.0f, 1.0f, 0.0f));
