@@ -26,12 +26,20 @@ class Terrain: public Grid {
 
         void SetupUniforms() {
             addTexture(Loader::loadTexture("perlin.jpg"));
+            printf("shadow_tex: %d\n", shadow_texture_id);
             addTexture(shadow_texture_id);
         }
 
         void FinalOperations() {
             heightbuffer.Cleanup();
         }
+
+        void DebugMVP(/*glm::mat4 MVP, glm::vec3 position,*/ GLuint shadow_texture_id){
+            //GlmStrings astring;
+            //cout << "Terra position: " << astring.create(glm::vec3(position.x,position.y,1.0)) << "\n" << endl;
+            printf("Terra shadow_tex: %d\n", shadow_texture_id);
+        }
+
 
     public:
         Terrain(GLuint new_shadow_texture_id){

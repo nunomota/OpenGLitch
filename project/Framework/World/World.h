@@ -26,7 +26,7 @@ class World {
 
             GLuint tex_id = -1;
             if (shadow_camera) tex_id = shadow_camera->getShadowTextureID();
-
+            printf("%d\n", tex_id); // TODO REMOVE
             for (std::vector<Object3D*>::iterator it = uninitialized.begin(); it != uninitialized.end(); ++it) {
                 Object3D* object = (*it);
                 if(object) {
@@ -320,6 +320,7 @@ class World {
             main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
             main_light = instantiate(new DirectionalLight());
             shadow_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.f));
+            main_light->setShadowCamera(shadow_camera);
 
             world_time.Init();
             Start();

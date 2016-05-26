@@ -32,6 +32,7 @@ class WorldInstance: public World {
 
             //infinite_terrain.setTarget(camera);
             Camera* shadow_camera = light->getShadowCamera();
+            setupShadow();
             terra = instantiate(new Terrain(shadow_camera->getShadowTextureID())); 
             water = instantiate(new Water());
 
@@ -42,7 +43,6 @@ class WorldInstance: public World {
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
             camera2->translate(vec3(0.0f, 3.0f, 0.0f));
 
-            setupShadow();
             setupMinimap();
             //setupInfiniteTerrain();
         }
@@ -72,18 +72,17 @@ class WorldInstance: public World {
 
             //light->translate(vec3(0.0f,0.0f,-0.2f) * getTime()->getDeltaTime());
             vec3 ligth_position = light->getTransform()->getPosition();
-            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.0001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.01f));
+            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.0001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.0001f));
             updateShadow();
             minimap.update();
             //infinite_terrain.update();
         }
 
         void setupShadow() {
-            Camera* shadow_camera = instantiate(new Camera());
+            Camera* shadow_camera = light->getShadowCamera();
             Transform* shadow_camera_transform =  shadow_camera->getTransform();
             shadow_camera_transform->setPosition(light->getTransform()->getPosition());
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
-            light->setShadowCamera(shadow_camera);
             enableLiveRenderer(shadow_camera);
             live_viewer = instantiate2D(new LiveViewer(shadow_camera->getRenderTextureID()));
             live_viewer->rotate(vec3(90.0f, 0.0f, 0.0f));
@@ -91,6 +90,7 @@ class WorldInstance: public World {
             live_viewer->scale(vec3(-0.79f, 0.0f, -0.79f));
 
             live_viewer2 = instantiate2D(new LiveViewer(shadow_camera->getShadowTextureID()));
+            printf("%d\n",shadow_camera->getShadowTextureID());
             live_viewer2->rotate(vec3(90.0f, 0.0f, 0.0f));
             live_viewer2->translate(vec3(0.75f, 0.0f, 0.0f));
             live_viewer2->scale(vec3(-0.79f, 0.0f, -0.79f));
@@ -110,5 +110,4 @@ class WorldInstance: public World {
             shadow_camera_transform->setPosition(light->getTransform()->getPosition());
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
         }
-
 };

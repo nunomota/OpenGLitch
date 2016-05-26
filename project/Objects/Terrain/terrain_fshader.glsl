@@ -20,9 +20,11 @@ const vec3 CAMERA_POSITION = vec3(4,4,2);
 void main() {
 
     if(PASS == 0){
-        float visibility = 1.0;
-        if ( texture( tex2, shadow_coord.xy ).z  <  shadow_coord.z){
-           visibility = 0.5;
+        float visibility = 1.0f;
+        //if ( texture( tex2, shadow_coord.xy ).z  <  shadow_coord.z){
+        float value = 0.0f;
+        if ((value = texture( tex2, shadow_coord.xy).z)  <  shadow_coord.z){
+            visibility = 0.4;
         }
 
         vec3 n = normalize(pos_3d);

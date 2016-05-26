@@ -39,7 +39,7 @@ class ShadowBuffer {
                 width_ = width;
                 height_ = height;
 
-                glActiveTexture(GL_TEXTURE1);
+                //glActiveTexture(GL_TEXTURE1);
                 glGenTextures(1, &depth_texture_);
                 glBindTexture(GL_TEXTURE_2D, depth_texture_);
 

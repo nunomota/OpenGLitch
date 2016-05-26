@@ -10,6 +10,7 @@ class PhysicalObject: public Object3D {
         GLuint depthMVP_id_;
         GLuint depthBiasMVP_id_;
         GLuint tex_id_;
+        GLuint shadow_tex_id_;
 
         // matrix to translate from depth to texture coords 
         glm::mat4 biasMatrix = glm::mat4(
@@ -27,6 +28,8 @@ class PhysicalObject: public Object3D {
         virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
         virtual void FinalOperations() {};        // Called once, when the object is being cleaned up and destroyed
+
+        virtual void DebugMVP(/*glm::mat4 MVP, glm::vec3 position, */GLuint shadow_texture_id = 0){}; // TODO REMOVE
 
         /** Called to set the drawing mode to either:
           * 0     - GL_TRIANGLES
@@ -50,10 +53,12 @@ class PhysicalObject: public Object3D {
           */
         void addTexture(GLuint texture_id) {
             std::ostringstream tex_name;
+            if(texture_id == 4){
+                printf("size: %lu\n", texture_ids_.size());   
+            }
             tex_name << "tex" << texture_ids_.size();
 
             tex_id_ = glGetUniformLocation(program_id_, tex_name.str().c_str());
-
 
             glUniform1i(tex_id_, texture_ids_.size() + 1);
 
@@ -101,7 +106,10 @@ class PhysicalObject: public Object3D {
 
             SetupUniforms();
 
+            printf("Physical object tex id: %d\n", shadow_texture_id);
             addTexture(shadow_texture_id);
+            Reporter::println("YEAH");
+            DebugMVP(shadow_texture_id);
 
             // to avoid the current object being polluted
             glBindVertexArray(0);
@@ -138,6 +146,20 @@ class PhysicalObject: public Object3D {
 
                 glm::mat4 depthBiasMVP = biasMatrix*depthMVP;
                 glUniformMatrix4fv(depthBiasMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthBiasMVP));
+
+                //GlmStrings astring;
+                //cout << astring.create(depthBiasMVP) << "\n" << endl;
+
+                glm::vec3 pos = getTransform()->getPosition();
+                glm::vec4 new_pos = glm::vec4(pos.x,pos.y,pos.z,1.0f);
+
+                glm::vec4 result = MVP * new_pos;
+                result = depthBiasMVP * result;
+
+                //GlmStrings astring;
+                //cout << astring.create(glm::vec3(result.x,result.y,1.0)) << "\n" << endl;
+                //cout << "pos: " << astring.create(glm::vec3(new_pos.x,new_pos.y,1.0)) << "\n" << endl;
+                //DebugMVP(depthMVP, pos, );
 
                 glUniform1i(pass_id_, pass);
 

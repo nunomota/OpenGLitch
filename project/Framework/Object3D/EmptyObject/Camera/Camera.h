@@ -23,7 +23,7 @@ class Camera: public EmptyObject {
         glm::mat4 projection_;
 
         FrameBuffer framebuffer;
-        ShadowBuffer shadowbuffer;
+        FrameBuffer shadowbuffer;
         GLuint render_texture_id;
         GLuint shadow_texture_id;
 

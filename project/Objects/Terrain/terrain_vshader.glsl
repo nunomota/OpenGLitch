@@ -4,6 +4,7 @@
 in vec3 position;
 uniform sampler2D tex0;
 uniform sampler2D depthTex;
+uniform sampler2D tex2;
 uniform int PASS;
 
 out vec4 shadow_coord;
