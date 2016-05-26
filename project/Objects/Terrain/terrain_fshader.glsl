@@ -26,6 +26,10 @@ out vec3 color;
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
 
+vec3 BLEND(vec3 sand, float a1 ,vec3 grass, float a2, vec3 rock, float a3, vec3 snow, float a4){
+    return sand.rgb * a1 + grass.rgb * a2 + rock.rgb * a3 + snow.rgb * a4;
+}
+
 void main() {
     
     vec3 height_color;
@@ -44,14 +48,41 @@ void main() {
     rock = texture(tex5, uv + displacement_vector).rgb;
     snow = texture(tex6, uv + displacement_vector).rgb;
     
-    //mix all the textures to have the blending
-    color1 = mix(sand, grass, height*5);
-    color2 = mix(grass, rock, height*5);
-    color3 = mix(rock, snow, height*5);
-    color12 = mix(color2, color1, height);
-    height_color = mix(color12, color3, height);
+   
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv + displacement_vector);
+    // alpha values - max height is 0.4?
+    float a1 = 0.0f;
+    float a2 = 0.0f;
+    float a3 = 0.0f;
+    float a4 = 0.0f;
+    float temp_height = 0.0f; // norm height
+
+    if (height >= 0.10f && height < 0.40f){
+        //grass
+        //first
+        temp_height = height-0.1f;
+        //interval
+        a2 = exp(1.0f-(temp_height/0.30f))-1;
+        a3 = exp(temp_height/0.30f)-1;
+
+    }else if(height > 0.40f && height <= 0.6f){
+        //rock
+        temp_height = height-0.40f;
+        a3 = exp(1.0f - (temp_height/0.20f))-1;
+        a4 = exp(temp_height/0.20f)-1;
+    } else if(height > 0.6f){
+        //snow
+        a4 = exp(1.0f)-1;
+
+    }else{
+        //sand
+        a1 = exp(1.0f - (height/0.1f))-1;
+        a2 = exp(height/0.1f)-1;
+    }
+
+    height_color = BLEND(sand,a1,grass,a2,rock,a3,snow,a4);    // normal caculation according to normalmap
+    
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
 
     vec3 l = normalize(lightDirection);
