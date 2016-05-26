@@ -24,6 +24,8 @@ file(GLOB TEXTURES
     Resources/Textures/grass2.jpg
     Resources/Textures/grass3.jpg
     Resources/Textures/rock.jpg
+    Resources/Textures/rock2.jpg
+    Resources/Textures/rock3.jpg
     Resources/Textures/snow.jpg
     Resources/Textures/minimap.png)
 
