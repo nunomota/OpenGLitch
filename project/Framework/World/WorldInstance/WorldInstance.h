@@ -30,6 +30,7 @@ class WorldInstance: public World {
 
             light->translate(vec3(0.5f,0.0f,1.0f));
 
+
             //infinite_terrain.setTarget(camera);
             Camera* shadow_camera = light->getShadowCamera();
             setupShadow();
@@ -72,7 +73,7 @@ class WorldInstance: public World {
 
             //light->translate(vec3(0.0f,0.0f,-0.2f) * getTime()->getDeltaTime());
             vec3 ligth_position = light->getTransform()->getPosition();
-            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.0001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.0001f));
+            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.0001f));
             updateShadow();
             minimap.update();
             //infinite_terrain.update();
