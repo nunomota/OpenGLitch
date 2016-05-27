@@ -8,6 +8,7 @@ class Controller {
         Time* time;
         Terrain* terrain;
 
+        float grounded_height = 0.08f;
         float velocity = 2.0f;
         vec3 movement_vector = vec3(0.0f);
 
@@ -32,8 +33,8 @@ class Controller {
             // TODO if height <= texture height, return true and height = 0
             // TODO if height > texture height, return false
             vec3 target_position = target_transform->getPosition();
-            if (target_position.y > 0.0f) return false;
-            target_transform->setPosition(vec3(target_position.x, 0.0f, target_position.z));
+            if (target_position.y > grounded_height) return false;
+            target_transform->setPosition(vec3(target_position.x, grounded_height, target_position.z));
             return true;
         }
 

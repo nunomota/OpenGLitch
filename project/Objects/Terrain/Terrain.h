@@ -18,18 +18,16 @@ class Terrain: public Grid {
         GLuint light_s_id;
         GLuint camera_pos_id;
 
-    protected:
-        void InitialCalculations() {
-            Grid::InitialCalculations();
-            height_map_id_ = heightbuffer.Init(getDimension(), getDimension());
+        static const int height_map_width = 500;
+        static const int height_map_height = 500;
+        static const int height_map_colors = 3;
+        GLfloat height_map_heights[height_map_width * height_map_height * height_map_colors];
 
-            // Draw the heightmap and store id
-            heightbuffer.Bind();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            height_map.Draw();
-            heightbuffer.Unbind();
+        void calculateHeights() {
+            glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, height_map_heights);
         }
 
+    protected:
         void LoadShaders() {
             // compile the shaders.
             program_id_ = icg_helper::LoadShaders("terrain_vshader.glsl",
@@ -37,10 +35,12 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
-            addTexture(Loader::loadTexture("perlin.jpg"));
+            height_map_id_ = Loader::loadTexture("perlin.jpg");
+            addTexture(height_map_id_);
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
             time_id = glGetUniformLocation(program_id_, "time");
+            calculateHeights();
 
             light_dir_id = glGetUniformLocation(program_id_, "lightDirection");
             light_pos_id = glGetUniformLocation(program_id_, "lightPosition");
@@ -61,10 +61,6 @@ class Terrain: public Grid {
             glUniform1f(time_id, time->getCurrentTime());
         }
 
-        void FinalOperations() {
-            heightbuffer.Cleanup();
-        }
-
     public:
         Terrain(Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
             time = new_time;
@@ -74,5 +70,10 @@ class Terrain: public Grid {
 
         GLuint getHeightMapID() {
             return height_map_id_;
+        }
+
+        float getHeight(float x, float y) {
+            int index = (x + y*height_map_width)*height_map_colors;
+            return height_map_heights[index];
         }
 };
