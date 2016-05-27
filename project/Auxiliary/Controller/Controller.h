@@ -32,6 +32,8 @@ class Controller {
             // TODO get terrain texture at (x, z)
             // TODO if height <= texture height, return true and height = 0
             // TODO if height > texture height, return false
+            float terrain_height = terrain->getHeight();
+            cout << "Current height: " << terrain_height << endl;
             vec3 target_position = target_transform->getPosition();
             if (target_position.y > grounded_height) return false;
             target_transform->setPosition(vec3(target_position.x, grounded_height, target_position.z));
@@ -64,8 +66,6 @@ class Controller {
             if (!isGrounded()) {
                 translate(vec3(0.0f, -1.0f, 0.0f), true);
             }
-            GlmStrings glmStrings;
-            cout << glmStrings.create(drifts) << endl;
         }
 
         void setVelocity(float new_velocity) {
