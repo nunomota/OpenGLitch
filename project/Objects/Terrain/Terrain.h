@@ -35,7 +35,8 @@ class Terrain: public Grid {
             return false;
         }
 
-        glm::vec2 worldToTexCoords(glm::vec2 worldCoords) {   
+        glm::vec2 worldToTexCoords(glm::vec2 worldCoords) {
+            GlmStrings glmStrings;
             glm::vec3 terrain_coords_3d = getTransform()->getPosition();
             glm::vec2 terrain_coords_2d = glm::vec2(terrain_coords_3d.x, terrain_coords_3d.z);
             glm::vec3 terrain_scale_3d  = getTransform()->getScale();
@@ -52,8 +53,10 @@ class Terrain: public Grid {
                 glm::vec2 bl_corner = glm::vec2(left_border, bottom_border);
                 glm::vec2 local_vector = worldCoords - bl_corner;
                 local_vector = glm::vec2(local_vector.x / terrain_width, local_vector.y / terrain_height);
+                cout << "[W] " << glmStrings.create(glm::vec3(worldCoords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(local_vector, 0.0f)) << endl;
                 return local_vector;
             }
+            cout << "Out of bounds" << endl;
             return glm::vec2(0, 0);
         }
     
@@ -103,13 +106,12 @@ class Terrain: public Grid {
         }
 
         float getHeight(glm::vec3 camera_coords_3d) {
-            // TODO fix coordinates to always wrap around the texture
-            // TODO get correct x and y from world coordinates (convert from -1 to 1 to 0-500)
-            // int fixed_x = x%height_map_width;
-            // int fixed_y = y%height_map_height;
-            // int index = (x + y*height_map_width)*height_map_colors;
-            worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
-            return 0.0f;
-            //return height_map_heights[index];
+            GlmStrings glmStrings;
+            glm::vec2 texCoords = worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
+            int pixel_coord_x = texCoords.x * height_map_width;
+            int pixel_coord_y = texCoords.y * height_map_height;
+            int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
+            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [H] " << height_map_heights[index] << endl;
+            return height_map_heights[index];
         }
 };
