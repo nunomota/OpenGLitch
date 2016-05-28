@@ -19,6 +19,8 @@ class WorldInstance: public World {
         LiveViewer* reflection_texture;
         LiveViewer* refraction_texture;
 
+        Controller controller;
+
     protected:
 
         // method called only once
@@ -27,23 +29,20 @@ class WorldInstance: public World {
             camera = getCamera();
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
-            camera->translate(vec3(0.0f, 0.5f, 0.0f));
+            terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
+            camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
             
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));
             sky->scale(vec3(40.0f,40.0f,40.0f));
             sky->getTransform()->setPosition(camera->getTransform()->getPosition());
 
+            setupController();
             setupMirror();
             setupRefraction();
             setupMinimap();
 
-            terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
-
-            camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
-            camera->translate(vec3(0.0f, 2.0f, 0.0f));
-            camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
 
             reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
@@ -58,38 +57,22 @@ class WorldInstance: public World {
 
         // method called every frame
         void Update() {
-            // sideways camera turn
-            if (getKeyDown(Keyboard::W)) {
-                getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::S)) {
-                getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // sideways camera turn
-            if (getKeyDown(Keyboard::D)) {
-                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::A)) {
-                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // front/back camera movement
-            if (getKeyDown(Keyboard::P)) {
-                getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::L)) {
-                getCamera()->translate(-getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
-            }
-
-
+            move();
             mirror.update();
             refraction.update();
-            // update sky box
-            sky->getTransform()->setPosition(camera->getTransform()->getPosition());
-
             minimap.update();
+            controller.update();
 
             vec3 camera_position = camera->getTransform()->getPosition();
             terrain->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
             water->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
+            sky->getTransform()->setPosition(camera_position);
+        }
+
+        void setupController() {
+            controller.setTarget(camera->getTransform());
+            controller.setTime(getTime());
+            controller.setTerrain(terrain);
         }
 
         void setupMirror() {
@@ -117,5 +100,32 @@ class WorldInstance: public World {
             minimap.setViewer(viewer_camera, instantiate2D(new LiveViewer(viewer_camera->getRenderTextureID())));
             minimap.setTargetCamera(camera);
             minimap.setup();
+        }
+
+        void move() {
+            // pitch up/down
+            if (getKeyDown(Keyboard::Q)) {
+                controller.translate(vec3(0.0f, 1.0f, 0.0f), true);
+            } else if (getKeyDown(Keyboard::E)) {
+                controller.translate(vec3(0.0f, -1.0f, 0.0f), true);
+            } else {
+                controller.translate(vec3(0.0f, 1.0f, 0.0f), false);
+            }
+
+            // sideways camera turn
+            if (getKeyDown(Keyboard::D)) {
+                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+            } else if (getKeyDown(Keyboard::A)) {
+                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
+            }
+
+            // front/back camera movement
+            if (getKeyDown(Keyboard::W)) {
+                controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+            } else if (getKeyDown(Keyboard::S)) {
+                controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
+            } else {
+                controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
+            }
         }
 };
