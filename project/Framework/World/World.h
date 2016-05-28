@@ -297,7 +297,7 @@ class World {
             window_width = 600;
             window_height = 400;
 
-            main_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.0f));
+            main_camera = instantiate(new Camera());
             main_light = instantiate(new DirectionalLight());
 
             world_time.Init();
