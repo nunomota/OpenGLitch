@@ -27,15 +27,11 @@ class Terrain: public Grid {
             glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, height_map_heights);
         }
 
-        bool inBounds(glm::vec2 target_coords, float right, float left, float top, float bottom) {
-            if ((target_coords.x > left   && target_coords.x < right) &&
-                (target_coords.y > bottom && target_coords.y < top)) {
-                return true;
-            }
-            return false;
+        float wrapValue(float value, float max) {
+            return value - max * floor(value / max);
         }
 
-        glm::vec2 worldToTexCoords(glm::vec2 worldCoords) {
+        glm::vec2 worldToTexCoords(glm::vec2 world_coords) {
             GlmStrings glmStrings;
             glm::vec3 terrain_coords_3d = getTransform()->getPosition();
             glm::vec2 terrain_coords_2d = glm::vec2(terrain_coords_3d.x, terrain_coords_3d.z);
@@ -44,20 +40,11 @@ class Terrain: public Grid {
 
             float terrain_width  = 2.0f * terrain_scale_2d.x;
             float terrain_height = 2.0f * terrain_scale_2d.y;
-            float right_border   = terrain_coords_2d.x + 1.0f * terrain_scale_2d.x;
-            float left_border    = terrain_coords_2d.x - 1.0f * terrain_scale_2d.x;
-            float top_border     = terrain_coords_2d.y + 1.0f * terrain_scale_2d.y;
-            float bottom_border  = terrain_coords_2d.y - 1.0f * terrain_scale_2d.y;
 
-            if (inBounds(worldCoords, right_border, left_border, top_border, bottom_border)) {
-                glm::vec2 bl_corner = glm::vec2(left_border, bottom_border);
-                glm::vec2 local_vector = worldCoords - bl_corner;
-                local_vector = glm::vec2(local_vector.x / terrain_width, 1.0f - local_vector.y / terrain_height);
-                cout << "[W] " << glmStrings.create(glm::vec3(worldCoords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(local_vector, 0.0f)) << endl;
-                return local_vector;
-            }
-            cout << "Out of bounds" << endl;
-            return glm::vec2(-1.0f, -1.0f);
+            glm::vec2 new_world_coords = world_coords + glm::vec2(terrain_width/2.0f, terrain_height/2.0f);
+            glm::vec2 tex_coords = glm::vec2(wrapValue(new_world_coords.x, terrain_width) / terrain_width, 1.0f - wrapValue(new_world_coords.y, terrain_height) / terrain_height);
+
+            return tex_coords;
         }
     
     protected:
@@ -113,13 +100,10 @@ class Terrain: public Grid {
         float getHeight(glm::vec3 camera_coords_3d) {
             GlmStrings glmStrings;
             glm::vec2 texCoords = worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
-            if (texCoords.x <= 1.0f && texCoords.y >= 0.0f) {
-                int pixel_coord_x = texCoords.x * height_map_width;
-                int pixel_coord_y = texCoords.y * height_map_height;
-                int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
-                cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
-                return height_map_heights[index]*2.0f - 1.0f;
-            }
-            return 0.0f;
+            int pixel_coord_x = texCoords.x * height_map_width;
+            int pixel_coord_y = texCoords.y * height_map_height;
+            int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
+            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
+            return height_map_heights[index]*2.0f - 1.0f;
         }
 };
