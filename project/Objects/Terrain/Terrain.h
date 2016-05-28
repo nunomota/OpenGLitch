@@ -2,7 +2,6 @@
 
 class Terrain: public Grid {
     private:
-        HeightBuffer heightbuffer;
         HeightMap height_map;
         GLuint height_map_id_;
 
@@ -97,18 +96,9 @@ class Terrain: public Grid {
 
         void UpdateUniforms() {
             glUniform1f(time_id, time->getCurrentTime());
-
-<<<<<<< HEAD
-=======
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
-            
-        }
-		
-        void FinalOperations() {
-            heightbuffer.Cleanup();
         }
 
->>>>>>> 82e975a36594ea49defc1695d73c70945226bdc9
     public:
         Terrain(Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
             time = new_time;
