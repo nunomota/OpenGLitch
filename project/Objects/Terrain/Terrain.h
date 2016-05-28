@@ -111,7 +111,7 @@ class Terrain: public Grid {
             int pixel_coord_x = texCoords.x * height_map_width;
             int pixel_coord_y = texCoords.y * height_map_height;
             int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
-            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [H] " << height_map_heights[index] << endl;
+            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
             return height_map_heights[index];
         }
 };
