@@ -27,6 +27,33 @@ class Terrain: public Grid {
             glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, height_map_heights);
         }
 
+        bool inBounds(glm::vec2 target_coords, float right, float left, float top, float bottom) {
+            if ((target_coords.x > left   && target_coords.x < right) &&
+                (target_coords.y > bottom && target_coords.y < top)) {
+                return true;
+            }
+            return false;
+        }
+
+        glm::vec2 worldToTexCoords(glm::vec2 worldCoords) {   
+            glm::vec3 terrain_coords_3d = transform.getPosition();
+            glm::vec2 terrain_coords_2d = glm::vec2(terrain_coords_3d.x, terrain_coords_3d.z);
+            glm::vec3 terrain_scale_3d  = transform.getScale();
+            glm::vec2 terrain_scale_2d  = glm::vec2(terrain_scale_3d.x, terrain_scale_3d.z);
+
+            float right_border  = terrain_coords_2d.x + 1.0f * terrain_scale_2d.x;
+            float left_border   = terrain_coords_2d.x - 1.0f * terrain_scale_2d.x;
+            float top_border    = terrain_coords_2d.y + 1.0f * terrain_scale_2d.y;
+            float bottom_border = terrain_coords_2d.y - 1.0f * terrain_scale_2d.y;
+
+            if (inBounds(terrain_coords_2d, right_border, left_border, top_border, bottom_border)) {
+                cout << "In bounds!" << endl;
+                return glm::vec2(0, 0);
+            }
+            cout << "Not in bounds!" << endl;
+            return glm::vec2(0, 0);
+        }
+    
     protected:
         void LoadShaders() {
             // compile the shaders.
@@ -72,8 +99,14 @@ class Terrain: public Grid {
             return height_map_id_;
         }
 
-        float getHeight(float x, float y) {
-            int index = (x + y*height_map_width)*height_map_colors;
-            return height_map_heights[index];
+        float getHeight(glm::vec3 camera_coords_3d) {
+            // TODO fix coordinates to always wrap around the texture
+            // TODO get correct x and y from world coordinates (convert from -1 to 1 to 0-500)
+            // int fixed_x = x%height_map_width;
+            // int fixed_y = y%height_map_height;
+            // int index = (x + y*height_map_width)*height_map_colors;
+            //worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
+            return 0.0f;
+            //return height_map_heights[index];
         }
 };

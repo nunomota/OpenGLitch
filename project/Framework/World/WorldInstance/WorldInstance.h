@@ -24,11 +24,12 @@ class WorldInstance: public World {
             camera = getCamera();
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
+            terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
+
             setupController();
             setupMirror();
             setupMinimap();
 
-            terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
             water = instantiate(new Water(mirror.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
             camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
