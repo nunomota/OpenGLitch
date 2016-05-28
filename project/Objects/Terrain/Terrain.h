@@ -24,6 +24,7 @@ class Terrain: public Grid {
         GLfloat height_map_heights[height_map_width * height_map_height * height_map_colors];
 
         void calculateHeights() {
+            glBindTexture(GL_TEXTURE_2D, height_map_id_);
             glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, height_map_heights);
         }
 
@@ -112,6 +113,6 @@ class Terrain: public Grid {
             int pixel_coord_y = texCoords.y * height_map_height;
             int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
             cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
-            return height_map_heights[index];
+            return height_map_heights[index]*2.0f - 1.0f;
         }
 };

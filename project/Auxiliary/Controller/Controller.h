@@ -35,8 +35,8 @@ class Controller {
             vec3 target_position = target_transform->getPosition();
             float terrain_height = terrain->getHeight(target_position);
             
-            if (target_position.y > grounded_height) return false;
-            target_transform->setPosition(vec3(target_position.x, grounded_height, target_position.z));
+            if (target_position.y > terrain_height + grounded_height) return false;
+            target_transform->setPosition(vec3(target_position.x, terrain_height + grounded_height, target_position.z));
             return true;
         }
 
