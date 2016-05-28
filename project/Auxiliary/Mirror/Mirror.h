@@ -21,7 +21,6 @@ class Mirror {
 
     public:
         void setup() {
-            mirror_camera->enableClipping(vec4(0.0f, -1.0f, 0.0f, 0.1f));
             mirror_camera->setIgnoreTag(1); // ignore water tag
             mirrorTargetTransform();
             cout << target_camera->getTransform()->to_string() << endl;
@@ -38,6 +37,14 @@ class Mirror {
 
         void setMirrorCamera(Camera* new_mirror_camera) {
             mirror_camera = new_mirror_camera;
+        }
+
+        void setClipPlane(vec4 new_clip_plane) {
+            mirror_camera->enableClipping(new_clip_plane);
+        }
+
+        Camera* getMirrorCamera() {
+            return mirror_camera;
         }
 
         GLuint getMirrorTextureID() {

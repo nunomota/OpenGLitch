@@ -73,6 +73,10 @@ class Terrain: public Grid {
             addTexture(height_map_id_);
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
+            addTexture(Loader::loadTexture("sand2.jpg"));
+            addTexture(Loader::loadTexture("grass3.jpg"));
+            addTexture(Loader::loadTexture("rock.jpg"));
+            addTexture(Loader::loadTexture("snow.jpg"));
             time_id = glGetUniformLocation(program_id_, "time");
             calculateHeights();
 
@@ -93,8 +97,18 @@ class Terrain: public Grid {
 
         void UpdateUniforms() {
             glUniform1f(time_id, time->getCurrentTime());
+
+<<<<<<< HEAD
+=======
+            glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
+            
+        }
+		
+        void FinalOperations() {
+            heightbuffer.Cleanup();
         }
 
+>>>>>>> 82e975a36594ea49defc1695d73c70945226bdc9
     public:
         Terrain(Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
             time = new_time;
