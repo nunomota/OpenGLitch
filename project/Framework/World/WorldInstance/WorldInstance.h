@@ -86,12 +86,12 @@ class WorldInstance: public World {
 
             // front/back camera movement
             if (getKeyDown(Keyboard::W)) {
-                controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+                controller.translate(getCamera()->getTransform()->getUpVector(), true);
                 //getCamera()->translate(getCamera()->getTransform()->getForwardVector() * getTime()->getDeltaTime());
             } else if (getKeyDown(Keyboard::S)) {
-                controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
+                controller.translate(-getCamera()->getTransform()->getUpVector(), true);
             } else {
-                controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
+                controller.translate(getCamera()->getTransform()->getUpVector(), false);   
             }
         }
 };

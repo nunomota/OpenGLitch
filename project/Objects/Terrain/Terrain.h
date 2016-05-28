@@ -53,12 +53,12 @@ class Terrain: public Grid {
             if (inBounds(worldCoords, right_border, left_border, top_border, bottom_border)) {
                 glm::vec2 bl_corner = glm::vec2(left_border, bottom_border);
                 glm::vec2 local_vector = worldCoords - bl_corner;
-                local_vector = glm::vec2(local_vector.x / terrain_width, local_vector.y / terrain_height);
+                local_vector = glm::vec2(local_vector.x / terrain_width, 1.0f - local_vector.y / terrain_height);
                 cout << "[W] " << glmStrings.create(glm::vec3(worldCoords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(local_vector, 0.0f)) << endl;
                 return local_vector;
             }
             cout << "Out of bounds" << endl;
-            return glm::vec2(0, 0);
+            return glm::vec2(-1.0f, -1.0f);
         }
     
     protected:
@@ -109,10 +109,13 @@ class Terrain: public Grid {
         float getHeight(glm::vec3 camera_coords_3d) {
             GlmStrings glmStrings;
             glm::vec2 texCoords = worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
-            int pixel_coord_x = texCoords.x * height_map_width;
-            int pixel_coord_y = texCoords.y * height_map_height;
-            int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
-            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
-            return height_map_heights[index]*2.0f - 1.0f;
+            if (texCoords.x <= 1.0f && texCoords.y >= 0.0f) {
+                int pixel_coord_x = texCoords.x * height_map_width;
+                int pixel_coord_y = texCoords.y * height_map_height;
+                int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
+                cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
+                return height_map_heights[index]*2.0f - 1.0f;
+            }
+            return 0.0f;
         }
 };

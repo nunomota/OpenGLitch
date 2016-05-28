@@ -8,7 +8,7 @@ class Controller {
         Time* time;
         Terrain* terrain;
 
-        float grounded_height = 0.08f;
+        float grounded_height = 0.1f;
         float velocity = 2.0f;
         vec3 movement_vector = vec3(0.0f);
 
