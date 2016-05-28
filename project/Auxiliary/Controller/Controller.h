@@ -29,9 +29,6 @@ class Controller {
         }
 
         bool isGrounded() {
-            // TODO get terrain texture at (x, z)
-            // TODO if height <= texture height, return true and height = 0
-            // TODO if height > texture height, return false
             vec3 target_position = target_transform->getPosition();
             float terrain_height = terrain->getHeight(target_position);
             
