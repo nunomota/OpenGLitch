@@ -34,7 +34,6 @@ class Controller {
             // TODO if height > texture height, return false
             vec3 target_position = target_transform->getPosition();
             float terrain_height = terrain->getHeight(target_position);
-            cout << terrain->getTransform()->getPosition().x << endl;
             //cout << "Current height: " << terrain_height << endl;
             
             if (target_position.y > grounded_height) return false;

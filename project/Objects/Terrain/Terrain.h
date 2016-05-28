@@ -36,21 +36,24 @@ class Terrain: public Grid {
         }
 
         glm::vec2 worldToTexCoords(glm::vec2 worldCoords) {   
-            glm::vec3 terrain_coords_3d = transform.getPosition();
+            glm::vec3 terrain_coords_3d = getTransform()->getPosition();
             glm::vec2 terrain_coords_2d = glm::vec2(terrain_coords_3d.x, terrain_coords_3d.z);
-            glm::vec3 terrain_scale_3d  = transform.getScale();
+            glm::vec3 terrain_scale_3d  = getTransform()->getScale();
             glm::vec2 terrain_scale_2d  = glm::vec2(terrain_scale_3d.x, terrain_scale_3d.z);
 
-            float right_border  = terrain_coords_2d.x + 1.0f * terrain_scale_2d.x;
-            float left_border   = terrain_coords_2d.x - 1.0f * terrain_scale_2d.x;
-            float top_border    = terrain_coords_2d.y + 1.0f * terrain_scale_2d.y;
-            float bottom_border = terrain_coords_2d.y - 1.0f * terrain_scale_2d.y;
+            float terrain_width  = 2.0f * terrain_scale_2d.x;
+            float terrain_height = 2.0f * terrain_scale_2d.y;
+            float right_border   = terrain_coords_2d.x + 1.0f * terrain_scale_2d.x;
+            float left_border    = terrain_coords_2d.x - 1.0f * terrain_scale_2d.x;
+            float top_border     = terrain_coords_2d.y + 1.0f * terrain_scale_2d.y;
+            float bottom_border  = terrain_coords_2d.y - 1.0f * terrain_scale_2d.y;
 
-            if (inBounds(terrain_coords_2d, right_border, left_border, top_border, bottom_border)) {
-                cout << "In bounds!" << endl;
-                return glm::vec2(0, 0);
+            if (inBounds(worldCoords, right_border, left_border, top_border, bottom_border)) {
+                glm::vec2 bl_corner = glm::vec2(left_border, bottom_border);
+                glm::vec2 local_vector = worldCoords - bl_corner;
+                local_vector = glm::vec2(local_vector.x / terrain_width, local_vector.y / terrain_height);
+                return local_vector;
             }
-            cout << "Not in bounds!" << endl;
             return glm::vec2(0, 0);
         }
     
@@ -105,7 +108,7 @@ class Terrain: public Grid {
             // int fixed_x = x%height_map_width;
             // int fixed_y = y%height_map_height;
             // int index = (x + y*height_map_width)*height_map_colors;
-            //worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
+            worldToTexCoords(glm::vec2(camera_coords_3d.x, camera_coords_3d.z));
             return 0.0f;
             //return height_map_heights[index];
         }
