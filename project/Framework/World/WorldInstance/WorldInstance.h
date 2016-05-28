@@ -44,10 +44,6 @@ class WorldInstance: public World {
 
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
 
-            camera->getTransform()->setPosition(terrain->getTransform()->getPosition());
-            camera->translate(vec3(0.0f, 2.0f, 0.0f));
-            camera->getTransform()->setRotation(vec3(-90.0f, 0.0f, 0.0f));
-
             reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
             reflection_texture->translate(vec3(0.75f, 0.75f, 0.0f));
