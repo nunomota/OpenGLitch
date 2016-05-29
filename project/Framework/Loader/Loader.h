@@ -93,20 +93,20 @@ class Loader {
                     normalIndices.push_back(normalIndex[0]);
                     normalIndices.push_back(normalIndex[1]);
                     normalIndices.push_back(normalIndex[2]);
+                }
+                
+                for(unsigned int i = 0; i < vertexIndices.size(); i++) {
+                    unsigned int vertexIndex = vertexIndices[i];
+                    unsigned int uvIndex     = uvIndices[i];
+                    unsigned int normalIndex = normalIndices[i];
                     
-                    for(unsigned int i = 0; i < vertexIndices.size(); i++) {
-                        unsigned int vertexIndex = vertexIndices[i];
-                        unsigned int uvIndex     = uvIndices[i];
-                        unsigned int normalIndex = normalIndices[i];
-                        
-                        glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
-                        glm::vec2 uv     = temp_uvs[ uvIndex-1 ];
-                        glm::vec3 normal = temp_normals[ normalIndex-1 ];
-                        
-                        out_vertices.push_back(vertex);
-                        out_uvs     .push_back(uv);
-                        out_normals .push_back(normal);
-                    }
+                    glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
+                    glm::vec2 uv     = temp_uvs[ uvIndex-1 ];
+                    glm::vec3 normal = temp_normals[ normalIndex-1 ];
+                    
+                    out_vertices.push_back(vertex);
+                    out_uvs     .push_back(uv);
+                    out_normals .push_back(normal);
                 }
             }
         }
