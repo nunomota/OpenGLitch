@@ -51,7 +51,7 @@ class Loader {
             
             FILE * file = fopen(path, "r");
             if( file == NULL ){
-                printf("Impossible to open the file !\n");
+                Reporter::println("[IO ERROR]", "Impossible to open the file !");
                 return false;
             }
             
@@ -81,7 +81,7 @@ class Loader {
                     unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
                     int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
                     if (matches != 9){
-                        printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+                        Reporter::println("[IO ERROR]", "File can't be read by our simple parser :( Try exporting with other options");
                         return false;
                     }
                     vertexIndices.push_back(vertexIndex[0]);
@@ -94,7 +94,7 @@ class Loader {
                     normalIndices.push_back(normalIndex[1]);
                     normalIndices.push_back(normalIndex[2]);
                 }
-                
+
                 for(unsigned int i = 0; i < vertexIndices.size(); i++) {
                     unsigned int vertexIndex = vertexIndices[i];
                     unsigned int uvIndex     = uvIndices[i];
