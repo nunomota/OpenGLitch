@@ -16,6 +16,7 @@ class Water: public Grid {
         GLuint light_d_id;
         GLuint light_s_id;
         GLuint camera_pos_id;
+        GLuint camera_dir_id;
 
     protected:
         void InitialCalculations() {
@@ -45,6 +46,7 @@ class Water: public Grid {
             light_d_id = glGetUniformLocation(program_id_, "Ld");
             light_s_id = glGetUniformLocation(program_id_, "Ls");
             camera_pos_id = glGetUniformLocation(program_id_, "cameraPosition");
+            camera_dir_id = glGetUniformLocation(program_id_, "cameraDirection");
 
             glUniform3fv(light_dir_id, 1, glm::value_ptr(light->getDirection()));
             glUniform3fv(light_pos_id, 1, glm::value_ptr(light->getTransform()->getPosition()));
@@ -52,6 +54,7 @@ class Water: public Grid {
             glUniform3fv(light_d_id, 1, glm::value_ptr(light->getDiffuseColor()));
             glUniform3fv(light_s_id, 1, glm::value_ptr(light->getSpecularColor()));
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
+            glUniform3fv(camera_dir_id, 1, glm::value_ptr(camera->getTransform()->getForwardVector()));
             // TODO setup time for animation
         }
 
@@ -60,6 +63,7 @@ class Water: public Grid {
             // TODO update time for animation
             //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
+            glUniform3fv(camera_dir_id, 1, glm::value_ptr(camera->getTransform()->getForwardVector()));
         }
     public:
         Water(GLuint mirror_texture_id, GLuint new_refraction_texture_id, Time* new_time, DirectionalLight* new_light, Camera* new_camera) {
