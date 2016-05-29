@@ -36,6 +36,8 @@ copy_files_once(${TEXTURES})
 file(GLOB SHADERS
   Framework/Object3D/PhysicalObject/Cube/cube_vshader.glsl
   Framework/Object3D/PhysicalObject/Cube/cube_fshader.glsl
+  Framework/Object3D/PhysicalObject/CustomObject/custom_object_vshader.glsl
+  Framework/Object3D/PhysicalObject/CustomObject/custom_object_fshader.glsl
   Framework/Object3D/Shaders/plain_vshader.glsl
   Framework/Object3D/Shaders/plain_fshader.glsl
   Framework/Object3D/Shaders/textured_vshader.glsl

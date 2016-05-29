@@ -21,7 +21,7 @@ class WorldInstance: public World {
 
         Controller controller;
 
-        CustomObject* cube;
+        CustomObject* tree;
 
     protected:
 
@@ -56,8 +56,8 @@ class WorldInstance: public World {
             refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
             refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
 
-            cube = instantiate(new CustomObject("Cube.obj"));
-            cube->getTransform()->setPosition(camera->getTransform()->getPosition());
+            tree = instantiate(new CustomObject("palm_tree.obj"));
+            tree->getTransform()->setPosition(camera->getTransform()->getPosition());
         }
 
         // method called every frame
