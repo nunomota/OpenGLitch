@@ -38,6 +38,7 @@ void main() {
     vec3 color2;
     vec3 color3;
     vec3 color12;
+
     //getting the textures
     sand = texture(tex3, uv + displacement_vector).rgb;
     grass = texture(tex4, uv + displacement_vector).rgb;
@@ -47,9 +48,10 @@ void main() {
     //mix all the textures to have the blending
     color1 = mix(sand, grass, height);
     color2 = mix(grass, rock, height);
-    color3= mix(rock, snow, height);
+    color3 = mix(rock, snow, height);
     color12 = mix(color2, color1, height);
     height_color = mix(color12, color3, height);
+
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv + displacement_vector);
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
@@ -76,6 +78,9 @@ void main() {
         underwater_fix = mix(height_color, specularHighlights * (1.0f-gl_FragCoord.z), vec3(0.35));
     }
     */
-    vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
-    color = diffuse.xyz;
+
+    vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
+    vec3 diffuse = Md * nl * Ld;
+    color = (ambience + diffuse).xyz;
+    color = mix(color, height_color + underwater_fix, vec3(0.6f));
 }
