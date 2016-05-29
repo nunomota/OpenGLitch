@@ -44,6 +44,8 @@ class Loader {
                             std::vector < glm::vec3 > & out_vertices,
                             std::vector < glm::vec2 > & out_uvs,
                             std::vector < glm::vec3 > & out_normals) {
+
+            Reporter::println("Loading .obj file", "Loader");
             std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
             std::vector< glm::vec3 > temp_vertices;
             std::vector< glm::vec2 > temp_uvs;
@@ -51,7 +53,7 @@ class Loader {
             
             FILE * file = fopen(path, "r");
             if( file == NULL ){
-                Reporter::println("[IO ERROR]", "Impossible to open the file !");
+                Reporter::println("Impossible to open the file !", "IO ERROR");
                 return false;
             }
             
@@ -81,7 +83,7 @@ class Loader {
                     unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
                     int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
                     if (matches != 9){
-                        Reporter::println("[IO ERROR]", "File can't be read by our simple parser :( Try exporting with other options");
+                        Reporter::println("File can't be read by our simple parser :( Try exporting with other options", "IO ERROR");
                         return false;
                     }
                     vertexIndices.push_back(vertexIndex[0]);

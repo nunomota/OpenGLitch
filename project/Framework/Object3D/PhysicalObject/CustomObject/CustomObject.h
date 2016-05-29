@@ -25,6 +25,9 @@ class CustomObject: public PhysicalObject {
 
     public:
         CustomObject(const char* path) {
-            if (!Loader::loadObj(path, vertices, uvs, normals)) renderer.setState(false);
+            if (!Loader::loadObj(path, vertices, uvs, normals)) {
+                Reporter::println("Could not load OBJ", "CustomObj");
+                renderer.setState(false);
+            }
         }
 };

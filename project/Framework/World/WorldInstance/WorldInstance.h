@@ -21,6 +21,8 @@ class WorldInstance: public World {
 
         Controller controller;
 
+        CustomObject* cube;
+
     protected:
 
         // method called only once
@@ -53,6 +55,8 @@ class WorldInstance: public World {
             refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
             refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
             refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
+
+            cube = instantiate(new CustomObject("Cube.obj"));
         }
 
         // method called every frame
