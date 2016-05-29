@@ -25,11 +25,14 @@ out vec3 color;
 
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
+vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
+
+float tilling  = 3.0f;
+float speed_factor = 1.0f/50.0f;
 
 void main() {
     
     vec3 height_color;
-    vec3 underwater_fix = vec3(0.0f);
     vec3 sand;
     vec3 grass;
     vec3 rock;
@@ -62,11 +65,10 @@ void main() {
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
     
-    /*    
     if(height < 0.0f){   
-        height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
+        height_color = vec3(0.9f, 0.9f, 0.0f);
 
-        vec4 normalMapColor = texture(tex2, uv + displacement_vector + time/200.0f);
+        vec4 normalMapColor = texture(tex2, uv*tilling + displacement_vector + time*speed_factor);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
 
@@ -75,12 +77,12 @@ void main() {
         specular = pow(specular, shineDumper);
         vec3 specularHighlights = Ls * specular * reflectivity;
 
-        underwater_fix = mix(height_color, specularHighlights * (1.0f-gl_FragCoord.z), vec3(0.35));
+        color = mix(height_color, specularHighlights, 0.5f);
+        color = mix(color, water_color, gl_FragCoord.z/gl_FragCoord.w);
+    } else {
+        vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
+        vec3 diffuse = Md * nl * Ld;
+        color = (ambience + diffuse).xyz;
+        color = mix(color, height_color, vec3(0.6f));
     }
-    */
-
-    vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
-    vec3 diffuse = Md * nl * Ld;
-    color = (ambience + diffuse).xyz;
-    color = mix(color, height_color + underwater_fix, vec3(0.6f));
 }
