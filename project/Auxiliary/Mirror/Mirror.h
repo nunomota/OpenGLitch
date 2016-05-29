@@ -7,6 +7,8 @@ class Mirror {
         Camera* target_camera;
         Camera* mirror_camera;
 
+        vec3 prev_camera_position;
+
         void mirrorTargetTransform() {
             Transform* mirror_camera_transform = mirror_camera->getTransform();
 
@@ -29,10 +31,17 @@ class Mirror {
 
         void update() {
             mirrorTargetTransform();
+            vec3 cur_camera_position = target_camera->getTransform()->getPosition();
+            if ((cur_camera_position.y < 0.0f && prev_camera_position.y >= 0.0f) ||
+                (cur_camera_position.y >= 0.0f && prev_camera_position.y < 0.0f)) {
+                mirror_camera->enableClipping(-1.0f * mirror_camera->getClipPlane());
+            }
+            prev_camera_position = cur_camera_position;
         }
 
         void setTargetCamera(Camera* new_target_camera) {
             target_camera = new_target_camera;
+            prev_camera_position = target_camera->getTransform()->getPosition();
         }
 
         void setMirrorCamera(Camera* new_mirror_camera) {

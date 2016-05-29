@@ -41,7 +41,7 @@ class Terrain: public Grid {
 
             glm::vec2 new_world_coords = world_coords + glm::vec2(terrain_width/2.0f, terrain_height/2.0f);
             glm::vec2 tex_coords = glm::vec2(wrapValue(new_world_coords.x, terrain_width) / terrain_width, 1.0f - wrapValue(new_world_coords.y, terrain_height) / terrain_height);
-            cout << "[W] " << glmStrings.create(glm::vec3(world_coords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(tex_coords, 0.0f)) << endl;
+            //cout << "[W] " << glmStrings.create(glm::vec3(world_coords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(tex_coords, 0.0f)) << endl;
 
             return tex_coords;
         }
@@ -102,7 +102,7 @@ class Terrain: public Grid {
             int pixel_coord_x = texCoords.x * height_map_width;
             int pixel_coord_y = texCoords.y * height_map_height;
             int index = (pixel_coord_x + pixel_coord_y*height_map_width)*height_map_colors;
-            cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
+            //cout << "[P] " << glmStrings.create(glm::vec3(pixel_coord_x, pixel_coord_y, 0.0f)) << " [I] " << index << " [H] " << height_map_heights[index] << endl;
             return height_map_heights[index]*2.0f - 1.0f;
         }
 };
