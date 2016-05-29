@@ -131,6 +131,7 @@ class PhysicalObject: public Object3D {
             glUseProgram(0);
             glDeleteBuffers(1, &vertex_buffer_object_position_);
             glDeleteBuffers(1, &vertex_buffer_object_index_);
+            glDeleteBuffers(1, &vertex_buffer_object_uv_);
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
             // TODO turn boolean value into boolean vector
