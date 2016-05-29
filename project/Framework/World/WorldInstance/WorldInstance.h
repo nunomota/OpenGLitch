@@ -21,6 +21,8 @@ class WorldInstance: public World {
 
         Controller controller;
 
+        bool free_camera = false;
+
     protected:
 
         // method called only once
@@ -61,7 +63,7 @@ class WorldInstance: public World {
             mirror.update();
             refraction.update();
             minimap.update();
-            controller.update();
+            if (!free_camera) controller.update();
 
             vec3 camera_position = camera->getTransform()->getPosition();
             terrain->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
@@ -103,29 +105,56 @@ class WorldInstance: public World {
         }
 
         void move() {
-            // pitch up/down
-            if (getKeyDown(Keyboard::Q)) {
-                controller.translate(vec3(0.0f, 1.0f, 0.0f), true);
-            } else if (getKeyDown(Keyboard::E)) {
-                controller.translate(vec3(0.0f, -1.0f, 0.0f), true);
+            if (!free_camera) {
+                // pitch up/down
+                if (getKeyDown(Keyboard::Q)) {
+                    controller.translate(vec3(0.0f, 1.0f, 0.0f), true);
+                } else if (getKeyDown(Keyboard::E)) {
+                    controller.translate(vec3(0.0f, -1.0f, 0.0f), true);
+                } else {
+                    controller.translate(vec3(0.0f, 1.0f, 0.0f), false);
+                }
+
+                // sideways camera turn
+                if (getKeyDown(Keyboard::D)) {
+                    getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+                } else if (getKeyDown(Keyboard::A)) {
+                    getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
+                }
+
+                // front/back camera movement
+                if (getKeyDown(Keyboard::W)) {
+                    controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+                } else if (getKeyDown(Keyboard::S)) {
+                    controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
+                } else {
+                    controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
+                }
             } else {
-                controller.translate(vec3(0.0f, 1.0f, 0.0f), false);
+                // upwards camera turn
+                if (getKeyDown(Keyboard::W)) {
+                    getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+                } else if (getKeyDown(Keyboard::S)) {
+                    getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+                }
+
+                // sideways camera turn
+                if (getKeyDown(Keyboard::D)) {
+                    getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
+                } else if (getKeyDown(Keyboard::A)) {
+                    getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
+                }
+
+                // front/back camera movement
+                if (getKeyDown(Keyboard::P)) {
+                    camera->translate(camera->getTransform()->getForwardVector() * getTime()->getDeltaTime());
+                } else if (getKeyDown(Keyboard::L)) {
+                    camera->translate(-camera->getTransform()->getForwardVector() * getTime()->getDeltaTime());
+                }
             }
 
-            // sideways camera turn
-            if (getKeyDown(Keyboard::D)) {
-                getCamera()->rotate(vec3(0.0f, -90.0f, 0.0f) * getTime()->getDeltaTime());
-            } else if (getKeyDown(Keyboard::A)) {
-                getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
-            }
-
-            // front/back camera movement
-            if (getKeyDown(Keyboard::W)) {
-                controller.translate(getCamera()->getTransform()->getForwardVector(), true);
-            } else if (getKeyDown(Keyboard::S)) {
-                controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
-            } else {
-                controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
+            if (getKeyPressed(Keyboard::B)) {
+                free_camera = !free_camera;
             }
         }
 };

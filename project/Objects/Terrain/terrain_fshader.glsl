@@ -59,7 +59,8 @@ void main() {
     //Now we do the difuse shading
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
-        
+    
+    /*    
     if(height < 0.0f){   
         height_color = vec3(0.9f, 0.9f, 0.0f) * pow((1.0f-gl_FragCoord.z), 0.8f);
 
@@ -74,6 +75,7 @@ void main() {
 
         underwater_fix = mix(height_color, specularHighlights * (1.0f-gl_FragCoord.z), vec3(0.35));
     }
+    */
     vec3 diffuse = Md * nl * Ld * height_color + underwater_fix;
     color = diffuse.xyz;
 }
