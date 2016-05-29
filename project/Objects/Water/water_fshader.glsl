@@ -42,15 +42,19 @@ void main() {
     vec2 reflectTexCoords = vec2(_u, 1.0f-_v) + distortion;
     vec2 refractTexCoords = vec2(_u, _v) + distortion;
 
-    // specular calculation
-    vec3 reflectedLight = reflect(normalize(pos_3d.xyz - lightPosition), normal);
-    float specular = max(dot(reflectedLight, normalize(pos_3d.xyz - cameraPosition)), 0.0f);
-    specular = pow(specular, shineDumper);
-    vec3 specularHighlights = Ls * specular * reflectivity;
+    if (cameraPosition.y >= 0.0f) {
+        // specular calculation
+        vec3 reflectedLight = reflect(normalize(pos_3d.xyz - lightPosition), normal);
+        float specular = max(dot(reflectedLight, normalize(pos_3d.xyz - cameraPosition)), 0.0f);
+        specular = pow(specular, shineDumper);
+        vec3 specularHighlights = Ls * specular * reflectivity;
 
-    float refractive_factor = dot(normalize(-cameraDirection), vec3(0.0f, 1.0f, 0.0f));
-    //refractive_factor = pow(refractive_factor, 2.0f);
-    color = mix(texture(tex1, reflectTexCoords).rgb, texture(tex3, refractTexCoords).rgb, refractive_factor);
-    
-    color = mix(color, water_color, vec3(0.15)) + specularHighlights;
+        float refractive_factor = dot(normalize(-cameraDirection), vec3(0.0f, 1.0f, 0.0f));
+        //refractive_factor = pow(refractive_factor, 2.0f);
+        color = mix(texture(tex1, reflectTexCoords).rgb, texture(tex3, refractTexCoords).rgb, refractive_factor);
+        
+        color = mix(color, water_color, vec3(0.15)) + specularHighlights;
+    } else {
+        color = mix(texture(tex3, refractTexCoords).rgb, water_color, vec3(0.15));     
+    }
 }
