@@ -23,11 +23,18 @@ class CustomObject: public PhysicalObject {
             glGenBuffers(1, &vertex_buffer_object_position_);
             glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object_position_);
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+        }
 
-            // setup uvs as well
+        void SetupUVs() {
             glGenBuffers(1, &vertex_buffer_object_uv_);
             glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object_uv_);
             glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+        }
+
+        void setupNormals() {
+            glGenBuffers(1, &vertex_buffer_object_normal_);
+            glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object_normal_);
+            glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
         }
 
         void SetupIndexBuffer() {
