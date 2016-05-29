@@ -21,8 +21,6 @@ class WorldInstance: public World {
 
         Controller controller;
 
-        CustomObject* tree;
-
     protected:
 
         // method called only once
@@ -55,10 +53,6 @@ class WorldInstance: public World {
             refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
             refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
             refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
-
-            tree = instantiate(new CustomObject("palm_tree.obj", "palm_tree.png"));
-            tree->scale(vec3(-0.99f, -0.99f, -0.99f));
-            tree->getTransform()->setPosition(camera->getTransform()->getPosition());
         }
 
         // method called every frame
