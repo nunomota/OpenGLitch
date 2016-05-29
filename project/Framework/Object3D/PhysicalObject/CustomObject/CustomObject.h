@@ -8,6 +8,8 @@ class CustomObject: public PhysicalObject {
 
         std::vector<GLuint> indices;
 
+        GLuint texture_id;
+
     protected:
         void InitialCalculations() {
             setDrawMode(0);
@@ -47,12 +49,11 @@ class CustomObject: public PhysicalObject {
         }
 
         void SetupUniforms() {
-            // TODO setup normals uniform
-            // TODO setup uvs uniform
+            addTexture(texture_id);
         }
 
     public:
-        CustomObject(const char* path) {
+        CustomObject(const char* path, string texture) {
             if (Loader::loadObj(path, vertices, uvs, normals)) {
                 GlmStrings glmStrings;
                 for (int i = 0; i < vertices.size(); i++) {
@@ -62,5 +63,6 @@ class CustomObject: public PhysicalObject {
                 Reporter::println("Could not load OBJ", "CustomObj");
                 //renderer.setState(false);
             }
+            texture_id = Loader::loadTexture(texture);
         }
 };

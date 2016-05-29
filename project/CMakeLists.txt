@@ -27,7 +27,8 @@ file(GLOB TEXTURES
     Resources/Textures/snow.jpg
     Resources/Textures/minimap.png
     Resources/Objects/Cube.obj
-    Resources/Objects/palm_tree.obj)
+    Resources/Objects/palm_tree.obj
+    Resources/Textures/palm_tree.png)
 
 copy_files_once(${TEXTURES})
 
