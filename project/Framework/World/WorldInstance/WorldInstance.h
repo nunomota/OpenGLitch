@@ -57,6 +57,7 @@ class WorldInstance: public World {
             refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
 
             cube = instantiate(new CustomObject("Cube.obj"));
+            cube->getTransform()->setPosition(camera->getTransform()->getPosition());
         }
 
         // method called every frame
