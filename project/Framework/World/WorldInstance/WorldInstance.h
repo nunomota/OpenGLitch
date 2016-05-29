@@ -57,7 +57,7 @@ class WorldInstance: public World {
             refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
 
             tree = instantiate(new CustomObject("palm_tree.obj", "palm_tree.png"));
-            tree->scale(vec3(-0.9f, -0.9f, -0.9f));
+            tree->scale(vec3(-0.99f, -0.99f, -0.99f));
             tree->getTransform()->setPosition(camera->getTransform()->getPosition());
         }
 
