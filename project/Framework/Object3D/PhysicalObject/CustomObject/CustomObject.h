@@ -34,6 +34,11 @@ class CustomObject: public PhysicalObject {
                          &indices[0], GL_STATIC_DRAW);
         }
 
+        void SetupUniforms() {
+            // TODO setup normals uniform
+            // TODO setup uvs uniform
+        }
+
     public:
         CustomObject(const char* path) {
             if (Loader::loadObj(path, vertices, uvs, normals)) {
