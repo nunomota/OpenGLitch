@@ -65,9 +65,7 @@ void main() {
     float temp;
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
     
-    if(height < 0.0f){   
-        height_color = vec3(0.9f, 0.9f, 0.0f);
-
+    if(height < 0.0f || cameraPosition.y < 0.0f){   
         vec4 normalMapColor = texture(tex2, uv*tilling + displacement_vector + time*speed_factor);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
@@ -77,7 +75,11 @@ void main() {
         specular = pow(specular, shineDumper);
         vec3 specularHighlights = Ls * specular * reflectivity;
 
-        color = mix(height_color, specularHighlights, 0.5f);
+        if (height < 0.0f) {
+            color = mix(height_color, specularHighlights, 0.5f);
+        } else {
+            color = height_color;
+        }
         color = mix(color, water_color, gl_FragCoord.z/gl_FragCoord.w);
     } else {
         vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
