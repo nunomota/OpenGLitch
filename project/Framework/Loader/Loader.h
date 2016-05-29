@@ -39,4 +39,8 @@ class Loader {
 
             return texture_id;
         }
+
+        static bool loadObj(string filename) {
+            return false;
+        }
 };
