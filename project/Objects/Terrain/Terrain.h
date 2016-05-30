@@ -39,7 +39,7 @@ class Terrain: public Grid {
             float terrain_width  = terrain_scale_2d.x;
             float terrain_height = terrain_scale_2d.y;
 
-            glm::vec2 new_world_coords = glm::vec2(world_coords.x * terrain_scale_3d.x, world_coords.y * terrain_scale_3d.y) + glm::vec2(terrain_width/2.0f, terrain_height/2.0f);
+            glm::vec2 new_world_coords = glm::vec2(world_coords.x * terrain_scale_3d.x, world_coords.y * terrain_scale_3d.z) + glm::vec2(terrain_width/2.0f, terrain_height/2.0f);
             glm::vec2 tex_coords = glm::vec2(wrapValue(new_world_coords.x, terrain_width) / terrain_width, 1.0f - wrapValue(new_world_coords.y, terrain_height) / terrain_height);
             //cout << "[W] " << glmStrings.create(glm::vec3(world_coords, 0.0f)) << " [L] " << glmStrings.create(glm::vec3(tex_coords, 0.0f)) << endl;
 
