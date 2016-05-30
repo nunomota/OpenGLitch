@@ -108,6 +108,7 @@ void main() {
         vec3 specularHighlights = Ls * specular * reflectivity;
 
         if (height < 0.0f) {
+            height_color = sand;
             color = mix(height_color, specularHighlights, 0.5f);
         } else {
             color = height_color;
