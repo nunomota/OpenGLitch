@@ -28,7 +28,7 @@ float reflectivity = 0.6;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 
 float tilling  = 3.0f;
-float speed_factor = 1.0f/50.0f;
+float speed_factor = 1.0f/150.0f;
 
 float terrain_tilling = 6.0f;
 
