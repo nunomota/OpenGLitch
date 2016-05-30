@@ -45,6 +45,8 @@ class WorldInstance: public World {
             setupMinimap();
 
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
+            terrain->scale(vec3(2.0f, 0.0f, 2.0f));
+            water->scale(vec3(2.0f, 0.0f, 2.0f));
 
             reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));

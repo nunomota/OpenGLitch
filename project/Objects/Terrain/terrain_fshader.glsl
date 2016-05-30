@@ -25,7 +25,7 @@ out vec3 color;
 
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
-vec3 water_color = vec3(0.0f, 0.6f, 0.5f);
+vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 
 float tilling  = 3.0f;
 float speed_factor = 1.0f/50.0f;
@@ -113,7 +113,7 @@ void main() {
         } else {
             color = height_color;
         }
-        color = mix(color, water_color, gl_FragCoord.z/gl_FragCoord.w);
+        color = mix(color, water_color, clamp(gl_FragCoord.z/gl_FragCoord.w, 0.001f, 0.999f));
     } else {
         vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
         vec3 diffuse = Md * nl * Ld;
