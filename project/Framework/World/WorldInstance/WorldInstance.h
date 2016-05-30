@@ -122,10 +122,16 @@ class WorldInstance: public World {
                     getCamera()->rotate(vec3(0.0f, 90.0f, 0.0f) * getTime()->getDeltaTime());
                 }
 
-                // front/back camera movement
                 if (getKeyDown(Keyboard::W)) {
-                    controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+                    getCamera()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
                 } else if (getKeyDown(Keyboard::S)) {
+                    getCamera()->rotate(vec3(90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+                }
+
+                // front/back camera movement
+                if (getKeyDown(Keyboard::P)) {
+                    controller.translate(getCamera()->getTransform()->getForwardVector(), true);
+                } else if (getKeyDown(Keyboard::L)) {
                     controller.translate(-getCamera()->getTransform()->getForwardVector(), true);
                 } else {
                     controller.translate(getCamera()->getTransform()->getForwardVector(), false);   
