@@ -8,9 +8,10 @@ class Camera: public EmptyObject {
     private:
         static const int default_width = 600;
 
-        const float default_fovy = 45.0f;
-        const float default_aspect = 1.0f;
-        const float default_far_distance = 10.0f;
+        static const float default_fovy;
+        static const float default_aspect;
+        static const float default_near_distance;
+        static const float default_far_distance;
 
         float fovy_;
         float aspect_;
@@ -55,7 +56,7 @@ class Camera: public EmptyObject {
         }
 
     public:
-        Camera(float fovy = 45.0f, float aspect = 1.0f, float near = 0.1f, float far = 100.0f) {
+        Camera(float fovy = default_fovy, float aspect = default_aspect, float near = default_near_distance, float far = default_far_distance) {
             fovy_ = (fovy > 0)? fovy : default_fovy;
             aspect_ = (aspect > 0)? aspect : default_aspect;
             near_ = near;
@@ -143,3 +144,7 @@ class Camera: public EmptyObject {
             framebuffer.Cleanup();
         }
 };
+const float Camera::default_fovy          = 45.0f;
+const float Camera::default_aspect        = 1.0f;
+const float Camera::default_near_distance = 0.01f;
+const float Camera::default_far_distance  = 100.0f;

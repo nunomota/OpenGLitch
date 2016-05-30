@@ -27,7 +27,10 @@ file(GLOB TEXTURES
     Resources/Textures/rock2.jpg
     Resources/Textures/rock3.jpg
     Resources/Textures/snow.jpg
-    Resources/Textures/minimap.png)
+    Resources/Textures/minimap.png
+    Resources/Objects/Cube.obj
+    Resources/Objects/palm_tree.obj
+    Resources/Textures/palm_tree.png)
 
 copy_files_once(${TEXTURES})
 
@@ -36,6 +39,8 @@ copy_files_once(${TEXTURES})
 file(GLOB SHADERS
   Framework/Object3D/PhysicalObject/Cube/cube_vshader.glsl
   Framework/Object3D/PhysicalObject/Cube/cube_fshader.glsl
+  Framework/Object3D/PhysicalObject/CustomObject/custom_object_vshader.glsl
+  Framework/Object3D/PhysicalObject/CustomObject/custom_object_fshader.glsl
   Framework/Object3D/Shaders/plain_vshader.glsl
   Framework/Object3D/Shaders/plain_fshader.glsl
   Framework/Object3D/Shaders/textured_vshader.glsl

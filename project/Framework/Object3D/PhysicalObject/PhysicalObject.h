@@ -10,6 +10,8 @@ class PhysicalObject: public Object3D {
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
         virtual void LoadShaders() {};            // Called once, to compile the object's shaders
         virtual void SetupVertices() {};          // Called once, to setup the mesh's vertices
+        virtual void SetupUVs() {};
+        virtual void SetupNormals() {};
         virtual void SetupIndexBuffer() {};       // Called once, to setup the vertices' indices
         virtual void SetupUniforms() {};          // Called once, to setup new uniforms for the shader
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
@@ -73,6 +75,20 @@ class PhysicalObject: public Object3D {
             glVertexAttribPointer(loc_position, 3, GL_FLOAT, DONT_NORMALIZE,
                                   ZERO_STRIDE, ZERO_BUFFER_OFFSET);
 
+            // v_uv shader attribute
+            SetupUVs();
+            loc_position = glGetAttribLocation(program_id_, "v_uv");
+            glEnableVertexAttribArray(loc_position); // Enable it
+            glVertexAttribPointer(loc_position, 2, GL_FLOAT, DONT_NORMALIZE,
+                                  ZERO_STRIDE, ZERO_BUFFER_OFFSET);            
+
+            // v_normal shader attribute
+            SetupNormals();
+            loc_position = glGetAttribLocation(program_id_, "v_normal");
+            glEnableVertexAttribArray(loc_position); // Enable it
+            glVertexAttribPointer(loc_position, 2, GL_FLOAT, DONT_NORMALIZE,
+                                  ZERO_STRIDE, ZERO_BUFFER_OFFSET);         
+
             // call to sub-class' method to setup the index buffer correctly
             SetupIndexBuffer();
 
@@ -131,6 +147,7 @@ class PhysicalObject: public Object3D {
             glUseProgram(0);
             glDeleteBuffers(1, &vertex_buffer_object_position_);
             glDeleteBuffers(1, &vertex_buffer_object_index_);
+            glDeleteBuffers(1, &vertex_buffer_object_uv_);
             glDeleteProgram(program_id_);
             glDeleteVertexArrays(1, &vertex_array_id_);
             // TODO turn boolean value into boolean vector
