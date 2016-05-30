@@ -81,10 +81,10 @@ void main() {
     vec3 color12;
 
     //getting the textures
-    sand = texture(tex3, uv*terrain_tilling + displacement_vector).rgb;
-    grass = texture(tex4, uv*terrain_tilling + displacement_vector).rgb;
-    rock = texture(tex5, uv*terrain_tilling + displacement_vector).rgb;
-    snow = texture(tex6, uv*terrain_tilling + displacement_vector).rgb;
+    sand = texture(tex3, (uv + displacement_vector) *terrain_tilling).rgb;
+    grass = texture(tex4, (uv + displacement_vector) *terrain_tilling).rgb;
+    rock = texture(tex5, (uv + displacement_vector) *terrain_tilling).rgb;
+    snow = texture(tex6, (uv + displacement_vector) *terrain_tilling).rgb;
     
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv + displacement_vector);

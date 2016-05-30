@@ -29,13 +29,11 @@ vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 
 void main() {
 
-    vec2 uv_tilled = uv * tilling;
-
     float _u = ((pos_3d.x/pos_3d.w + 1.0f)/2.0f);
     float _v = ((pos_3d.y/pos_3d.w + 1.0f)/2.0f);
 
-    vec2 distortion = (texture(tex0, uv_tilled + displacement_vector + time*speed_factor).rg * 2.0f - 1.0f) * waveStrength;
-    vec4 normalMapColor = texture(tex2, uv_tilled + displacement_vector + time*speed_factor);
+    vec2 distortion = (texture(tex0, (uv + displacement_vector + time*speed_factor)*tilling).rg * 2.0f - 1.0f) * waveStrength;
+    vec4 normalMapColor = texture(tex2, (uv + displacement_vector + time*speed_factor)*tilling);
     vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
     normal = normalize(normal);
 
