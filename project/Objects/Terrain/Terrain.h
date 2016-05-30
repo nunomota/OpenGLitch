@@ -58,7 +58,7 @@ class Terrain: public Grid {
             addTexture(height_map_id_);
             addTexture(Loader::loadTexture("perlinNormal.png"));
             addTexture(Loader::loadTexture("waterNormal.png"));
-            addTexture(Loader::loadTexture("sand2.jpg"));
+            addTexture(Loader::loadTexture("sand.jpg"));
             addTexture(Loader::loadTexture("grass3.jpg"));
             addTexture(Loader::loadTexture("rock.jpg"));
             addTexture(Loader::loadTexture("snow.jpg"));

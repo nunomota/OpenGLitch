@@ -30,6 +30,42 @@ vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 float tilling  = 3.0f;
 float speed_factor = 1.0f/50.0f;
 
+vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
+    float a1 = 0.0f;
+    float a2 = 0.0f;
+    float a3 = 0.0f;
+    float a4 = 0.0f;
+    float temp_height = 0.0f; // norm height
+    
+    float interval = 0.0f;
+    float d_height = time/50;
+    float d_height2 = time/100 + 0.2f;
+    
+    if(height >= 0.10f && height < 0.40f){
+        //grass
+        //first
+        temp_height = height-0.1f;
+        //interval
+        a2 = exp(1.0f-(temp_height/0.30f))-1;
+        a3 = exp(temp_height/0.30f)-1;
+
+    }else if(height > 0.40f && height <= 0.6f){
+        //rock
+        temp_height = height-0.40f;
+        a3 = exp(1.0f - (temp_height/0.20f))-1;
+        a4 = exp(temp_height/0.20f)-1;
+    } else if(height > 0.6f){
+        //snow
+        a4 = exp(1.0f)-1;
+
+    }else{
+        //sand
+        a1 = exp(1.0f - (height/0.1f))-1;
+        a2 = exp(height/0.1f)-1;
+    }
+    return sand.rgb * a1 + grass.rgb * a2 + rock.rgb * a3 + snow.rgb * a4;
+}
+
 void main() {
     
     vec3 height_color;
@@ -48,15 +84,11 @@ void main() {
     rock = texture(tex5, uv + displacement_vector).rgb;
     snow = texture(tex6, uv + displacement_vector).rgb;
     
-    //mix all the textures to have the blending
-    color1 = mix(sand, grass, height);
-    color2 = mix(grass, rock, height);
-    color3 = mix(rock, snow, height);
-    color12 = mix(color2, color1, height);
-    height_color = mix(color12, color3, height);
-
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv + displacement_vector);
+    
+    height_color = BLEND(sand,grass,rock,snow);    // normal caculation according to normalmap
+    
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
 
     vec3 l = normalize(lightDirection);
@@ -76,6 +108,7 @@ void main() {
         vec3 specularHighlights = Ls * specular * reflectivity;
 
         if (height < 0.0f) {
+            height_color = sand;
             color = mix(height_color, specularHighlights, 0.5f);
         } else {
             color = height_color;
