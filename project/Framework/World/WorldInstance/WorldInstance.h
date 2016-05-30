@@ -7,6 +7,7 @@ using namespace glm;
 class WorldInstance: public World {
     private:
         Camera* camera;
+        float camera_speed = 0.5f;
 
         Mirror mirror;
         Mirror refraction;
@@ -77,6 +78,7 @@ class WorldInstance: public World {
             controller.setTarget(camera->getTransform());
             controller.setTime(getTime());
             controller.setTerrain(terrain);
+            controller.setVelocity(camera_speed);
         }
 
         void setupMirror() {
@@ -155,9 +157,9 @@ class WorldInstance: public World {
 
                 // front/back camera movement
                 if (getKeyDown(Keyboard::P)) {
-                    camera->translate(camera->getTransform()->getForwardVector() * getTime()->getDeltaTime());
+                    camera->translate(camera->getTransform()->getForwardVector() * camera_speed * getTime()->getDeltaTime());
                 } else if (getKeyDown(Keyboard::L)) {
-                    camera->translate(-camera->getTransform()->getForwardVector() * getTime()->getDeltaTime());
+                    camera->translate(-camera->getTransform()->getForwardVector() * camera_speed * getTime()->getDeltaTime());
                 }
             }
 
