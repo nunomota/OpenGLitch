@@ -164,6 +164,12 @@ class WorldInstance: public World {
                 } else if (getKeyDown(Keyboard::L)) {
                     camera->translate(-camera->getTransform()->getForwardVector() * camera_speed * getTime()->getDeltaTime());
                 }
+
+                if (getKeyDown(Keyboard::O)) {
+                    camera->translate(vec3(0.0f, 1.0f, 0.0f) * camera_speed * getTime()->getDeltaTime());
+                } else if (getKeyDown(Keyboard::K)) {
+                    camera->translate(vec3(0.0f, -1.0f, 0.0f) * camera_speed * getTime()->getDeltaTime());
+                }
             }
 
             if (getKeyPressed(Keyboard::B)) {
