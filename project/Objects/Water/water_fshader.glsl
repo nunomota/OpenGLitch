@@ -55,6 +55,6 @@ void main() {
         
         color = mix(color, water_color, vec3(0.15)) + specularHighlights;
     } else {
-        color = mix(texture(tex3, refractTexCoords).rgb, water_color, vec3(0.15));     
+        color = mix(texture(tex3, refractTexCoords).rgb, water_color, pow(clamp(gl_FragCoord.z/gl_FragCoord.w, 0.001f, 0.999f), 3.0f));     
     }
 }

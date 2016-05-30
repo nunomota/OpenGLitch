@@ -113,7 +113,7 @@ void main() {
         } else {
             color = height_color;
         }
-        color = mix(color, water_color, clamp(gl_FragCoord.z/gl_FragCoord.w, 0.001f, 0.999f));
+        color = mix(color, water_color, pow(clamp(gl_FragCoord.z/gl_FragCoord.w, 0.001f, 0.999f), 3.0f));
     } else {
         vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
         vec3 diffuse = Md * nl * Ld;
