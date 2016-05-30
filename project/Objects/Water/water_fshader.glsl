@@ -25,7 +25,7 @@ float reflectivity = 0.2f;
 
 float tilling  = 3.0f;
 float speed_factor = 1.0f/50.0f;
-vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
+vec3 water_color = vec3(0.0f, 0.6f, 0.5f);
 
 void main() {
 
