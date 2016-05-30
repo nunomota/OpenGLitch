@@ -17,8 +17,8 @@ class WorldInstance: public World {
         Water* water;
         Sky* sky;
 
-        LiveViewer* reflection_texture;
-        LiveViewer* refraction_texture;
+        //LiveViewer* reflection_texture;
+        //LiveViewer* refraction_texture;
 
         Controller controller;
 
@@ -49,15 +49,15 @@ class WorldInstance: public World {
             terrain->scale(vec3(2.0f, 0.0f, 2.0f));
             water->scale(vec3(2.0f, 0.0f, 2.0f));
 
-            reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
-            reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
-            reflection_texture->translate(vec3(0.75f, 0.75f, 0.0f));
-            reflection_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
+            //reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
+            //reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
+            //reflection_texture->translate(vec3(0.75f, 0.75f, 0.0f));
+            //reflection_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
 
-            refraction_texture = instantiate2D(new LiveViewer(refraction.getMirrorTextureID()));
-            refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
-            refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
-            refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
+            //refraction_texture = instantiate2D(new LiveViewer(refraction.getMirrorTextureID()));
+            //refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
+            //refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
+            //refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
         }
 
         // method called every frame
