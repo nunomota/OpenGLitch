@@ -17,8 +17,8 @@ class Terrain: public Grid {
         GLuint light_s_id;
         GLuint camera_pos_id;
 
-        static const int height_map_width = 500;
-        static const int height_map_height = 500;
+        static const int height_map_width = 512;
+        static const int height_map_height = 512;
         static const int height_map_colors = 3;
         GLfloat height_map_heights[height_map_width * height_map_height * height_map_colors];
 
