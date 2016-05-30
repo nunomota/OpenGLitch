@@ -23,8 +23,8 @@ float waveStrength = 0.03f;
 float shineDumper = 4.0f;
 float reflectivity = 0.2f;
 
-float tilling  = 3.0f;
-float speed_factor = 1.0f/150.0f;
+float tilling  = 6.0f;
+float speed_factor = 1.0f/300.0f;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 
 void main() {
