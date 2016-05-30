@@ -82,6 +82,9 @@ class Terrain: public Grid {
 
         void UpdateUniforms() {
             glUniform1f(time_id, time->getCurrentTime());
+            light_a_id = glGetUniformLocation(program_id_, "La");
+            light_d_id = glGetUniformLocation(program_id_, "Ld");
+            light_s_id = glGetUniformLocation(program_id_, "Ls");
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
         }
 

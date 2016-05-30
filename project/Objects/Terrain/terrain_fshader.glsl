@@ -30,6 +30,8 @@ vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 float tilling  = 3.0f;
 float speed_factor = 1.0f/50.0f;
 
+float terrain_tilling = 6.0f;
+
 vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
     float a1 = 0.0f;
     float a2 = 0.0f;
@@ -79,10 +81,10 @@ void main() {
     vec3 color12;
 
     //getting the textures
-    sand = texture(tex3, uv + displacement_vector).rgb;
-    grass = texture(tex4, uv + displacement_vector).rgb;
-    rock = texture(tex5, uv + displacement_vector).rgb;
-    snow = texture(tex6, uv + displacement_vector).rgb;
+    sand = texture(tex3, uv*terrain_tilling + displacement_vector).rgb;
+    grass = texture(tex4, uv*terrain_tilling + displacement_vector).rgb;
+    rock = texture(tex5, uv*terrain_tilling + displacement_vector).rgb;
+    snow = texture(tex6, uv*terrain_tilling + displacement_vector).rgb;
     
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, uv + displacement_vector);

@@ -62,6 +62,10 @@ class Water: public Grid {
             glUniform1f(time_id, time->getCurrentTime());
             // TODO update time for animation
             //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glUniform3fv(light_dir_id, 1, glm::value_ptr(light->getDirection()));
+            light_a_id = glGetUniformLocation(program_id_, "La");
+            light_d_id = glGetUniformLocation(program_id_, "Ld");
+            light_s_id = glGetUniformLocation(program_id_, "Ls");
             glUniform3fv(camera_pos_id, 1, glm::value_ptr(camera->getTransform()->getPosition()));
             glUniform3fv(camera_dir_id, 1, glm::value_ptr(camera->getTransform()->getForwardVector()));
         }

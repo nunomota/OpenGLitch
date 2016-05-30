@@ -13,7 +13,7 @@ uniform vec4 CLIP_PLANE;
 out vec2 displacement_vector;
 
 void main() {
-    uv = (vec2(position.x, -position.z) + vec2(1.0, 1.0)) * 0.5;
+    uv = (vec2(position.x, -position.z) + vec2(2.0, 2.0)) * 0.25;
     displacement_vector = vec2(cameraPosition.x, -cameraPosition.z);
     height = texture(tex0, uv + displacement_vector).x * 2.0f - 1.0f;
     

@@ -46,8 +46,8 @@ class WorldInstance: public World {
             setupMinimap();
 
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
-            terrain->scale(vec3(2.0f, 0.0f, 2.0f));
-            water->scale(vec3(2.0f, 0.0f, 2.0f));
+            terrain->scale(terrain->getTransform()->getScale() * vec3(2.0f, 0.0f, 2.0f));
+            water->scale(water->getTransform()->getScale() * vec3(2.0f, 0.0f, 2.0f));
 
             //reflection_texture = instantiate2D(new LiveViewer(mirror.getMirrorTextureID()));
             //reflection_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
@@ -72,6 +72,9 @@ class WorldInstance: public World {
             terrain->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
             water->getTransform()->setPosition(vec3(camera_position.x, 0.0f, camera_position.z));
             sky->getTransform()->setPosition(camera_position);
+
+            //getLight()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
+            //getLight()->setColor(vec3(cos(getLight()->getTransform()->getRotation().x), 0.0f, 0.0f));
         }
 
         void setupController() {
