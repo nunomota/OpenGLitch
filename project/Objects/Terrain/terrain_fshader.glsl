@@ -87,7 +87,7 @@ void main() {
     snow = texture(tex6, (uv + displacement_vector) *terrain_tilling).rgb;
     
     // normal caculation according to normalmap
-    vec4 normalMapColor = texture(tex1, uv + displacement_vector);
+    vec4 normalMapColor = texture(tex1, (uv + displacement_vector)*tilling);
     
     height_color = BLEND(sand,grass,rock,snow);    // normal caculation according to normalmap
     
@@ -100,7 +100,7 @@ void main() {
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
     
     if(height < 0.0f || cameraPosition.y < 0.0f){   
-        vec4 normalMapColor = texture(tex2, uv*tilling + displacement_vector + time*speed_factor);
+        vec4 normalMapColor = texture(tex2, (uv + displacement_vector + time*speed_factor)*tilling);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
 
