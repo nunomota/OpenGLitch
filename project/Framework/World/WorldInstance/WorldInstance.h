@@ -71,8 +71,8 @@ class WorldInstance: public World {
             }
 
             //light->translate(vec3(0.0f,0.0f,-0.2f) * getTime()->getDeltaTime());
-            vec3 ligth_position = light->getTransform()->getPosition();
-            light->getTransform()->setPosition(vec3(ligth_position.x, ligth_position.y + 0.0001f/*cos(ligth_position.z * 5.0f) * 0.05f*/, ligth_position.z - 0.0001f));
+            vec3 light_position = light->getTransform()->getPosition();
+            light->getTransform()->setPosition(vec3(light_position.x, light_position.y + 0.001f/*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z - 0.001f));
             updateShadow();
             minimap.update();
             //infinite_terrain.update();
@@ -108,6 +108,10 @@ class WorldInstance: public World {
             Camera* shadow_camera = light->getShadowCamera();
             Transform* shadow_camera_transform =  shadow_camera->getTransform();
             shadow_camera_transform->setPosition(light->getTransform()->getPosition());
+            //std::cout<<glm::to_string(light->getTransform()->getPosition())<<std::endl;
+            vec3 pos = light->getTransform()->getPosition();
+            printf("%f, %f, %f \n",  pos.x, pos.y, pos.z);
+
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
         }
 };

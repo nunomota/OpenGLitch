@@ -20,6 +20,8 @@ class PhysicalObject: public Object3D {
             0.5, 0.5, 0.5, 1.0
         );
 
+        int count = 0; // TODO REMOVE!!
+
     protected:
         virtual void InitialCalculations() {};    // Called once, before any OpenGL operations take place
         virtual void LoadShaders() {};            // Called once, to compile the object's shaders
@@ -139,11 +141,14 @@ class PhysicalObject: public Object3D {
 
                 //glm::mat4 depthMVP = directional_light->getDepthMVP();
 
-                glm::mat4 newDepthMVP = IDENTITY_MATRIX;                
-                glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthMVP));
+                glm::mat4 newDepthMVP = IDENTITY_MATRIX;             
 
-                //GlmStrings astring;
-                //cout << astring.create(depthMVP) << "\n" << endl;
+                newDepthMVP = glm::translate(depthMVP,glm::vec3(0.02f,0.0f,0.0f));
+
+                glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(newDepthMVP));
+
+                GlmStrings astring;
+                cout << astring.create(depthMVP) << "\n" << endl;
 
                 glm::mat4 depthBiasMVP = biasMatrix*depthMVP;
                 glUniformMatrix4fv(depthBiasMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthBiasMVP));

@@ -6,6 +6,8 @@ class DirectionalLight: public Light {
     private:
         glm::vec3 default_direction_ = glm::vec3(0.0f, 0.0f, 1.0f);
         Camera* shadow_camera;
+        int count = 1;
+        float multiplier = 1; // TODO REMOVE
 
         glm::mat4 getRotationMatrix() {
             glm::mat4 rotation_matrix = IDENTITY_MATRIX;
@@ -34,10 +36,41 @@ class DirectionalLight: public Light {
 
         glm::mat4 getDepthMVP() {
             if(shadow_camera){
-                glm::mat4 view = shadow_camera->getViewMatrix();
-                glm::mat4 projection = shadow_camera->getProjectionMatrix();
-                glm::mat4 model = getTransform()->getModelMatrix();
-                return projection * view * model;
+
+                if (count == 0){
+
+
+                    count = 1;
+                    //Reporter::println("DEPTH 0");
+
+                    return IDENTITY_MATRIX;
+
+
+
+                } else{
+
+                    count = 0;
+                    //Reporter::println("DEPTH 1");
+
+                    glm::mat4 view = shadow_camera->getViewMatrix();
+                    GlmStrings bstring;
+                    //cout << bstring.create(view) << "\n" << endl;
+                    glm::mat4 projection = shadow_camera->getProjectionMatrix();
+                    GlmStrings astring;
+                    //cout << astring.create(projection) << "\n" << endl;
+                    glm::mat4 model = getTransform()->getModelMatrix();
+                    //model = glm::translate(view * model, glm::vec3(0.0f, 0.1f, 0.1f));
+                    //cout << astring.create(model) << "\n" << endl;
+
+
+                    //return projection * model;
+                    multiplier = multiplier + 1.0f;
+                    return glm::translate(IDENTITY_MATRIX, glm::vec3(0.0001f,0.0f,0.001f * multiplier));
+
+                    return projection * view * model;
+                }
+
+
             } else{
                 Reporter::println("NULL shadow camera");
                 return IDENTITY_MATRIX; 
