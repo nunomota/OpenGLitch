@@ -54,7 +54,7 @@ class Terrain: public Grid {
         }
 
         void SetupUniforms() {
-            height_map_id_ = Loader::loadTexture("perlin.jpg");
+            height_map_id_ = Loader::loadTexture("perlin3.jpg");
             addTexture(height_map_id_);
             addTexture(Loader::loadTexture("perlinNormal.jpg"));
             addTexture(Loader::loadTexture("waterNormal.png"));

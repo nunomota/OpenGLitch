@@ -36,6 +36,8 @@ class WorldInstance: public World {
             //camera->getTransform()->setPosition(terrain->getTransform()->getPosition() + vec3(0.0f, 0.3f, 0.0f));
             camera->getTransform()->setPosition(vec3(0.12f, 0.04f, -0.04f));
             camera->getTransform()->setRotation(vec3(-4.8f, -874.54f, 0.0f));
+            terrain->getTransform()->setScale(terrain->getTransform()->getScale() * 4.0f);
+            camera->getTransform()->setPosition(terrain->getTransform()->getPosition() + vec3(0.0f, 0.3f, 0.0f));
             
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));

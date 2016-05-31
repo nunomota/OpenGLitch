@@ -26,7 +26,6 @@ out vec3 color;
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
-
 float tilling  = 3.0f;
 float speed_factor = 1.0f/150.0f;
 
@@ -41,8 +40,7 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
     
     float interval = 0.0f;
     float d_height = time/50;
-    float d_height2 = time/100 + 0.2f;
-    
+    float d_height2 = d_height + 0.2f;
     if(height >= 0.10f && height < 0.40f){
         //grass
         //first
@@ -56,7 +54,7 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
         temp_height = height-0.40f;
         a3 = exp(1.0f - (temp_height/0.20f))-1;
         a4 = exp(temp_height/0.20f)-1;
-    } else if(height > 0.6f){
+    }else if(height < 0.6f){
         //snow
         a4 = exp(1.0f)-1;
 
@@ -65,6 +63,30 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
         a1 = exp(1.0f - (height/0.1f))-1;
         a2 = exp(height/0.1f)-1;
     }
+    /*
+    if(height >= 0.10f && height < 0.40f){
+        //grass
+        //first
+        temp_height = height-0.1f;
+        //interval
+        a2 = exp(1.0f-(temp_height/0.30f))-1;
+        a3 = exp(temp_height/0.30f)-1;
+
+    }else if(height > 0.40f && height <= 0.6f){
+        //rock
+        temp_height = height-0.40f;
+        a3 = exp(1.0f - (temp_height/0.20f))-1;
+        a4 = exp(temp_height/0.20f)-1;
+    }else if(height < 0.6f){
+        //snow
+        a4 = exp(1.0f)-1;
+
+    }else{
+        //sand
+        a1 = exp(1.0f - (height/0.1f))-1;
+        a2 = exp(height/0.1f)-1;
+    }
+    */
     return sand.rgb * a1 + grass.rgb * a2 + rock.rgb * a3 + snow.rgb * a4;
 }
 
@@ -79,12 +101,13 @@ void main() {
     vec3 color2;
     vec3 color3;
     vec3 color12;
-
-    //getting the textures
-    sand = texture(tex3, (uv + displacement_vector) *terrain_tilling).rgb;
-    grass = texture(tex4, (uv + displacement_vector) *terrain_tilling).rgb;
-    rock = texture(tex5, (uv + displacement_vector) *terrain_tilling).rgb;
-    snow = texture(tex6, (uv + displacement_vector) *terrain_tilling).rgb;
+    vec2 uvTilling = uv*6.0f;
+    
+    //getting the texture
+    sand = texture(tex3, uvTilling + displacement_vector).rgb;
+    grass = texture(tex4, uvTilling + displacement_vector).rgb;
+    rock = texture(tex5, uvTilling + displacement_vector).rgb;
+    snow = texture(tex6, uvTilling + displacement_vector).rgb;
     
     // normal caculation according to normalmap
     vec4 normalMapColor = texture(tex1, (uv + displacement_vector)*tilling);
