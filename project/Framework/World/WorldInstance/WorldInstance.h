@@ -11,7 +11,7 @@ class WorldInstance: public World {
 
         Mirror mirror;
         Mirror refraction;
-        MinimapContainer minimap;
+        //MinimapContainer minimap;
 
         Terrain* terrain;
         Water* water;
@@ -22,7 +22,7 @@ class WorldInstance: public World {
 
         Controller controller;
 
-        bool free_camera = false;
+        bool free_camera = true;
 
     protected:
 
@@ -33,7 +33,9 @@ class WorldInstance: public World {
             getLight()->rotate(vec3(-45.0f, 0.0f, 0.0f));
 
             terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
-            camera->getTransform()->setPosition(terrain->getTransform()->getPosition() + vec3(0.0f, 0.3f, 0.0f));
+            //camera->getTransform()->setPosition(terrain->getTransform()->getPosition() + vec3(0.0f, 0.3f, 0.0f));
+            camera->getTransform()->setPosition(vec3(0.12f, 0.04f, -0.04f));
+            camera->getTransform()->setRotation(vec3(-4.8f, -874.54f, 0.0f));
             
             sky = instantiate(new Sky());
             sky->rotate(vec3(180.0f,0.0f,0.0f));
@@ -43,7 +45,7 @@ class WorldInstance: public World {
             setupController();
             setupMirror();
             setupRefraction();
-            setupMinimap();
+            //setupMinimap();
 
             water = instantiate(new Water(mirror.getMirrorTextureID(), refraction.getMirrorTextureID(), getTime(), getLight(), getCamera()));
             terrain->scale(terrain->getTransform()->getScale() * vec3(2.0f, 0.0f, 2.0f));
@@ -65,7 +67,7 @@ class WorldInstance: public World {
             move();
             mirror.update();
             refraction.update();
-            minimap.update();
+            //minimap.update();
             if (!free_camera) controller.update();
 
             vec3 camera_position = camera->getTransform()->getPosition();
@@ -102,14 +104,14 @@ class WorldInstance: public World {
             refraction.setup();
         }
 
-        void setupMinimap() {
+        /*void setupMinimap() {
             Camera* viewer_camera = instantiate(new Camera());
             enableLiveRenderer(viewer_camera);
             minimap.setBackground(instantiate2D(new Minimap()));
             minimap.setViewer(viewer_camera, instantiate2D(new LiveViewer(viewer_camera->getRenderTextureID())));
             minimap.setTargetCamera(camera);
             minimap.setup();
-        }
+        }*/
 
         void move() {
             if (!free_camera) {
@@ -174,6 +176,10 @@ class WorldInstance: public World {
 
             if (getKeyPressed(Keyboard::B)) {
                 free_camera = !free_camera;
+            }
+
+            if (getKeyPressed(Keyboard::V)) {
+                cout << getCamera()->getTransform()->to_string() << endl;
             }
         }
 };
