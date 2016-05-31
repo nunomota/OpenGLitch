@@ -8,6 +8,7 @@ uniform sampler2D tex0; // perlin noise
 uniform sampler2D depthTex;
 uniform sampler2D tex2; // shadow tex
 uniform int PASS;
+uniform int TEST;
 
 out vec3 color;
 
@@ -58,8 +59,9 @@ void main() {
         color = vec3(0.7f,0.7f,0.7f) * visibility;
 
     }else {
-    
-        color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);
 
+        color = vec3(0.4f,0.4f,0.4f);
+    
     }
+
 }

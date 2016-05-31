@@ -34,10 +34,10 @@ class Terrain: public Grid {
             heightbuffer.Cleanup();
         }
 
-        void DebugMVP(/*glm::mat4 MVP, glm::vec3 position,*/ GLuint shadow_texture_id){
+        void DebugMVP(/*glm::mat4 MVP, glm::vec3 position,*/ int PASS){
             //GlmStrings astring;
             //cout << "Terra position: " << astring.create(glm::vec3(position.x,position.y,1.0)) << "\n" << endl;
-            printf("Terra shadow_tex: %d\n", shadow_texture_id);
+            printf("Terra shadow_tex: %d\n", PASS);
         }
 
 

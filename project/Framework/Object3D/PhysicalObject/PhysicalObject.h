@@ -29,7 +29,7 @@ class PhysicalObject: public Object3D {
         virtual void UpdateUniforms() {};         // Called every Draw call, to update the uniforms' values
         virtual void FinalOperations() {};        // Called once, when the object is being cleaned up and destroyed
 
-        virtual void DebugMVP(/*glm::mat4 MVP, glm::vec3 position, */GLuint shadow_texture_id = 0){}; // TODO REMOVE
+        virtual void DebugMVP(/*glm::mat4 MVP, glm::vec3 position, */int PASS){}; // TODO REMOVE
 
         /** Called to set the drawing mode to either:
           * 0     - GL_TRIANGLES
@@ -108,7 +108,6 @@ class PhysicalObject: public Object3D {
 
             printf("Physical object tex id: %d\n", shadow_texture_id);
             addTexture(shadow_texture_id);
-            Reporter::println("YEAH");
             DebugMVP(shadow_texture_id);
 
             // to avoid the current object being polluted
@@ -139,6 +138,8 @@ class PhysicalObject: public Object3D {
                 glUniformMatrix4fv(MVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(MVP));
 
                 //glm::mat4 depthMVP = directional_light->getDepthMVP();
+
+                glm::mat4 newDepthMVP = IDENTITY_MATRIX;                
                 glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthMVP));
 
                 //GlmStrings astring;
@@ -161,6 +162,8 @@ class PhysicalObject: public Object3D {
                 //cout << "pos: " << astring.create(glm::vec3(new_pos.x,new_pos.y,1.0)) << "\n" << endl;
                 //DebugMVP(depthMVP, pos, );
 
+                //printf("PASS: %d\n", pass);
+                DebugMVP(pass);
                 glUniform1i(pass_id_, pass);
 
                 UpdateUniforms();

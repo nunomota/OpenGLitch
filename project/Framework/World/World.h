@@ -59,13 +59,11 @@ class World {
                     Object3D* object = (*it);
                     if(object) {
                         if (object->getRenderer()->getState()) {
-
                             if(main_light) {
-                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), main_light->getDepthMVP(), 0, main_light->getShadowCamera()->getShadowTextureID());
+                                object->Draw(camera->getViewMatrix(), camera->getProjectionMatrix(), main_light->getDepthMVP(), pass, main_light->getShadowCamera()->getShadowTextureID());
                             }else{
                                 Reporter::println("No light set", "World");
                             }
-
                         }
                     }
                 }
@@ -328,8 +326,8 @@ class World {
 
         void Display() {
             if (are_objects_uninitialized) initializeObjects();
-            drawRenderTextures();
             drawShadowTexture();
+            drawRenderTextures();
             // TODO draw shadow textures
             glViewport(0, 0, window_width, window_height);
             drawObjects(main_camera, false);
