@@ -9,6 +9,8 @@ class WorldInstance: public World {
         Camera* camera;
         float camera_speed = 0.5f;
 
+        Bezier* curve;
+
         Mirror mirror;
         Mirror refraction;
         //MinimapContainer minimap;
@@ -60,6 +62,9 @@ class WorldInstance: public World {
             //refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
             //refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
             //refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
+            curve = new Bezier(getTime(), 5.0f);
+            vec3 camera_position = getCamera()->getTransform()->getPosition();
+            curve->setReferences(camera_position, camera_position + vec3(0.0f, 0.0f, -camera_position.z));
         }
 
         // method called every frame
@@ -77,6 +82,7 @@ class WorldInstance: public World {
 
             //getLight()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             //getLight()->setColor(vec3(cos(getLight()->getTransform()->getRotation().x), 0.0f, 0.0f));
+            camera->getTransform()->setPosition(curve->getNextValue());
         }
 
         void setupController() {

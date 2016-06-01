@@ -2,9 +2,9 @@
 
 class Bezier {
     private:
-        glm::vec3 control_point_0;
-        glm::vec3 control_point_1;
-        glm::vec3 control_point_2;
+        glm::vec3 control_point_0 = glm::vec3(0.0f);
+        glm::vec3 control_point_1 = glm::vec3(0.0f);
+        glm::vec3 control_point_2 = glm::vec3(0.0f);
 
         Time* time;
         float duration;
@@ -30,7 +30,7 @@ class Bezier {
     public:
         Bezier(Time* new_time, float new_duration) {
             if (new_time) time = new_time;
-            duration = new_duration;
+            duration = new_duration * 1000.0f;
             resetTime();
         }
 
@@ -44,7 +44,11 @@ class Bezier {
             if (time) timestamp = time->getCurrentTime();
         }
 
-        glm::vec3 getNext() {
-
+        glm::vec3 getNextValue() {
+            float current_time = time->getCurrentTime();
+            float fraction = (current_time - timestamp) / duration;
+            cout << fraction << endl;
+            if (fraction <= 1.0f) bezierFunction(fraction);
+            else control_point_2; 
         }
 };
