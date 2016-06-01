@@ -16,6 +16,7 @@ class WorldInstance: public World {
         Terrain* terra;
         Water* water;
 
+        float multiplier = 1.0f;
         MinimapContainer minimap;
         //InfiniteTerrain infinite_terrain;
 
@@ -71,8 +72,8 @@ class WorldInstance: public World {
             }
 
             //light->translate(vec3(0.0f,0.0f,-0.2f) * getTime()->getDeltaTime());
-            vec3 light_position = light->getTransform()->getPosition();
-            light->getTransform()->setPosition(vec3(light_position.x, light_position.y + 0.001f/*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z - 0.001f));
+            //vec3 light_position = light->getTransform()->getPosition();
+            //light->getTransform()->setPosition(vec3(light_position.x, light_position.y + 0.001f/*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z - 0.001f));
             updateShadow();
             minimap.update();
             //infinite_terrain.update();
@@ -105,12 +106,33 @@ class WorldInstance: public World {
         }
 
         void updateShadow() {
+            vec3 light_position = light->getTransform()->getPosition();
+            printf("first: %f, %f, %f \n", light_position.x, light_position.y, light_position.z);
+
+            //light->translate(vec3(0.1f,0.0f,0.0f));
+
+            light->getTransform()->setPosition(vec3(light_position.x, light_position.y + 0.01f/*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z - 0.01f));
+
             Camera* shadow_camera = light->getShadowCamera();
+            GlmStrings astring;
+            cout<< "before: \n" << astring.create(shadow_camera->getViewMatrix()) << "\n" << endl;
             Transform* shadow_camera_transform =  shadow_camera->getTransform();
-            shadow_camera_transform->setPosition(light->getTransform()->getPosition());
+
+
+            vec3 cam_pos = shadow_camera_transform->getPosition();
+            printf("first cam: %f, %f, %f \n", cam_pos.x, cam_pos.y, cam_pos.z);
+            cout<< "cam before: \n" << astring.create(shadow_camera->getViewMatrix()) << "\n" << endl;
+
+            shadow_camera_transform->setPosition(light->getTransform()->getPosition() * multiplier);
+            //light->translate(vec3(0.0f,-0.01f * multiplier,-0.01f * multiplier));
+            vec3 new_cam_pos =  shadow_camera_transform->getPosition();
+            printf("second cam: %f, %f, %f \n", new_cam_pos.x, new_cam_pos.y, new_cam_pos.z);
+            multiplier = multiplier + 0.001f;
+            cout<< "cam after: \n" << astring.create(shadow_camera->getViewMatrix()) << "\n" << endl;
+
             //std::cout<<glm::to_string(light->getTransform()->getPosition())<<std::endl;
             vec3 pos = light->getTransform()->getPosition();
-            printf("%f, %f, %f \n",  pos.x, pos.y, pos.z);
+            printf("second: %f, %f, %f \n", pos.x, pos.y, pos.z);
 
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
         }

@@ -60,7 +60,7 @@ void main() {
 
     }else {
 
-        color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);
+        color = vec3(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z);    
     
     }
 

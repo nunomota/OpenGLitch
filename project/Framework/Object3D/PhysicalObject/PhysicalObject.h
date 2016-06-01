@@ -147,8 +147,8 @@ class PhysicalObject: public Object3D {
 
                 glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(newDepthMVP));
 
-                GlmStrings astring;
-                cout << astring.create(depthMVP) << "\n" << endl;
+                //GlmStrings astring;
+                //cout << astring.create(depthMVP) << "\n" << endl;
 
                 glm::mat4 depthBiasMVP = biasMatrix*depthMVP;
                 glUniformMatrix4fv(depthBiasMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthBiasMVP));

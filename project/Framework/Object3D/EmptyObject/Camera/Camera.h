@@ -115,9 +115,12 @@ class Camera: public EmptyObject {
 
         glm::mat4 getViewMatrix() {
             // TODO maybe calculate this matrix from Transform.getModelMatrix()?
+            //GlmStrings astring;
+            //cout<< "projection: \n" << astring.create(transform.getInvertedModelMatrix()) << "\n" << endl;
+
             return transform.getInvertedModelMatrix();
         }
-        
+
         glm::mat4 getProjectionMatrix() {
             return projection_;
         }
