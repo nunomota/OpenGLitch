@@ -11,7 +11,8 @@ class Bezier {
         float timestamp;
 
         glm::vec3 calculateIntermediatePoint() {
-            return glm::vec3(0.0f);
+            glm::vec3 movement_vector = control_point_2 - control_point_0;
+            return movement_vector/2.0f + glm::vec3(0.0f, 3.0f, 0.0f);
         }
 
         /** This method simply return the result of a quadratic
@@ -40,6 +41,12 @@ class Bezier {
             control_point_1 = calculateIntermediatePoint();
         }
 
+        void setReferences(glm::vec3 start_vector, glm::vec3 middle_vector, glm::vec3 final_vector) {
+            control_point_0 = start_vector;
+            control_point_1 = middle_vector;
+            control_point_2 = final_vector;
+        }
+
         void resetTime() {
             if (time) timestamp = time->getCurrentTime();
         }
@@ -47,7 +54,6 @@ class Bezier {
         glm::vec3 getNextValue() {
             float current_time = time->getCurrentTime();
             float fraction = (current_time - timestamp) / duration;
-            cout << fraction << endl;
             if (fraction <= 1.0f) return bezierFunction(fraction);
             else return control_point_2; 
         }

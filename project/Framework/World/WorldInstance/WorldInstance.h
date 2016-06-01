@@ -36,7 +36,7 @@ class WorldInstance: public World {
 
             terrain = instantiate(new Terrain(getTime(), getLight(), getCamera()));
             //camera->getTransform()->setPosition(terrain->getTransform()->getPosition() + vec3(0.0f, 0.3f, 0.0f));
-            camera->getTransform()->setPosition(vec3(0.12f, 0.04f, -0.04f));
+            camera->getTransform()->setPosition(vec3(0.0f, 2.0f, -2.0f));
             camera->getTransform()->setRotation(vec3(-4.8f, -874.54f, 0.0f));
             
             sky = instantiate(new Sky());
@@ -62,9 +62,9 @@ class WorldInstance: public World {
             //refraction_texture->rotate(vec3(90.0f, 0.0f, 0.0f));
             //refraction_texture->translate(vec3(0.75f, 0.0f, 0.0f));
             //refraction_texture->scale(vec3(-0.79f, 0.0f, -0.79f));
-            curve = new Bezier(getTime(), 5.0f);
+            /*curve = new Bezier(getTime(), 10.0f);
             vec3 camera_position = getCamera()->getTransform()->getPosition();
-            curve->setReferences(camera_position, camera_position + vec3(0.0f, 0.0f, -camera_position.z));
+            curve->setReferences(camera_position, camera_position + vec3(0.0f, 0.0f, -camera_position.z));*/
         }
 
         // method called every frame
@@ -82,7 +82,7 @@ class WorldInstance: public World {
 
             //getLight()->rotate(vec3(-90.0f, 0.0f, 0.0f) * getTime()->getDeltaTime());
             //getLight()->setColor(vec3(cos(getLight()->getTransform()->getRotation().x), 0.0f, 0.0f));
-            camera->getTransform()->setPosition(curve->getNextValue());
+            //camera->getTransform()->setPosition(curve->getNextValue());
         }
 
         void setupController() {
