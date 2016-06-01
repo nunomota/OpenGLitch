@@ -62,6 +62,8 @@ class Terrain: public Grid {
             addTexture(Loader::loadTexture("grass3.jpg"));
             addTexture(Loader::loadTexture("rock.jpg"));
             addTexture(Loader::loadTexture("snow.jpg"));
+            addTexture(Loader::loadTexture("fractal.png"));
+            addTexture(Loader::loadTexture("fractalNormal.png"));
             time_id = glGetUniformLocation(program_id_, "time");
             calculateHeights();
 

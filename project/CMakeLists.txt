@@ -9,6 +9,8 @@ file(GLOB TEXTURES
     Resources/Textures/water.tga
     Resources/Textures/perlin.jpg
     Resources/Textures/perlinNormal.jpg
+    Resources/Textures/fractal.png
+    Resources/Textures/fractalNormal.png
     Resources/Textures/minimap.png
     Resources/Textures/waterDUDV.png
     Resources/Textures/waterNormal.png
