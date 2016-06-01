@@ -28,7 +28,9 @@ float reflectivity = 0.6;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 
 float tilling  = 3.0f;
-float speed_factor = 1.0f/50.0f;
+float speed_factor = 1.0f/150.0f;
+
+float terrain_tilling = 6.0f;
 
 vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
     float a1 = 0.0f;
@@ -79,13 +81,13 @@ void main() {
     vec3 color12;
 
     //getting the textures
-    sand = texture(tex3, uv + displacement_vector).rgb;
-    grass = texture(tex4, uv + displacement_vector).rgb;
-    rock = texture(tex5, uv + displacement_vector).rgb;
-    snow = texture(tex6, uv + displacement_vector).rgb;
+    sand = texture(tex3, (uv + displacement_vector) *terrain_tilling).rgb;
+    grass = texture(tex4, (uv + displacement_vector) *terrain_tilling).rgb;
+    rock = texture(tex5, (uv + displacement_vector) *terrain_tilling).rgb;
+    snow = texture(tex6, (uv + displacement_vector) *terrain_tilling).rgb;
     
     // normal caculation according to normalmap
-    vec4 normalMapColor = texture(tex1, uv + displacement_vector);
+    vec4 normalMapColor = texture(tex1, (uv + displacement_vector)*tilling);
     
     height_color = BLEND(sand,grass,rock,snow);    // normal caculation according to normalmap
     
@@ -98,7 +100,7 @@ void main() {
     float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
     
     if(height < 0.0f || cameraPosition.y < 0.0f){   
-        vec4 normalMapColor = texture(tex2, uv*tilling + displacement_vector + time*speed_factor);
+        vec4 normalMapColor = texture(tex2, (uv + displacement_vector + time*speed_factor)*tilling);
         vec3 normal = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
         normal = normalize(normal);
 
@@ -113,7 +115,7 @@ void main() {
         } else {
             color = height_color;
         }
-        color = mix(color, water_color, gl_FragCoord.z/gl_FragCoord.w);
+        color = mix(color, water_color, pow(clamp(gl_FragCoord.z/gl_FragCoord.w, 0.001f, 0.999f), 1.0f));
     } else {
         vec3 ambience = vec3(0.1f, 0.1f, 0.1f) * La;
         vec3 diffuse = Md * nl * Ld;

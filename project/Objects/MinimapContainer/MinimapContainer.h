@@ -16,6 +16,7 @@ class MinimapContainer {
 
         void setViewer(Camera* new_viewer, LiveViewer* new_viewer_texture) {
             viewer_camera = new_viewer;
+            viewer_camera->setIgnoreTag(1);
             minimap = new_viewer_texture;
         }
 
