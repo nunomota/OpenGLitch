@@ -30,7 +30,7 @@ class Bezier {
     public:
         Bezier(Time* new_time, float new_duration) {
             if (new_time) time = new_time;
-            duration = new_duration * 1000.0f;
+            duration = new_duration;
             resetTime();
         }
 
@@ -48,7 +48,7 @@ class Bezier {
             float current_time = time->getCurrentTime();
             float fraction = (current_time - timestamp) / duration;
             cout << fraction << endl;
-            if (fraction <= 1.0f) bezierFunction(fraction);
-            else control_point_2; 
+            if (fraction <= 1.0f) return bezierFunction(fraction);
+            else return control_point_2; 
         }
 };
