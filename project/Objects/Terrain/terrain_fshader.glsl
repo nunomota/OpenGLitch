@@ -71,7 +71,7 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow, bool snowing) {
     if(itsSnowing){
         under = 1 - d_height;
         if(height > under && under > 0.0f){
-            a4 = 1.0f;
+            a4 = exp(1.0f)-1;
         }
     }
     
