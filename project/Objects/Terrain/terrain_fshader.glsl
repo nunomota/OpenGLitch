@@ -27,66 +27,54 @@ float shineDumper = 2.0f;
 float reflectivity = 0.6;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
 float tilling  = 3.0f;
+<<<<<<< HEAD
 float speed_factor = 1.0f/150.0f;
 
 float terrain_tilling = 6.0f;
+=======
+float speed_factor = 1.0f/50.0f;
+bool itsSnowing = false;
+float snowing = 17.0f;
+float under = 0.0f;
+>>>>>>> Added snowing effect
 
-vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow) {
+vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow, bool snowing) {
     float a1 = 0.0f;
     float a2 = 0.0f;
     float a3 = 0.0f;
     float a4 = 0.0f;
     float temp_height = 0.0f; // norm height
-    
-    float interval = 0.0f;
+    float dec_height = height;
     float d_height = time/50;
-    float d_height2 = d_height + 0.2f;
-    if(height >= 0.10f && height < 0.40f){
-        //grass
-        //first
-        temp_height = height-0.1f;
-        //interval
-        a2 = exp(1.0f-(temp_height/0.30f))-1;
-        a3 = exp(temp_height/0.30f)-1;
-
-    }else if(height > 0.40f && height <= 0.6f){
+    if(height > 0.6f){
+        //snow
+        a4 = exp(1.0f)-1;
+            
+    }else if(height <= 0.6f && height > 0.40f){
         //rock
         temp_height = height-0.40f;
         a3 = exp(1.0f - (temp_height/0.20f))-1;
         a4 = exp(temp_height/0.20f)-1;
-    }else if(height < 0.6f){
-        //snow
-        a4 = exp(1.0f)-1;
-
-    }else{
-        //sand
-        a1 = exp(1.0f - (height/0.1f))-1;
-        a2 = exp(height/0.1f)-1;
-    }
-    /*
-    if(height >= 0.10f && height < 0.40f){
+            
+    }else if(height <= 0.40f &&  height > 0.10f){
         //grass
         //first
-        temp_height = height-0.1f;
+        temp_height = height-0.10f;
         //interval
         a2 = exp(1.0f-(temp_height/0.30f))-1;
         a3 = exp(temp_height/0.30f)-1;
-
-    }else if(height > 0.40f && height <= 0.6f){
-        //rock
-        temp_height = height-0.40f;
-        a3 = exp(1.0f - (temp_height/0.20f))-1;
-        a4 = exp(temp_height/0.20f)-1;
-    }else if(height < 0.6f){
-        //snow
-        a4 = exp(1.0f)-1;
-
     }else{
-        //sand
-        a1 = exp(1.0f - (height/0.1f))-1;
-        a2 = exp(height/0.1f)-1;
+         //sand
+         a1 = exp(1.0f - (height/0.1f))-1;
+         a2 = exp(height/0.1f)-1;
     }
-    */
+    if(itsSnowing){
+        under = 1 - d_height;
+        if(height > under && under > 0.0f){
+            a4 = 1.0f;
+        }
+    }
+    
     return sand.rgb * a1 + grass.rgb * a2 + rock.rgb * a3 + snow.rgb * a4;
 }
 
@@ -101,7 +89,7 @@ void main() {
     vec3 color2;
     vec3 color3;
     vec3 color12;
-    vec2 uvTilling = uv*6.0f;
+    vec2 uvTilling = uv*tilling;
     
     //getting the texture
     sand = texture(tex3, uvTilling + displacement_vector).rgb;
@@ -110,10 +98,11 @@ void main() {
     snow = texture(tex6, uvTilling + displacement_vector).rgb;
     
     // normal caculation according to normalmap
-    vec4 normalMapColor = texture(tex1, (uv + displacement_vector)*tilling);
-    
-    height_color = BLEND(sand,grass,rock,snow);    // normal caculation according to normalmap
-    
+    vec4 normalMapColor = texture(tex1, uv + displacement_vector);
+    if (time > snowing){
+        itsSnowing = true;
+    }
+    height_color = BLEND(sand,grass,rock,snow,itsSnowing);    // normal caculation according to normalmap
     vec3 n = vec3(normalMapColor.r * 2.0f - 1.0f, normalMapColor.b, normalMapColor.g * 2.0f - 1.0f);
 
     vec3 l = normalize(lightDirection);
