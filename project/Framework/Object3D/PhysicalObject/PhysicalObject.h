@@ -145,7 +145,7 @@ class PhysicalObject: public Object3D {
 
                 newDepthMVP = glm::translate(depthMVP,glm::vec3(0.02f,0.0f,0.0f));
 
-                glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(newDepthMVP));
+                glUniformMatrix4fv(depthMVP_id_, ONE, DONT_TRANSPOSE, glm::value_ptr(depthMVP));
 
                 //GlmStrings astring;
                 //cout << astring.create(depthMVP) << "\n" << endl;

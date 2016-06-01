@@ -37,6 +37,27 @@ class DirectionalLight: public Light {
         glm::mat4 getDepthMVP() {
             if(shadow_camera){
 
+
+                glm::mat4 view = shadow_camera->getViewMatrix();
+                GlmStrings bstring;
+                //cout << bstring.create(view) << "\n" << endl;
+
+                glm::mat4 projection = shadow_camera->getProjectionMatrix();
+                projection = glm::ortho(-1.0f,1.0f,-1.0f,1.0f,-1.0f,2.0f);
+                //GlmStrings astring;
+                //cout<< "projection: \n" << astring.create(projection) << "\n" << endl;
+
+                glm::mat4 model = getTransform()->getModelMatrix();
+                //model = glm::translate(view * model, glm::vec3(0.0f, 0.1f, 0.1f));
+                //cout << astring.create(model) << "\n" << endl;
+
+                //return projection * model;
+                multiplier = multiplier + 1.0f;
+                //return glm::translate(IDENTITY_MATRIX, glm::vec3(0.0001f * multiplier, -0.0001f * multiplier,0.0001f * multiplier));
+
+                return projection * view * model;
+
+
                 if (count == 0){
 
 
@@ -56,18 +77,14 @@ class DirectionalLight: public Light {
                     GlmStrings bstring;
                     //cout << bstring.create(view) << "\n" << endl;
 
-
-
-
                     glm::mat4 projection = shadow_camera->getProjectionMatrix();
-                    projection = glm::ortho(-1.0f,1.0f,-1.0f,1.0f,-1.0f,1.0f);
+                    projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,-10.0f,20.0f);
                     //GlmStrings astring;
                     //cout<< "projection: \n" << astring.create(projection) << "\n" << endl;
 
                     glm::mat4 model = getTransform()->getModelMatrix();
                     //model = glm::translate(view * model, glm::vec3(0.0f, 0.1f, 0.1f));
                     //cout << astring.create(model) << "\n" << endl;
-
 
                     //return projection * model;
                     multiplier = multiplier + 1.0f;

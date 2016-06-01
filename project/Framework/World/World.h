@@ -319,6 +319,7 @@ class World {
             main_light = instantiate(new DirectionalLight());
             shadow_camera = instantiate(new Camera(45.0f, 1.0f, 0.1f, 100.f));
             main_light->setShadowCamera(shadow_camera);
+            main_light->getTransform()->setPosition(vec3(0.0f,1.0f,1.0f));
 
             world_time.Init();
             Start();

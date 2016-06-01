@@ -37,8 +37,11 @@ class WorldInstance: public World {
             terra = instantiate(new Terrain(shadow_camera->getShadowTextureID())); 
             water = instantiate(new Water());
 
-            camera->translate(vec3(0.0f, 1.0f, 0.0f));
-            camera->scale(vec3(-0.2f, -0.2f, -0.2f));
+            light->getTransform()->setPosition(vec3(0.0f,0.0f,2.0f));
+            light->getTransform()->setRotation(vec3(45.0f,0.0f,0.0f));
+
+            camera->translate(vec3(0.0f, 0.0f, 2.0f));
+            //camera->scale(vec3(-0.2f, -0.2f, -0.2f));
 
             camera2->rotate(vec3(-90.0f, 0.0f, 0.0f));
             camera2->getTransform()->setPosition(camera->getTransform()->getPosition());
@@ -84,6 +87,11 @@ class WorldInstance: public World {
             Transform* shadow_camera_transform =  shadow_camera->getTransform();
             shadow_camera_transform->setPosition(light->getTransform()->getPosition());
             shadow_camera_transform->setRotation(light->getTransform()->getRotation());
+
+            shadow_camera_transform->setPosition(vec3(0.0f,1.0f,1.0f));
+            shadow_camera_transform->setRotation(vec3(45.0f,0.0f,0.0f));
+
+
             enableLiveRenderer(shadow_camera);
             live_viewer = instantiate2D(new LiveViewer(shadow_camera->getRenderTextureID()));
             live_viewer->rotate(vec3(90.0f, 0.0f, 0.0f));
@@ -109,21 +117,25 @@ class WorldInstance: public World {
             vec3 light_position = light->getTransform()->getPosition();
             printf("first: %f, %f, %f \n", light_position.x, light_position.y, light_position.z);
 
+            vec3 light_rotation = light->getTransform()->getRotation();
             //light->translate(vec3(0.1f,0.0f,0.0f));
-
-            light->getTransform()->setPosition(vec3(light_position.x, light_position.y + 0.01f/*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z - 0.01f));
-
+            light->getTransform()->setPosition(vec3(light_position.x, light_position.y /*cos(light_position.z * 5.0f) * 0.05f*/, light_position.z));
+            light->getTransform()->setRotation(vec3(light_rotation.x + 0.0f, light_rotation.y, light_rotation.z));
             Camera* shadow_camera = light->getShadowCamera();
             GlmStrings astring;
             cout<< "before: \n" << astring.create(shadow_camera->getViewMatrix()) << "\n" << endl;
-            Transform* shadow_camera_transform =  shadow_camera->getTransform();
+            Transform* shadow_camera_transform = shadow_camera->getTransform();
+            vec3 light_position_2 = light->getTransform()->getPosition();
 
+            //shadow_camera_transform->setRotation(vec3(light_position_2.x,light_position_2.y,light_position_2.z + 0.1f));
+
+            //shadow_camera_transform->setPosition(vec3(light_position_2.x,light_position_2.y,light_position_2.z - 0.1f));
 
             vec3 cam_pos = shadow_camera_transform->getPosition();
             printf("first cam: %f, %f, %f \n", cam_pos.x, cam_pos.y, cam_pos.z);
             cout<< "cam before: \n" << astring.create(shadow_camera->getViewMatrix()) << "\n" << endl;
 
-            shadow_camera_transform->setPosition(light->getTransform()->getPosition() * multiplier);
+            //shadow_camera_transform->setPosition(light->getTransform()->getPosition() * multiplier);
             //light->translate(vec3(0.0f,-0.01f * multiplier,-0.01f * multiplier));
             vec3 new_cam_pos =  shadow_camera_transform->getPosition();
             printf("second cam: %f, %f, %f \n", new_cam_pos.x, new_cam_pos.y, new_cam_pos.z);

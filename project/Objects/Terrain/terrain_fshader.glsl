@@ -24,9 +24,6 @@ void main() {
         float visibility = 1.0f;
         //if ( texture( tex2, shadow_coord.xy ).z  <  shadow_coord.z){
         float value = 0.0f;
-        if ((value = texture( tex2, shadow_coord.xy).z)  <  shadow_coord.z){
-            visibility = 0.4;
-        }
 
         vec3 n = normalize(pos_3d);
 
@@ -38,6 +35,13 @@ void main() {
         float temp;
         float nl = ((temp = dot(n,l)) < 0) ? 0.0f : temp;
 
+
+        float bias = 0.005*tan(acos(temp)); // cosTheta is dot( n,l ), clamped between 0 and 1
+        bias = clamp(bias, 0,0.01);
+        if ((value = texture( tex2, shadow_coord.xy).z)  >  shadow_coord.z-bias){
+            visibility = 0.5;
+        }
+        
         if (height > 0.66f) {
             //white
             Ld = vec3(1.0f, 1.0f, 1.0f);
