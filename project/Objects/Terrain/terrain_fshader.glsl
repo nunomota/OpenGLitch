@@ -26,17 +26,13 @@ out vec3 color;
 float shineDumper = 2.0f;
 float reflectivity = 0.6;
 vec3 water_color = vec3(0.0f, 0.4f, 0.6f);
-float tilling  = 3.0f;
-<<<<<<< HEAD
-float speed_factor = 1.0f/150.0f;
+float tilling  = 6.0f;
 
-float terrain_tilling = 6.0f;
-=======
-float speed_factor = 1.0f/50.0f;
+float speed_factor = 1.0f/150.0f;
 bool itsSnowing = false;
-float snowing = 17.0f;
+float snowing = 3.0f;
 float under = 0.0f;
->>>>>>> Added snowing effect
+
 
 vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow, bool snowing) {
     float a1 = 0.0f;
@@ -45,7 +41,7 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow, bool snowing) {
     float a4 = 0.0f;
     float temp_height = 0.0f; // norm height
     float dec_height = height;
-    float d_height = time/50;
+    float d_height = time/100;
     if(height > 0.6f){
         //snow
         a4 = exp(1.0f)-1;
@@ -69,9 +65,9 @@ vec3 BLEND(vec3 sand, vec3 grass, vec3 rock, vec3 snow, bool snowing) {
          a2 = exp(height/0.1f)-1;
     }
     if(itsSnowing){
-        under = 1 - d_height;
+        under = 0.6f - d_height;
         if(height > under && under > 0.0f){
-            a4 = exp(1.0f)-1;
+            a4 = 1.0f;
         }
     }
     
