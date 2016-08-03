@@ -7,9 +7,10 @@ A 3D world created using OpenGL.
 - Procedural terrain generation
 - Infinite terrain
 - Water
-- Water ripples
-- Water reflection/refraction/fresnel
+- Water rippling, reflection, refraction and fresnel effect
 - Underwater view
+- Simple physics
+- Custom .obj loader
 
 ## Group chat
 
