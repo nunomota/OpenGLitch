@@ -12,6 +12,9 @@ A 3D world created using OpenGL.
 - Simple physics
 - Custom .obj loader
 
-## Group chat
+## Screenshots
 
-[![Gitter](https://badges.gitter.im/nunomota/Computer-Graphics.svg)](https://gitter.im/nunomota/Computer-Graphics?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+<p>
+	<img src="/project/Resources/Screenshots/Abovewater_Screenshot.png" width="48%" alt="View above water">
+	<img src="/project/Resources/Screenshots/Underwater_Screenshot.png" width="48%" alt="View under water">
+</p>
