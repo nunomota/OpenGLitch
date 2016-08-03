@@ -1,14 +1,14 @@
-# Computer Graphics Project
+# OpenGLitch
 
 A 3D world created using OpenGL.
 
 ## Features
 
 - Procedural terrain generation
-- Procedural tree generation
 - Infinite terrain
 - Water
 - Water ripples
+- Water reflection/refraction/fresnel
 - Underwater view
 
 ## Group chat
